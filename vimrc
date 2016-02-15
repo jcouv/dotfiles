@@ -26,6 +26,21 @@ set hlsearch
 " When I close a tab, remove the buffer
 set nohidden
 
+set shell=bash
+set showmode
+set autoread                  " watch for file changes
+set ignorecase          " Do case insensitive matching
+
+set wrap
+set linebreak
+set nolist              " list disables linebreak
+set textwidth=0
+set wrapmargin=0
+autocmd FileType text setlocal textwidth=0
+
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
 " Next Tab
 nnoremap <silent> <C-Right> :tabnext<CR>
 
@@ -34,11 +49,6 @@ nnoremap <silent> <C-Left> :tabprevious<CR>
 
 " New Tab
 nnoremap <silent> <C-t> :tabnew<CR>
-
-set showmode
-set autoread                  " watch for file changes
-set shell=bash
-set ignorecase          " Do case insensitive matching
 
 " Make cursor move as expected with wrapped lines:
 inoremap <Down> <C-o>gj
