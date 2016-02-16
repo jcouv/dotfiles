@@ -26,6 +26,12 @@ set hlsearch
 " When I close a tab, remove the buffer
 set nohidden
 
+" Highlight current line
+set cul
+
+set scrolloff=5               " keep at least 5 lines above/below
+set sidescrolloff=5           " keep at least 5 lines left/right
+
 set shell=bash
 set showmode
 set autoread                  " watch for file changes
@@ -40,6 +46,8 @@ autocmd FileType text setlocal textwidth=0
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+
+iab --- --------------------------
 
 " Next Tab
 nnoremap <silent> <C-Right> :tabnext<CR>
@@ -65,3 +73,7 @@ inoremap <Leader><Tab> <Tab>
 
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
+
+" CTRL-s to save
+nnoremap <silent> <C-s> :write<CR>
+
