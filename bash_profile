@@ -52,3 +52,6 @@ alias ..='cd ..'
 alias roslyn-build='msbuild /v:m /m Roslyn.sln'
 alias roslyn-test='msbuild /v:m /m BuildAndTest.proj'
 alias roslyn-restore=' ./nuget.exe restore Roslyn.sln'
+alias :q=exit
+
+
