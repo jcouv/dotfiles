@@ -105,6 +105,7 @@ nnoremap <silent> <C-s> :write<CR>
 " noremap <Backspace> <C-y>
 " noremap <Return> <C-e>
 
+" Set the cursor depending on mode
 let &t_ti.="\e[1 q" 
 let &t_SI.="\e[5 q" 
 let &t_EI.="\e[1 q" 
