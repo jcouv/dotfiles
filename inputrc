@@ -85,3 +85,12 @@ set editing-mode vi
 # set keymap vi-command
 set show-mode-in-prompt on
 
+# Ctrl+Backspace/Delete to delete whole words
+#"\e[3;5~": kill-word "\C-_": backward-kill-word
+
+#Ctrl+Shift+Backspace/Delete to delete to start/end of the line
+#"\e[3;6~": kill-line "\xC2\x9F": backward-kill-line # for UTF-8
+#"\x9F": backward-kill-line # for ISO-8859-x
+#"\e\C-_": backward-kill-line # for any other charset
+
+

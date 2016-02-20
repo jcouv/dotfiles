@@ -5,7 +5,7 @@ set nocompatible
 " This shows what you are typing as a command.  I love this!
 set showcmd
 " Who doesn't like autoindent?
-set autoindent
+set noautoindent
 
 " Spaces are better than a tab character
 set expandtab
@@ -43,6 +43,8 @@ set nolist              " list disables linebreak
 set textwidth=0
 set wrapmargin=0
 autocmd FileType text setlocal textwidth=0
+
+set formatoptions-=cr
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
