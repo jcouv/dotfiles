@@ -4,7 +4,7 @@ startup_message off
 # # windownames and highlighting the current windowname in blue. (This is only
 # # enabled if there is no hardstatus setting for your terminal)
 hardstatus on
-hardstatus alwayslastline
+hardstatus alwaysfirstline
 
 # hardstatus string "%{.kW}%-w%{.W}%n %t%{-}%{=b kw}%?%+w%? %=%c %d/%m/%Y" #B&W & date&time
 hardstatus string '%{= kG}%-Lw%{= kW}%50> %n*%f %t%{= kG}%+Lw%< %{= kG}%-=%D %m/%d/%y | %C:%s %A | %1`%{-}'
