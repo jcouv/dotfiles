@@ -56,7 +56,11 @@ alias :q=exit
 alias :qa!='screen -X "quit"'
 alias :qa='echo "Confirm with :qa!"'
 
-bind -x '"\C-t":"screen -X screen"' # bind -x executes in the background
+# Key bindings to manipulate screen
+# (maybe could be done via inputr or screenrc too...)
+# bind -x specifies commands to execute in the background
+bind -x '"\C-t":"screen -X screen"'
+bind -x '"\C-w":"screen -X kill"' 
 bind -m vi -x '"t":"screen -X screen"'
 bind -m vi -x '"J":"screen -X prev"'
 bind -m vi -x '"K":"screen -X next"'
