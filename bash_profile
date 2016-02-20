@@ -53,4 +53,8 @@ alias roslyn-build='msbuild /v:m /m Roslyn.sln'
 alias roslyn-test='msbuild /v:m /m BuildAndTest.proj'
 alias roslyn-restore=' ./nuget.exe restore Roslyn.sln'
 alias :q=exit
+alias :qa!='screen -X "quit"'
+alias :qa='echo "Confirm with :qa!"'
+
+bind -x '"\C-t":"screen -X screen"'
 
