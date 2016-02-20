@@ -49,14 +49,34 @@ set backspace=indent,eol,start
 
 iab --- --------------------------
 
+"TAB navigation like firefox
+":nmap <C-S-Tab> :tabprevious<CR>
+":nmap <C-Tab> :tabnext<CR>
+"imap <C-S-Tab> <ESC>:tabprevious<cr>i
+"imap <C-Tab> <ESC>:tabnext<cr>i
+nmap <C-t> :tabnew<cr>
+imap <C-t> <ESC>:tabnew<cr>i
+map <C-w> :tabclose<cr>
+"nnoremap <silent> <C-Right> :tabnext<CR>
+"nnoremap <silent> <C-Left> :tabprevious<CR>
+"nnoremap <C-S-tab> :tabprevious<CR>
+"nnoremap <C-tab>   :tabnext<CR>
+"nnoremap <C-t>     :tabnew<CR>
+"inoremap <C-S-tab> <Esc>:tabprevious<CR>i
+"inoremap <C-tab>   <Esc>:tabnext<CR>i
+"inoremap <C-t>     <Esc>:tabnew<CR>
+
 " Next Tab
-nnoremap <silent> <C-Right> :tabnext<CR>
-
+"nnoremap <silent> <C-Right> :tabnext<CR>
+-
 " Previous Tab
-nnoremap <silent> <C-Left> :tabprevious<CR>
+"nnoremap <silent> <C-Left> :tabprevious<CR>
 
-" New Tab
-nnoremap <silent> <C-t> :tabnew<CR>
+" Quick paste on insert mode.
+inoremap <C-v> <C-R>"
+" nnoremap <C-v> 
+" Copy from visual mode:
+vnoremap <silent> <C-c> "+y
 
 " Make cursor move as expected with wrapped lines:
 inoremap <Down> <C-o>gj
@@ -76,4 +96,15 @@ nnoremap <CR> :noh<CR><CR>
 
 " CTRL-s to save
 nnoremap <silent> <C-s> :write<CR>
+
+" Page down, page up, scroll down, scroll up
+" noremap <Space> <C-f>
+" noremap - <C-b>
+" noremap <Backspace> <C-y>
+" noremap <Return> <C-e>
+
+let &t_ti.="\e[1 q" 
+let &t_SI.="\e[5 q" 
+let &t_EI.="\e[1 q" 
+let &t_te.="\e[0 q"
 
