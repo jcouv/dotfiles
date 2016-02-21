@@ -16,6 +16,7 @@ set shiftwidth=3
 set softtabstop=3
 " Line Numbers PWN!
 set number
+set relativenumber 
 
 " Incremental searching is sexy
 set incsearch
@@ -44,29 +45,33 @@ set textwidth=0
 set wrapmargin=0
 autocmd FileType text setlocal textwidth=0
 
-set formatoptions-=cr
+set formatoptions-=cro
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
 iab --- --------------------------
 
+":set <C-Tab>=^[[1;5I
+":set <c-s-tab>=^[[1;6I
 "TAB navigation like firefox
-":nmap <C-S-Tab> :tabprevious<CR>
-":nmap <C-Tab> :tabnext<CR>
-"imap <C-S-Tab> <ESC>:tabprevious<cr>i
-"imap <C-Tab> <ESC>:tabnext<cr>i
+:nmap <C-S-Tab> :tabprevious<CR>
+:nmap <C-Tab> :tabnext<CR>
+imap <C-S-Tab> <ESC>:tabprevious<cr>i
+imap <C-Tab> <ESC>:tabnext<cr>i
+"
 nmap <C-t> :tabnew<cr>
 imap <C-t> <ESC>:tabnew<cr>i
 map <C-w> :tabclose<cr>
+"
 "nnoremap <silent> <C-Right> :tabnext<CR>
 "nnoremap <silent> <C-Left> :tabprevious<CR>
-"nnoremap <C-S-tab> :tabprevious<CR>
-"nnoremap <C-tab>   :tabnext<CR>
-"nnoremap <C-t>     :tabnew<CR>
-"inoremap <C-S-tab> <Esc>:tabprevious<CR>i
-"inoremap <C-tab>   <Esc>:tabnext<CR>i
-"inoremap <C-t>     <Esc>:tabnew<CR>
+nnoremap <C-S-tab> :tabprevious<CR>
+nnoremap <C-tab>   :tabnext<CR>
+nnoremap <C-t>     :tabnew<CR>
+inoremap <C-S-tab> <Esc>:tabprevious<CR>i
+inoremap <C-tab>   <Esc>:tabnext<CR>i
+inoremap <C-t>     <Esc>:tabnew<CR>
 
 " Next Tab
 "nnoremap <silent> <C-Right> :tabnext<CR>
