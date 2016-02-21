@@ -3,7 +3,6 @@ startup_message off
 defscrollback 1000
 
 # Enable scrolling back with the mouse wheel
-#termcapinfo xterm* ti@:te@
 terminfo xterm* ti=:te=
 
 # Cycle through windows with Ctrl+Tab and Shift+Ctrl+Tab
@@ -18,7 +17,7 @@ hardstatus on
 hardstatus alwayslastline
 
 # hardstatus string "%{.kW}%-w%{.W}%n %t%{-}%{=b kw}%?%+w%? %=%c %d/%m/%Y" #B&W & date&time
-hardstatus string '%{= kG}%-Lw%{= kW}%50> %n*%f %t%{= kG}%+Lw%< %{= kG}%-=%D %m/%d/%y | %C:%s %A | %1`%{-}'
+hardstatus string '%{= kG}%-Lw%{= gK}%50> %n*%f %t%{= kG}%+Lw%< %{= kG}%-=%D %m/%d/%y | %C:%s %A | %1`%{-}'
 
 #screen -t VIM
 #screen -t Git
