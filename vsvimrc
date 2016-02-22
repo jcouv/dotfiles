@@ -1,0 +1,14 @@
+# https://github.com/jaredpar/VsVim/wiki/Settings-Reference
+
+"set showcmd
+"set expandtab
+"set smarttab
+"set shiftwidth=4
+"set softtabstop=4
+set incsearch
+set hlsearch
+set ignorecase
+set cursorline
+set backspace=indent,eol,start
+nnoremap <CR> :noh<CR><CR>
+
