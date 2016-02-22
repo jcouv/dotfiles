@@ -53,4 +53,5 @@ alias roslyn-build='msbuild /v:m /m Roslyn.sln'
 alias roslyn-test='msbuild /v:m /m BuildAndTest.proj'
 alias roslyn-restore=' ./nuget.exe restore Roslyn.sln'
 alias :q=exit
+alias ildasm='/c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/bin/NETFX\ 4.6.1\ Tools/ildasm.exe'
 
