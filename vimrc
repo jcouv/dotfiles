@@ -29,6 +29,7 @@ set nohidden
 
 " Highlight current line
 set cul
+:hi CursorLine cterm=NONE ctermbg=black guibg=black
 
 set scrolloff=5               " keep at least 5 lines above/below
 set sidescrolloff=5           " keep at least 5 lines left/right

@@ -1,3 +1,10 @@
-Columns=121
-Rows=43
+BellSound=no
+BellFlash=yes
+Font=Consolas
+FontHeight=11
+Columns=118
+Rows=32
+Transparency=off
+OpaqueWhenFocused=no
 SwitchShortcuts=no
+
