@@ -1,25 +1,3 @@
-# To the extent possible under law, the author(s) have dedicated all 
-# copyright and related and neighboring rights to this software to the 
-# public domain worldwide. This software is distributed without any warranty. 
-# You should have received a copy of the CC0 Public Domain Dedication along 
-# with this software. 
-# If not, see <http://creativecommons.org/publicdomain/zero/1.0/>. 
-
-# base-files version 4.2-3
-
-# ~/.inputrc: readline initialization file.
-
-# The latest version as installed by the Cygwin Setup program can
-# always be found at /etc/defaults/etc/skel/.inputrc
-
-# Modifying /etc/skel/.inputrc directly will prevent
-# setup from updating it.
-
-# The copy in your home directory (~/.inputrc) is yours, please
-# feel free to customise it to create a shell
-# environment to your liking.  If you feel a change
-# would be benifitial to all, please feel free to send
-# a patch to the cygwin mailing list.
 
 # the following line is actually
 # equivalent to "\C-?": delete-char
@@ -76,12 +54,43 @@
 ## Ctrl + right/left
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
-"\e[5C": forward-word
-"\e[5D": backward-word
-"\e\e[C": forward-word
-"\e\e[D": backward-word
+#"\e[5C": forward-word
+#"\e[5D": backward-word
+#"\e\e[C": forward-word
+#"\e\e[D": backward-word
+#"\e5C": forward-word
+#"\e5D": backward-word
+
+
+# Ctrl+Backspace/Delete to delete whole words
+#"\e[3;5~": kill-word "\C-_": backward-kill-word
+
+#Ctrl+Shift+Backspace/Delete to delete to start/end of the line
+#"\e[3;6~": kill-line "\xC2\x9F": backward-kill-line # for UTF-8
+#"\x9F": backward-kill-line # for ISO-8859-x
+#"\e\C-_": backward-kill-line # for any other charset
+
+
+# This let's bash unbind CTRL-w
+set bind-tty-special-chars off
+
 
 set editing-mode vi
 # set keymap vi-command
+set show-mode-in-prompt on
+
+$if mode=vi
+   set keymap vi-command
+   # these are for vi-command mode
+   Control-l: clear-screen
+   "\e[1;5C": forward-word # ctrl-right
+   "\e[1;5D": backward-word # ctrl-left
+
+   set keymap vi-insert
+   # these are for vi-insert mode
+   Control-l: clear-screen
+   "\e[1;5C": forward-word # ctrl-right
+   "\e[1;5D": backward-word # ctrl-left
+$endif
 
 

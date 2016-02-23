@@ -48,10 +48,22 @@ for DOTFILE in `find ~/.dotfiles/bash/*.bash`; do
 done
 
 alias repos='cd /d/repos/'
+alias issues='cd /d/issues/'
 alias ..='cd ..'
 alias roslyn-build='msbuild /v:m /m Roslyn.sln'
 alias roslyn-test='msbuild /v:m /m BuildAndTest.proj'
 alias roslyn-restore=' ./nuget.exe restore Roslyn.sln'
 alias :q=exit
 alias ildasm='/c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/bin/NETFX\ 4.6.1\ Tools/ildasm.exe'
+alias :qa!='screen -X "quit"'
+alias :qa='echo "Confirm with :qa!"'
+
+# Key bindings to manipulate screen
+# (maybe could be done via inputr or screenrc too...)
+# bind -x specifies commands to execute in the background
+bind -x '"\C-t":"screen -X screen"'
+bind -x '"\C-w":"screen -X kill"' 
+bind -m vi -x '"t":"screen -X screen"'
+bind -m vi -x '"J":"screen -X prev"'
+bind -m vi -x '"K":"screen -X next"'
 

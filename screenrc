@@ -1,5 +1,15 @@
 startup_message off
 
+defscrollback 1000
+
+# Enable scrolling back with the mouse wheel
+terminfo xterm* ti=:te=
+
+# Cycle through windows with Ctrl+Tab and Shift+Ctrl+Tab
+# MinTTY sends "\e[1;5I" for Ctrl+Tab and "\e[1;6I" for Ctrl+Shift+Tab.
+bindkey "^[[1;5I" next 
+bindkey "^[[1;6I" prev
+
 # An alternative hardstatus to display a bar at the bottom listing the
 # # windownames and highlighting the current windowname in blue. (This is only
 # # enabled if there is no hardstatus setting for your terminal)
@@ -7,5 +17,15 @@ hardstatus on
 hardstatus alwayslastline
 
 # hardstatus string "%{.kW}%-w%{.W}%n %t%{-}%{=b kw}%?%+w%? %=%c %d/%m/%Y" #B&W & date&time
-hardstatus string '%{= kG}%-Lw%{= kW}%50> %n*%f %t%{= kG}%+Lw%< %{= kG}%-=%D %m/%d/%y | %C:%s %A | %1`%{-}'
+hardstatus string '%{= kG}%-Lw%{= gK}%50> %n*%f %t%{= kG}%+Lw%< %{= kG}%-=%D %m/%d/%y | %C:%s %A | %1`%{-}'
+
+#screen -t VIM
+#screen -t Git
+#screen -t Console
+#screen -t Server
+
+# Display a caption string below, appearing like tabs and
+# # displaying the window number and application name (by default).
+# caption always
+# caption string "%{kw}%-w%{wr}%n %t%{-}%+w"
 
