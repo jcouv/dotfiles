@@ -9,6 +9,8 @@ terminfo xterm* ti=:te=
 # MinTTY sends "\e[1;5I" for Ctrl+Tab and "\e[1;6I" for Ctrl+Shift+Tab.
 bindkey "^[[1;5I" next 
 bindkey "^[[1;6I" prev
+bindkey "^w" kill
+bindkey "^t" screen
 
 # An alternative hardstatus to display a bar at the bottom listing the
 # # windownames and highlighting the current windowname in blue. (This is only
