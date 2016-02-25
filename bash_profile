@@ -66,4 +66,4 @@ bind -x '"\C-w":"screen -X kill"'
 bind -m vi -x '"t":"screen -X screen"'
 bind -m vi -x '"J":"screen -X prev"'
 bind -m vi -x '"K":"screen -X next"'
-
+ 
