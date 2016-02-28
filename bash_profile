@@ -58,6 +58,11 @@ alias ildasm='/c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/bin/NETF
 alias :qa!='screen -X "quit"'
 alias :qa='echo "Confirm with :qa!"'
 
+alias csc-roslyn2='/d/repos/roslyn2/Binaries/Debug/csc.exe'
+alias csc-roslyn='/d/repos/roslyn/Binaries/Debug/csc.exe'
+alias csc-native='/c/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe'
+alias csc-vs='/c/Program\ Files\ \(x86\)/MSBuild/14.0/Bin/csc.exe'
+
 # Key bindings to manipulate screen in bash vi-mode
 # bind -x specifies commands to execute in the background
 bind -m vi -x '"t":"screen -X screen"'
