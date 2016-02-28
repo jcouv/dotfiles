@@ -58,12 +58,22 @@ alias ildasm='/c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/bin/NETF
 alias :qa!='screen -X "quit"'
 alias :qa='echo "Confirm with :qa!"'
 
-# Key bindings to manipulate screen
-# (maybe could be done via inputr or screenrc too...)
+# Key bindings to manipulate screen in bash vi-mode
 # bind -x specifies commands to execute in the background
-#bind -x '"\C-t":"screen -X screen"'
-#bind -x '"\C-w":"screen -X kill"' 
 bind -m vi -x '"t":"screen -X screen"'
 bind -m vi -x '"J":"screen -X prev"'
 bind -m vi -x '"K":"screen -X next"'
+
+function do_git {
+  cmd=$1
+  shift
+  extra=""
+  if [ "$cmd" == "add" ]; then
+    extra="-v"
+  elif [ "$cmd" == "rm" ]; then
+    extra="--cached"
+  fi
+  "`which git`" "$cmd" "$extra" "$@"
+}
+#alias  git='do_git'
 
