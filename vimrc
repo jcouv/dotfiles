@@ -16,7 +16,7 @@ set shiftwidth=3
 set softtabstop=3
 " Line Numbers PWN!
 set number
-set relativenumber 
+set relativenumber
 
 " Incremental searching is sexy
 set incsearch
@@ -47,6 +47,9 @@ set wrapmargin=0
 autocmd FileType text setlocal textwidth=0
 
 set formatoptions-=cro
+
+:set list!
+:set list listchars=tab:»·,trail:·
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -82,7 +85,7 @@ inoremap <C-t>     <Esc>:tabnew<CR>
 
 " Quick paste on insert mode.
 inoremap <C-v> <C-R>"
-" nnoremap <C-v> 
+" nnoremap <C-v>
 " Copy from visual mode:
 vnoremap <silent> <C-c> "+y
 
@@ -112,8 +115,8 @@ nnoremap <silent> <C-s> :write<CR>
 " noremap <Return> <C-e>
 
 " Set the cursor depending on mode
-let &t_ti.="\e[1 q" 
-let &t_SI.="\e[5 q" 
-let &t_EI.="\e[1 q" 
+let &t_ti.="\e[1 q"
+let &t_SI.="\e[5 q"
+let &t_EI.="\e[1 q"
 let &t_te.="\e[0 q"
 
