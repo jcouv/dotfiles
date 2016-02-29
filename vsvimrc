@@ -1,3 +1,4 @@
+# VsVim looks in the following folders: HOME, VIM and USERPROFILE
 # https://github.com/jaredpar/VsVim/wiki/Settings-Reference
 
 "set showcmd
@@ -10,5 +11,6 @@ set hlsearch
 set ignorecase
 set cursorline
 set backspace=indent,eol,start
+set vsvim_useeditordefaults
 nnoremap <CR> :noh<CR><CR>
 
