@@ -29,3 +29,8 @@ hardstatus string '%{= kG}%-Lw%{= gK}%50> %n*%f %t%{= kG}%+Lw%< %{= kG}%-=%D %m/
 # caption always
 # caption string "%{kw}%-w%{wr}%n %t%{-}%+w"
 
+screen -t fix-7845 1 bash
+screen -t issue-7845 2 bash
+screen -t fix-7809 3 bash
+screen -t issue-7809 4 bash
+
