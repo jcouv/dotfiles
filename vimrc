@@ -6,6 +6,7 @@ set nocompatible
 set showcmd
 " Who doesn't like autoindent?
 set noautoindent
+set noai nocin nosi inde=
 
 " Spaces are better than a tab character
 set expandtab

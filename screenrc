@@ -10,7 +10,7 @@ terminfo xterm* ti=:te=
 bindkey "^[[1;5I" next 
 bindkey "^[[1;6I" prev
 bindkey "^w" kill
-bindkey "^t" screen
+bindkey "^t" screen 1
 
 # An alternative hardstatus to display a bar at the bottom listing the
 # # windownames and highlighting the current windowname in blue. (This is only
@@ -31,8 +31,8 @@ hardstatus string '%{= kG}%-Lw%{= gK}%50> %n*%f %t%{= kG}%+Lw%< %{= kG}%-=%D %m/
 # caption always
 # caption string "%{kw}%-w%{wr}%n %t%{-}%+w"
 
-screen -t fix-7845 1 bash
-screen -t issue-7845 2 bash
-screen -t fix-7809 3 bash
-screen -t issue-7809 4 bash
+screen -t fix-9463 1 bash
+screen -t issue-9463 2 bash
+screen -t fix-7840 3 bash
+screen -t issue-7840 4 bash
 
