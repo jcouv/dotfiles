@@ -14,7 +14,7 @@ alias issues='cd /d/issues/'
 alias ..='cd ..'
 alias roslyn-build='msbuild /v:m /m Roslyn.sln'
 alias roslyn-test='msbuild /v:m /m /t:test BuildAndTest.proj'
-alias roslyn-restore=' ./nuget.exe restore Roslyn.sln'
+alias roslyn-restore=' ./nuget.exe restore -configfile NuGet.Config Roslyn.sln'
 alias :q=exit
 alias ildasm='/c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/bin/NETFX\ 4.6.1\ Tools/ildasm.exe'
 alias :qa!='screen -X "quit"'
@@ -26,6 +26,7 @@ alias csc-native='/c/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe'
 alias csc-vs='/c/Program\ Files\ \(x86\)/MSBuild/14.0/Bin/csc.exe'
 
 alias ilspy='/c/Users/jcouv/bin/ILSpy/ILSpy.exe'
+alias fuslogvw='/c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/bin/NETFX\ 4.6.1\ Tools/FUSLOGVW.exe'
 
 # Key bindings to manipulate screen in bash vi-mode
 # bind -x specifies commands to execute in the background
