@@ -14,3 +14,42 @@ set backspace=indent,eol,start
 set vsvim_useeditordefaults
 nnoremap <CR> :noh<CR><CR>
 
+let mapleader=","
+
+map <Leader>ta :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
+map <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
+map <Leader>td :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Debugger<CR>
+"map <Leader>ta :vsc Tools.TestDriven.Net.Abort
+"Debug.StopDebugging --> SS (stop) and TT (stop test)
+" (start debugging)
+map <Leader>sd :vsc Debug.Start<CR> 
+"  (start continue)
+map <Leader>sc :vsc Debug.StartWithoutDebugging<CR> 
+" Build --> Ctrl-Shift-B
+" Debug.DetachAll --> maybe later
+" DebuggerContextMenus.ProcessesWindow.ContinueProcess
+" DebuggerContextMenus.ProcessesWindow.DetachProcess
+" DebuggerContextMenus.ProcessesWindow.TerminateProcess
+
+"map <A-j> :vsc Debug.StepOver<CR>
+"map <A-k> :vsc Debug.StepOut<CR>
+"map <A-l> :vsc Debug.StepInto<CR>
+"map <A-r> :vsc Debug.RunToCursor<CR>
+"map <A-s> :vsc Debug.SetNextStatement<CR>
+"map <A-h> :vsc 
+"vnoremap <Tab> >
+"vnoremap <S-Tab> <
+"
+"
+map <Leader>wo :vsc Debug.Output<CR>
+map <Leader>wi :vsc Debug.Immediate<CR>
+map <Leader>wl :vsc Debug.Locals<CR>
+map <Leader>wm :vsc Debug.Modules<CR>
+map <Leader>wt :vsc Debug.Threads<CR>
+map <Leader>wa :vsc Debug.Autos<CR>
+map <Leader>wp :vsc Debug.Breakpoints<CR>
+map <Leader>wb :vsc View.BookmarkWindow<CR>
+map <Leader>wh :vsc Window.AutoHideAll<CR>
+
+
+
