@@ -1,5 +1,7 @@
 # VsVim looks in the following folders: HOME, VIM and USERPROFILE
 # https://github.com/jaredpar/VsVim/wiki/Settings-Reference
+# https://github.com/aburok/mysettings/blob/master/Vim/_vsvimrc
+# https://github.com/aburok/mysettings/blob/master/VisualStudio/vscommands.txt
 
 "set showcmd
 "set expandtab
@@ -95,5 +97,22 @@ map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 
 " map <Leader>to :vsc <CR>
 
+"nmap zX :vsc Edit.UndoClose<CR>
+    "nnoremap <leader>B :vsc Build.BuildSolution<CR>
 
+    "nmap <leader>s :vsc Debug.Start<CR>
+    "nmap <leader>S :vsc Debug.StopDebugging<CR>
+"    	nmap <leader>bd :vsc Debug.DisableAllBreakpoints<CR>
+"	nmap <leader>be :vsc Debug.EnableAllBreakpoints<CR>
+
+" TODO command to delete all trailing spaces
+ "   map gb :vsc View.NavigateBackward<CR>
+ "   map gB :vsc View.NavigateForward<CR>
+ "   nmap <C-O> :vsc View.NavigateBackward<CR>
+ "   nmap <C-I> :vsc View.NavigateForward<CR>
+
+"    nnoremap <Leader>cc :vsc Edit.CommentSelection<CR>
+"    vnoremap <Leader>cc :vsc Edit.CommentSelection<CR>
+"    nnoremap <Leader>cu :vsc Edit.UncommentSelection<CR>
+"    vnoremap <Leader>cu :vsc Edit.UncommentSelection<CR>
 
