@@ -40,7 +40,7 @@ map <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
 "vnoremap <Tab> >
 "vnoremap <S-Tab> <
 "
-"
+" {{{ Windows
 map <Leader>wo :vsc Debug.Output<CR>
 map <Leader>wi :vsc Debug.Immediate<CR>
 map <Leader>wl :vsc Debug.Locals<CR>
@@ -50,6 +50,50 @@ map <Leader>wa :vsc Debug.Autos<CR>
 map <Leader>wp :vsc Debug.Breakpoints<CR>
 map <Leader>wb :vsc View.BookmarkWindow<CR>
 map <Leader>wh :vsc Window.AutoHideAll<CR>
+map <Leader>wf :vsc View.FullScreen<CR>
+map <Leader>wc :vsc View.CommandWindow<CR>
+map <Leader>wg :vsc Team.Git.GoToGitChanges<CR>
+map <Leader>ws :vsc Tools.CustomizeKeyboard<CR>
+" }}}
+
+
+map <Leader>cd :vsc Edit.CollapsetoDefinitions<CR>
+map <Leader>od :vsc Edit.ExpandAllOutlining<CR>
+map <Leader>to :vsc Edit.ToggleOutliningExpansion<CR>
+
+map <Leader>pm :vsc Edit.PreviousMethod<CR>
+map <Leader>nm :vsc Edit.NextMethod<CR>
+
+" {{{ Navigation
+map <Leader>gd :vsc Edit.GoToDefinition<CR>
+map <Leader>gr :vsc Edit.FindAllReferences<CR>
+
+map <Leader>tb :vsc Edit.ToggleBookmark<CR>
+map <Leader>nb :vsc Edit.NextBookmarkInDocument<CR>
+map <Leader>Nb :vsc Edit.NextBookmark<CR>
+map <Leader>NB :vsc Edit.NextBookmark<CR>
+map <Leader>pb :vsc Edit.PreviousBookmarkInDocument<CR>
+map <Leader>Pb :vsc Edit.PreviousBookmark<CR>
+map <Leader>PB :vsc Edit.PreviousBookmark<CR>
+
+map <Leader>tp :vsc Debug.ToggleBreakpoint<CR>
+map <Leader>tep :vsc Debug.EnableBreakpoint<CR>
+
+" Keep tab 
+map <Leader>kt :vsc Window.PinTab<CR>
+" Open tab
+map <Leader>ot :vsc Window.KeepTabOpen<CR>
+
+"Show definiton
+map <Leader>sd :vsc Edit.PeekDefinition<CR>
+"Show info
+map <Leader>si :vsc Edit.QuickInfo<CR>
+" Show parameter info
+map <Leader>sp :vsc Edit.ParameterInfo<CR>
+" Yank parameter info
+map <Leader>yp :vsc Edit.CopyParameterTip<CR>
+
+" map <Leader>to :vsc <CR>
 
 
 
