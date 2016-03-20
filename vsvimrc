@@ -1,19 +1,16 @@
 " VsVim looks in the following folders: HOME, VIM and USERPROFILE
-" TODO: Ctrl-D and Ctrl-U
+" TODO: consider which bindings should be moved to the left hand
 
 " I let Visual Studio handle those: 
 " <C-c>
 " <C-v>
 " <C-a>
 " <C-x>
+" Associate <A-j> with Edit.LineDown in VS for Intellisense selection
+" Associate <A-k> with Edit.LineUp in VS for Intellisense selection
 
 " General settings
 " ----------------
-"set showcmd
-"set expandtab
-"set smarttab
-"set shiftwidth=4
-"set softtabstop=4
 set incsearch
 set hlsearch
 set ignorecase
@@ -21,23 +18,22 @@ set cursorline
 set backspace=indent,eol,start
 set vsvim_useeditorindent
 set vsvim_useeditordefaults
-nnoremap <space> :noh<CR>
-
-" There is a problem with +=
-"set whichwrap+=<,>,h,l   " wrap backspace and cursors correctly
+set vsvimcaret=40
+set whichwrap=b,s,<,>,h,l   " wrap backspace and cursors correctly
 
 set clipboard=unnamed
 set number
 
 let mapleader=","
 
+nnoremap <Esc> :noh<CR>
 nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
 nnoremap <leader>vs :edit C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
 
 " Start/stop debugging and running
 " --------------------------------
-" ta=test again, tc=test continue, td=test debug, sd=start debug, sc=start
-" continue
+" ta=test again, tc=test continue, td=test debug, sd=start debug, 
+" sc=start continue
 map <Leader>ta :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 map <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
 map <Leader>td :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Debugger<CR>
@@ -46,14 +42,13 @@ map <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
 
 " While debugging
 " ---------------
+"TODO
 "map <A-j> :vsc Debug.StepOver<CR>
 "map <A-k> :vsc Debug.StepOut<CR>
 "map <A-l> :vsc Debug.StepInto<CR>
 "map <A-r> :vsc Debug.RunToCursor<CR>
 "map <A-s> :vsc Debug.SetNextStatement<CR>
 "map <A-h> :vsc 
-"vnoremap <Tab> >
-"vnoremap <S-Tab> <
 
 " Show windows
 " ------------
@@ -75,16 +70,16 @@ map <Leader>wse :vsc View.SolutionExplorer<CR>
 map <Leader>wsr :vsc View.FindSymbolResults<CR>
 map <Leader>wt :vsc Debug.Threads<CR>
 map <Leader>wv :vsc VsVim.Options<CR>
-
+" Tools.Options, Debug.OptionsAndSettings
 " Folding
 " -------
 " Use za to fold
 " zc and zo to close and open folds
 " zC to close all. 
-" But zO to open all doesn't work.
+" But built-in zO to open all doesn't work.
 map zm :vsc Edit.CollapsetoDefinitions<CR>
 " noremap zC :vsc Edit.CollapseAllOutlining <return>
-" noremap zO :vsc Edit.ExpandAllOutlining <return>
+noremap zO :vsc Edit.ExpandAllOutlining <return>
 " noremap zt :vsc Edit.ToggleOutliningExpansion <return>
 " noremap zT :vsc Edit.ToggleAllOutlining <return>
 " noremap zc :vsc Edit.CollapseCurrentRegion <return>
@@ -96,8 +91,8 @@ map zm :vsc Edit.CollapsetoDefinitions<CR>
 
 " Navigation
 " ----------
-map gb :vsc View.NavigateBackward<CR>
-map gB :vsc View.NavigateForward<CR>
+" map gb :vsc View.NavigateBackward<CR>
+" map gB :vsc View.NavigateForward<CR>
 nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
 
@@ -105,9 +100,7 @@ nmap <C-I> :vsc View.NavigateForward<CR>
 nnoremap gk gt
 nnoremap gj gT
 
-map <A-j> :vsc Edit.LineDown<CR>
-map <A-k> :vsc Edit.LineUp<CR>
-
+" TODO: C-P and C-N should be for intellisense completion instead
 " It's also useful to bind those keys in VS as well
 noremap <C-n> :vsc Edit.FindNext<CR>
 noremap <C-p> :vsc Edit.FindPrevious<CR>
@@ -127,12 +120,19 @@ map gPb :vsc Edit.PreviousBookmark<CR>
 map gPB :vsc Edit.PreviousBookmark<CR>
 
 " keep search results in the center of the screen
-nnoremap <silent> n nzz
-nnoremap <silent> N Nzz
+nnoremap n nzz
+nnoremap  N Nzz
 "nnoremap <silent> * *zz
 "nnoremap <silent> # #zz
 "nnoremap <silent> g* g*zz
 "nnoremap <silent> g# g#zz
+
+" Edit.GoToFindResults1Location
+" Edit.GoToFindResults1NextLocation
+" Edit.GoToFindResults1PrevLocation
+" Edit.GoToFindResults2Location
+" Edit.GoToFindResults2NextLocation
+" Edit.GoToFindResults2PrevLocation
 
 " Various GUI features
 " --------------------
@@ -179,18 +179,16 @@ noremap - :vsc Edit.UncommentSelection <return>
 nnoremap <Leader>dw :%s/\s\+$//e<CR>:nohl<CR>
 
 noremap == :vsc Edit.FormatDocument <return>
+"Edit.FormatSelection
+"vnoremap <Tab> >
+"vnoremap <S-Tab> <
 
+" reselect visual block after indent
+"vnoremap < <gv
+"vnoremap > >gv
 " -------------------------------------------------------------------------------------------------------------------
 
-" Edit.GoToFindResults1Location
-" Edit.GoToFindResults1NextLocation
-" Edit.GoToFindResults1PrevLocation
-" Edit.GoToFindResults2Location
-" Edit.GoToFindResults2NextLocation
-" Edit.GoToFindResults2PrevLocation
-
 "TODO: surround with and insert snippet
-
 
 " Delete extraneous blank lines
 ":nnoremap <silent> <Leader>ds :g/^$/,/./-j<CR>:nohl<CR>
@@ -212,13 +210,6 @@ noremap == :vsc Edit.FormatDocument <return>
 " DebuggerContextMenus.ProcessesWindow.DetachProcess
 " DebuggerContextMenus.ProcessesWindow.TerminateProcess
 
-" cm for commenting?
-" System-Copy with keybinding cp
-" Line (describes from the first non-white character to the last). For instance, cil (change in line)
-
-" reselect visual block after indent
-"vnoremap < <gv
-"vnoremap > >gv
 
 " Found many vsvimrc files on github:
 " https://github.com/jaredpar/VsVim/wiki/Settings-Reference
@@ -236,7 +227,6 @@ noremap == :vsc Edit.FormatDocument <return>
 " (https://visualstudiogallery.msdn.microsoft.com/229dde61-7402-4c6c-b440-bfc95102f755)
 " nnoremap <leader>f :vsc View.QuickFile<CR>
 
-" By default ViEmu supports formatting selection with '='
 " noremap <leader>ru :vsc Edit.RemoveAndSort <return>
 
 " Fold like ^m^o, expand all #regions and leave cursor in the current region
