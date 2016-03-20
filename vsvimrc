@@ -1,11 +1,14 @@
 " VsVim looks in the following folders: HOME, VIM and USERPROFILE
+" TODO: Ctrl-D and Ctrl-U
 
-" I let VsVim handle all keybindings over VS except:
+" I let Visual Studio handle those: 
 " <C-c>
 " <C-v>
 " <C-a>
 " <C-x>
 
+" General settings
+" ----------------
 "set showcmd
 "set expandtab
 "set smarttab
@@ -27,6 +30,9 @@ set clipboard=unnamed
 set number
 
 let mapleader=","
+
+nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
+nnoremap <leader>vs :edit C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
 
 " Start/stop debugging and running
 " --------------------------------
@@ -68,6 +74,7 @@ map <Leader>wr :vsc View.FindResults1<CR>
 map <Leader>wse :vsc View.SolutionExplorer<CR>
 map <Leader>wsr :vsc View.FindSymbolResults<CR>
 map <Leader>wt :vsc Debug.Threads<CR>
+map <Leader>wv :vsc VsVim.Options<CR>
 
 " Folding
 " -------
@@ -76,6 +83,16 @@ map <Leader>wt :vsc Debug.Threads<CR>
 " zC to close all. 
 " But zO to open all doesn't work.
 map zm :vsc Edit.CollapsetoDefinitions<CR>
+" noremap zC :vsc Edit.CollapseAllOutlining <return>
+" noremap zO :vsc Edit.ExpandAllOutlining <return>
+" noremap zt :vsc Edit.ToggleOutliningExpansion <return>
+" noremap zT :vsc Edit.ToggleAllOutlining <return>
+" noremap zc :vsc Edit.CollapseCurrentRegion <return>
+" noremap zo :vsc Edit.ExpandCurrentRegion <return>
+" noremap zd :vsc Edit.CollapsetoDefinitions <return>
+" noremap zb :vsc Edit.CollapseBlockcurrentblock <return>
+" noremap zB :vsc Edit.CollapseAllincurrentblock <return>
+
 
 " Navigation
 " ----------
@@ -84,8 +101,17 @@ map gB :vsc View.NavigateForward<CR>
 nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
 
+" Next and previous tab
 nnoremap gk gt
 nnoremap gj gT
+
+map <A-j> :vsc Edit.LineDown<CR>
+map <A-k> :vsc Edit.LineUp<CR>
+
+" It's also useful to bind those keys in VS as well
+noremap <C-n> :vsc Edit.FindNext<CR>
+noremap <C-p> :vsc Edit.FindPrevious<CR>
+noremap <C-f> :vsc Edit.Find<CR>
 
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>
@@ -100,7 +126,16 @@ map gpb :vsc Edit.PreviousBookmarkInDocument<CR>
 map gPb :vsc Edit.PreviousBookmark<CR>
 map gPB :vsc Edit.PreviousBookmark<CR>
 
-" ----------------
+" keep search results in the center of the screen
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+"nnoremap <silent> * *zz
+"nnoremap <silent> # #zz
+"nnoremap <silent> g* g*zz
+"nnoremap <silent> g# g#zz
+
+" Various GUI features
+" --------------------
 map <Leader>tb :vsc Edit.ToggleBookmark<CR>
 
 map <Leader>tp :vsc Debug.ToggleBreakpoint<CR>
@@ -120,10 +155,8 @@ map <Leader>sp :vsc Edit.ParameterInfo<CR>
 " Yank parameter info
 map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 
-noremap <C-f> :vsc Edit.Find<CR>
-map <A-j> :vsc Edit.LineDown<CR>
-map <A-k> :vsc Edit.LineUp<CR>
-
+" Making edits
+" ------------
 " add empty lines with no insert mode
 map <S-enter> O<Esc>
 map <enter> o<Esc>
@@ -138,23 +171,30 @@ map L $
 
 "copy line without CR
 noremap Y ^y$
-"goto 1st non-space char (note: 0 is beginning of line)
-noremap 1 ^
 
 noremap + :vsc Edit.CommentSelection <return>
 noremap - :vsc Edit.UncommentSelection <return>
 
 " Delete trailing spaces
-:nnoremap <Leader>dw :%s/\s\+$//e<CR>:nohl<CR>
+nnoremap <Leader>dw :%s/\s\+$//e<CR>:nohl<CR>
+
+noremap == :vsc Edit.FormatDocument <return>
 
 " -------------------------------------------------------------------------------------------------------------------
+
+" Edit.GoToFindResults1Location
+" Edit.GoToFindResults1NextLocation
+" Edit.GoToFindResults1PrevLocation
+" Edit.GoToFindResults2Location
+" Edit.GoToFindResults2NextLocation
+" Edit.GoToFindResults2PrevLocation
+
+"TODO: surround with and insert snippet
+
+
 " Delete extraneous blank lines
 ":nnoremap <silent> <Leader>ds :g/^$/,/./-j<CR>:nohl<CR>
 ":nnoremap <silent> <Leader>dd :let _s=@/<CR>:%s/\s\+$//e<CR>:let @/=_s<CR>:nohl<CR>
-
-" map <Leader>to :vsc <CR>
-
-"TODO: surround with and insert snippet
 
 "nmap zX :vsc Edit.UndoClose<CR>
 "nnoremap <leader>B :vsc Build.BuildSolution<CR>
@@ -172,29 +212,13 @@ noremap - :vsc Edit.UncommentSelection <return>
 " DebuggerContextMenus.ProcessesWindow.DetachProcess
 " DebuggerContextMenus.ProcessesWindow.TerminateProcess
 
-" Edit.GoToFindResults1Location
-" Edit.GoToFindResults1NextLocation
-" Edit.GoToFindResults1PrevLocation
-" Edit.GoToFindResults2Location
-" Edit.GoToFindResults2NextLocation
-" Edit.GoToFindResults2PrevLocation
-
 " cm for commenting?
 " System-Copy with keybinding cp
 " Line (describes from the first non-white character to the last). For instance, cil (change in line)
 
-" keep search results in the center of the screen
-"nnoremap <silent> n nzz
-"nnoremap <silent> N Nzz
-"nnoremap <silent> * *zz
-"nnoremap <silent> # #zz
-"nnoremap <silent> g* g*zz
-"nnoremap <silent> g# g#zz
-
 " reselect visual block after indent
 "vnoremap < <gv
 "vnoremap > >gv
-
 
 " Found many vsvimrc files on github:
 " https://github.com/jaredpar/VsVim/wiki/Settings-Reference
@@ -208,35 +232,12 @@ noremap - :vsc Edit.UncommentSelection <return>
 " https://github.com/potz/dotfiles/blob/401ff11fafdb80c927387a471cacc5a5a2b53c28/.vsvimrc
 " https://github.com/StanislawSwierc/Profile/blob/d268cc58366fa8d6a347b3e98bd4daff8257d212/_vsvimrc
 
-" save configuration
-"nnoremap <leader>sv :so $MYVIMRC<CR>
-
-" nnoremap <leader>vm :edit C:\Users\bblass\_vimrc<CR>
-" nnoremap <leader>vs :edit C:\Users\bblass\_vsvimrc<CR>
-" nnoremap <leader>rs :source C:\Users\bblass\_vsvimrc<CR>
-
-" nnoremap <leader>ev :edit ~/.vsvimrc<CR>
-" nnoremap <leader>sv :source ~/.vsvimrc<CR>
-
 " VS-QuickNavigation extension
 " (https://visualstudiogallery.msdn.microsoft.com/229dde61-7402-4c6c-b440-bfc95102f755)
 " nnoremap <leader>f :vsc View.QuickFile<CR>
-nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
-nnoremap <leader>vs :edit C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
-
 
 " By default ViEmu supports formatting selection with '='
-" noremap == :vsc Edit.FormatDocument <return>
 " noremap <leader>ru :vsc Edit.RemoveAndSort <return>
-" noremap zC :vsc Edit.CollapseAllOutlining <return>
-" noremap zO :vsc Edit.ExpandAllOutlining <return>
-" noremap zt :vsc Edit.ToggleOutliningExpansion <return>
-" noremap zT :vsc Edit.ToggleAllOutlining <return>
-" noremap zc :vsc Edit.CollapseCurrentRegion <return>
-" noremap zo :vsc Edit.ExpandCurrentRegion <return>
-" noremap zd :vsc Edit.CollapsetoDefinitions <return>
-" noremap zb :vsc Edit.CollapseBlockcurrentblock <return>
-" noremap zB :vsc Edit.CollapseAllincurrentblock <return>
 
 " Fold like ^m^o, expand all #regions and leave cursor in the current region
 " nnoremap z1 j?# region<cr>mzzMNNNNNNNNNN'z/ÿÿÿ<cr>zz
