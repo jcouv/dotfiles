@@ -1,5 +1,8 @@
 " VsVim looks in the following folders: HOME, VIM and USERPROFILE
 " TODO: consider which bindings should be moved to the left hand
+" TODO: SolutionExplorer.SyncWithActiveDocument
+" TODO: maybe use K for finding references
+" TODO: need a better way to manage and switch tabs
 
 " I let Visual Studio handle those: 
 " <C-c>
@@ -29,6 +32,7 @@ let mapleader=","
 nnoremap <Esc> :noh<CR>
 nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
 nnoremap <leader>vs :edit C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
+nnoremap <leader>o :vsc File.OpenFile<CR>
 
 " Start/stop debugging and running
 " --------------------------------
@@ -55,8 +59,10 @@ map <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
 map <Leader>wa :vsc Debug.Autos<CR>
 map <Leader>wb :vsc View.BookmarkWindow<CR>
 map <Leader>wc :vsc View.CommandWindow<CR>
+" wd for diff with previous?
 map <Leader>we :vsc Debug.Exceptions<CR>
-map <Leader>wf :vsc View.FullScreen<CR>
+map <Leader>wf :vsc View.FindResults1<CR>
+" map <Leader>wf :vsc View.FullScreen<CR>
 map <Leader>wg :vsc Team.Git.GoToGitChanges<CR>
 map <Leader>wh :vsc Window.AutoHideAll<CR>
 map <Leader>wi :vsc Debug.Immediate<CR>
@@ -65,11 +71,11 @@ map <Leader>wl :vsc Debug.Locals<CR>
 map <Leader>wm :vsc Debug.Modules<CR>
 map <Leader>wo :vsc Debug.Output<CR>
 map <Leader>wp :vsc Debug.Breakpoints<CR>
-map <Leader>wr :vsc View.FindResults1<CR>
-map <Leader>wse :vsc View.SolutionExplorer<CR>
-map <Leader>wsr :vsc View.FindSymbolResults<CR>
+map <Leader>wr :vsc View.FindSymbolResults<CR>
+map <Leader>ws :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
 map <Leader>wt :vsc Debug.Threads<CR>
 map <Leader>wv :vsc VsVim.Options<CR>
+
 " Tools.Options, Debug.OptionsAndSettings
 " Folding
 " -------
@@ -88,17 +94,19 @@ noremap zO :vsc Edit.ExpandAllOutlining <return>
 " noremap zb :vsc Edit.CollapseBlockcurrentblock <return>
 " noremap zB :vsc Edit.CollapseAllincurrentblock <return>
 
-
 " Navigation
 " ----------
-" map gb :vsc View.NavigateBackward<CR>
-" map gB :vsc View.NavigateForward<CR>
+" map gb 
+" map gB
 nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
 
 " Next and previous tab
-nnoremap gk gt
-nnoremap gj gT
+nnoremap gl gt
+nnoremap gh gT
+
+map gk :vsc Edit.PreviousMethod<CR>
+map gj :vsc Edit.NextMethod<CR>
 
 " TODO: C-P and C-N should be for intellisense completion instead
 " It's also useful to bind those keys in VS as well
@@ -109,23 +117,14 @@ noremap <C-f> :vsc Edit.Find<CR>
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>
 
-map gpm :vsc Edit.PreviousMethod<CR>
-map gnm :vsc Edit.NextMethod<CR>
-
-map gnb :vsc Edit.NextBookmarkInDocument<CR>
-map gNb :vsc Edit.NextBookmark<CR>
-map gNB :vsc Edit.NextBookmark<CR>
-map gpb :vsc Edit.PreviousBookmarkInDocument<CR>
-map gPb :vsc Edit.PreviousBookmark<CR>
-map gPB :vsc Edit.PreviousBookmark<CR>
+map gb :vsc Edit.NextBookmarkInDocument<CR>
+map <Leader>gb :vsc Edit.NextBookmark<CR>
+map gB :vsc Edit.PreviousBookmarkInDocument<CR>
+map <Leader>gB :vsc Edit.PreviousBookmark<CR>
 
 " keep search results in the center of the screen
 nnoremap n nzz
-nnoremap  N Nzz
-"nnoremap <silent> * *zz
-"nnoremap <silent> # #zz
-"nnoremap <silent> g* g*zz
-"nnoremap <silent> g# g#zz
+nnoremap N Nzz
 
 " Edit.GoToFindResults1Location
 " Edit.GoToFindResults1NextLocation
@@ -160,6 +159,8 @@ map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 " add empty lines with no insert mode
 map <S-enter> O<Esc>
 map <enter> o<Esc>
+
+nnoremap <S-space> i<space><Esc>
 
 " delete char without yank
 noremap x "_x
