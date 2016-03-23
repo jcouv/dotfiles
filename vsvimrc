@@ -1,6 +1,5 @@
 " VsVim looks in the following folders: HOME, VIM and USERPROFILE
 " TODO: consider which bindings should be moved to the left hand
-" TODO: SolutionExplorer.SyncWithActiveDocument
 " TODO: maybe use K for finding references
 " TODO: need a better way to manage and switch tabs
 
@@ -30,29 +29,29 @@ set number
 let mapleader=","
 
 nnoremap <Esc> :noh<CR>
-nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
-nnoremap <leader>vs :edit C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
+nnoremap <leader>rs :source &vimrc<CR>
+nnoremap <leader>vs :edit &vimrc<CR>
 nnoremap <leader>o :vsc File.OpenFile<CR>
 
 " Start/stop debugging and running
 " --------------------------------
-" ta=test again, tc=test continue, td=test debug, sd=start debug, 
+" tt=test again, tc=test continue, td=test debug, sd=start debug, 
 " sc=start continue
-map <Leader>ta :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
+map <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 map <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
-map <Leader>td :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Debugger<CR>
+map <Leader>td :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
 map <Leader>sd :vsc Debug.Start<CR> 
 map <Leader>sc :vsc Debug.StartWithoutDebugging<CR> 
 
 " While debugging
 " ---------------
-"TODO
-"map <A-j> :vsc Debug.StepOver<CR>
-"map <A-k> :vsc Debug.StepOut<CR>
-"map <A-l> :vsc Debug.StepInto<CR>
-"map <A-r> :vsc Debug.RunToCursor<CR>
-"map <A-s> :vsc Debug.SetNextStatement<CR>
-"map <A-h> :vsc 
+"TODO: issue with Alt-bindings...
+map <A-f> :vsc Debug.StepOver<CR>
+map <A-d> :vsc Debug.StepInto<CR>
+map <A-s> :vsc Debug.StepOut<CR>
+map <A-a> :vsc Debug.RunToCursor<CR>
+"map <A-w> :vsc Debug.SetNextStatement<CR>
+"map <A-q> :vsc Debug.Continue ??
 
 " Show windows
 " ------------
@@ -140,7 +139,8 @@ map <Leader>tb :vsc Edit.ToggleBookmark<CR>
 map <Leader>tp :vsc Debug.ToggleBreakpoint<CR>
 map <Leader>tep :vsc Debug.EnableBreakpoint<CR>
 
-" Keep tab 
+" Keep tab
+" Maybe 'k' is sufficient?
 map <Leader>kt :vsc Window.PinTab<CR>
 " Open tab
 map <Leader>ot :vsc Window.KeepTabOpen<CR>
