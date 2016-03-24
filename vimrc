@@ -19,8 +19,14 @@ set softtabstop=3
 set number
 set relativenumber
 
+set clipboard=unnamed
+
 " Incremental searching is sexy
 set incsearch
+
+" keep search results in the center of the screen
+nnoremap n nzz
+nnoremap N Nzz
 
 " Highlight things that we find with the search
 set hlsearch
@@ -105,10 +111,28 @@ nnoremap JJJJ <Nop>
 
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
+nnoremap <Esc> :noh<CR>
+
+" add empty lines with no insert mode
+map <S-enter> O<Esc>
+map <enter> o<Esc>
 
 " CTRL-s to save
 nnoremap <silent> <C-s> :write<CR>
 
+" delete char without yank
+noremap x "_x
+noremap X "_X
+
+" H/L is more natural than 0/$
+map H ^
+map L $
+
+" Delete trailing spaces
+nnoremap <Leader>dw :%s/\s\+$//e<CR>:nohl<CR>
+
+"copy line without CR
+noremap Y ^y$
 " Page down, page up, scroll down, scroll up
 " noremap <Space> <C-f>
 " noremap - <C-b>
