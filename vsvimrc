@@ -22,6 +22,7 @@ set vsvim_useeditorindent
 set vsvim_useeditordefaults
 set vsvimcaret=40
 set whichwrap=b,s,<,>,h,l   " wrap backspace and cursors correctly
+set scrolloff=5
 
 set clipboard=unnamed
 set number
