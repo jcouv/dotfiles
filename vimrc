@@ -111,7 +111,7 @@ nnoremap JJJJ <Nop>
 
 "This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
-nnoremap <Esc> :noh<CR>
+"nnoremap <Esc> :noh<CR><Esc>
 
 " add empty lines with no insert mode
 map <S-enter> O<Esc>
