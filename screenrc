@@ -31,8 +31,14 @@ hardstatus string '%{= kG}%-Lw%{= gK}%50> %n*%f %t%{= kG}%+Lw%< %{= kG}%-=%D %m/
 # caption always
 # caption string "%{kw}%-w%{wr}%n %t%{-}%+w"
 
-screen -t fix-9463 1 bash
-screen -t issue-9463 2 bash
-screen -t fix-7840 3 bash
-screen -t issue-7840 4 bash
+screen -t fix-1 1 bash
+screen -t issue-1 2 bash
+screen -t fix-2 3 bash
+screen -t issue-2 4 bash
+screen -t fix-3 5 bash
+screen -t issue-3 6 bash
+screen -t fix-4 7 bash
+screen -t issue-4 8 bash
+screen -t fix-5 9 bash
+screen -t issue-5 10 bash
 
