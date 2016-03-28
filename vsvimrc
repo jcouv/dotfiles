@@ -57,7 +57,7 @@ map <A-a> :vsc Debug.RunToCursor<CR>
 " Show windows
 " ------------
 map <Leader>wa :vsc Debug.Autos<CR>
-map <Leader>wb :vsc View.BookmarkWindow<CR>
+map <Leader>wm :vsc View.BookmarkWindow<CR>
 map <Leader>wc :vsc View.CommandWindow<CR>
 " wd for diff with previous?
 map <Leader>we :vsc Debug.Exceptions<CR>
@@ -68,7 +68,7 @@ map <Leader>wh :vsc Window.AutoHideAll<CR>
 map <Leader>wi :vsc Debug.Immediate<CR>
 map <Leader>wk :vsc Tools.CustomizeKeyboard<CR>
 map <Leader>wl :vsc Debug.Locals<CR>
-map <Leader>wm :vsc Debug.Modules<CR>
+" map <Leader>wm :vsc Debug.Modules<CR>
 map <Leader>wo :vsc Debug.Output<CR>
 map <Leader>wp :vsc Debug.Breakpoints<CR>
 map <Leader>wr :vsc View.FindSymbolResults<CR>
@@ -117,10 +117,10 @@ noremap <C-f> :vsc Edit.Find<CR>
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>
 
-map gb :vsc Edit.NextBookmarkInDocument<CR>
-map <Leader>gb :vsc Edit.NextBookmark<CR>
-map gB :vsc Edit.PreviousBookmarkInDocument<CR>
-map <Leader>gB :vsc Edit.PreviousBookmark<CR>
+map gm :vsc Edit.NextBookmarkInDocument<CR>
+map <Leader>gm :vsc Edit.NextBookmark<CR>
+map gM :vsc Edit.PreviousBookmarkInDocument<CR>
+map <Leader>gM :vsc Edit.PreviousBookmark<CR>
 
 " keep search results in the center of the screen
 nnoremap n nzz
@@ -135,10 +135,10 @@ nnoremap N Nzz
 
 " Various GUI features
 " --------------------
-map <Leader>tb :vsc Edit.ToggleBookmark<CR>
+map <Leader>tm :vsc Edit.ToggleBookmark<CR>
 
-map <Leader>tp :vsc Debug.ToggleBreakpoint<CR>
-map <Leader>tep :vsc Debug.EnableBreakpoint<CR>
+map <Leader>tb :vsc Debug.ToggleBreakpoint<CR>
+map <Leader>teb :vsc Debug.EnableBreakpoint<CR>
 
 " Keep tab
 " Maybe 'k' is sufficient?
@@ -160,6 +160,7 @@ map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 " add empty lines with no insert mode
 map <S-enter> O<Esc>
 map <enter> o<Esc>
+" TODO: bug only CTRL-enter works, but not S-enter...
 
 nnoremap <S-space> i<space><Esc>
 
