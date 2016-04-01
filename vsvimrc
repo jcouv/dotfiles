@@ -30,19 +30,21 @@ set number
 let mapleader=","
 
 nnoremap <Esc> :noh<CR>
-nnoremap <leader>rs :source &vimrc<CR>
-nnoremap <leader>vs :edit &vimrc<CR>
+nnoremap <leader>rs :source D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
+nnoremap <leader>vs :edit D:\jcouv\.babun\cygwin\home\jcouv\.vsvimr<CR>
 nnoremap <leader>o :vsc File.OpenFile<CR>
 
 " Start/stop debugging and running
 " --------------------------------
-" tt=test again, tc=test continue, td=test debug, sd=start debug, 
-" sc=start continue
+" tt=test again, tc=test continue, td=test debug, ta=test abort, 
+" sd=start debug, sc=start continue, S=stop debug
 map <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 map <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
 map <Leader>td :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
+map <Leader>ta :vsc Tools.TestDriven.NET.Abort<CR>
 map <Leader>sd :vsc Debug.Start<CR> 
 map <Leader>sc :vsc Debug.StartWithoutDebugging<CR> 
+nmap <leader>S :vsc Debug.StopDebugging<CR>
 
 " While debugging
 " ---------------
@@ -60,9 +62,10 @@ map <Leader>wa :vsc Debug.Autos<CR>
 map <Leader>wm :vsc View.BookmarkWindow<CR>
 map <Leader>wc :vsc View.CommandWindow<CR>
 " wd for diff with previous?
-map <Leader>we :vsc Debug.Exceptions<CR>
+map <Leader>we :vsc Debug.ExceptionSettings<CR>
 map <Leader>wf :vsc View.FindResults1<CR>
-" map <Leader>wf :vsc View.FullScreen<CR>
+map <Leader>wF :vsc View.FullScreen<CR>
+map <Leader>WF :vsc View.FullScreen<CR>
 map <Leader>wg :vsc Team.Git.GoToGitChanges<CR>
 map <Leader>wh :vsc Window.AutoHideAll<CR>
 map <Leader>wi :vsc Debug.Immediate<CR>
@@ -75,6 +78,7 @@ map <Leader>wr :vsc View.FindSymbolResults<CR>
 map <Leader>ws :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
 map <Leader>wt :vsc Debug.Threads<CR>
 map <Leader>wv :vsc VsVim.Options<CR>
+map <Leader>ww :vsc Window.Windows<CR>
 
 " Tools.Options, Debug.OptionsAndSettings
 " Folding
@@ -104,6 +108,9 @@ nmap <C-I> :vsc View.NavigateForward<CR>
 " Next and previous tab
 nnoremap gl gt
 nnoremap gh gT
+
+" Close tab
+map <C-w> :vsc Window.CloseDocumentWindow<CR>
 
 map gk :vsc Edit.PreviousMethod<CR>
 map gj :vsc Edit.NextMethod<CR>
@@ -161,6 +168,7 @@ map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 map <S-enter> O<Esc>
 map <enter> o<Esc>
 " TODO: bug only CTRL-enter works, but not S-enter...
+" TODO: in insert mode, S-enter should also work
 
 nnoremap <S-space> i<space><Esc>
 
@@ -180,6 +188,7 @@ noremap - :vsc Edit.UncommentSelection <return>
 
 " Delete trailing spaces
 nnoremap <Leader>dw :%s/\s\+$//e<CR>:nohl<CR>
+nnoremap <Leader>DW :%s/\s\+$//e<CR>:nohl<CR>
 
 noremap == :vsc Edit.FormatDocument <return>
 "Edit.FormatSelection
@@ -201,11 +210,9 @@ noremap == :vsc Edit.FormatDocument <return>
 "nnoremap <leader>B :vsc Build.BuildSolution<CR>
 
 "nmap <leader>s :vsc Debug.Start<CR>
-"nmap <leader>S :vsc Debug.StopDebugging<CR>
 "nmap <leader>bd :vsc Debug.DisableAllBreakpoints<CR>
 "nmap <leader>be :vsc Debug.EnableAllBreakpoints<CR>
 
-"map <Leader>ta :vsc Tools.TestDriven.Net.Abort
 
 " Build --> Ctrl-Shift-B
 " Debug.DetachAll --> maybe later
