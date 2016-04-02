@@ -3,7 +3,7 @@
 " TODO: maybe use K for finding references
 " TODO: need a better way to manage and switch tabs
 
-" I let Visual Studio handle those: 
+" I let Visual Studio handle those:
 " <C-c>
 " <C-v>
 " <C-a>
@@ -36,15 +36,16 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 
 " Start/stop debugging and running
 " --------------------------------
-" tt=test again, tc=test continue, td=test debug, ta=test abort, 
-" sd=start debug, sc=start continue, S=stop debug
+" tt=test again, tc=test continue, td=test debug, ta=test Stop,
+" sd=start debug, sc=start continue, S=Stop debug, bS=build Stop
 map <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 map <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
 map <Leader>td :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
-map <Leader>ta :vsc Tools.TestDriven.NET.Abort<CR>
-map <Leader>sd :vsc Debug.Start<CR> 
-map <Leader>sc :vsc Debug.StartWithoutDebugging<CR> 
+map <Leader>tS :vsc Tools.TestDriven.NET.Abort<CR>
+map <Leader>sd :vsc Debug.Start<CR>
+map <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
 nmap <leader>S :vsc Debug.StopDebugging<CR>
+nmap <leader>bS :vsc Build.Cancel<CR>
 
 " While debugging
 " ---------------
@@ -85,7 +86,7 @@ map <Leader>ww :vsc Window.Windows<CR>
 " -------
 " Use za to fold
 " zc and zo to close and open folds
-" zC to close all. 
+" zC to close all.
 " But built-in zO to open all doesn't work.
 map zm :vsc Edit.CollapsetoDefinitions<CR>
 " noremap zC :vsc Edit.CollapseAllOutlining <return>
@@ -100,7 +101,7 @@ noremap zO :vsc Edit.ExpandAllOutlining <return>
 
 " Navigation
 " ----------
-" map gb 
+" map gb
 " map gB
 nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
