@@ -1,10 +1,6 @@
 " VsVim looks in the following folders: HOME, VIM and USERPROFILE
-" TODO: issue with Alt-bindings for debugging.
+
 " TODO: allow moving current tab to the left/right
-" TODO: bug only CTRL-enter works, but not S-enter...
-" TODO: surround with and insert snippet
-" TODO: remove trailing whitespace in line or region
-" TODO: consider which bindings should be moved to the left hand
 " TODO: need a better way to manage and switch tabs
 " TODO: a Vim-style UI for opening a file
 " TODO: commands to move cursor to next/previous error in whole document
@@ -15,8 +11,15 @@
 " <C-v>
 " <C-a>
 " <C-x>
-" Associate <A-j> with Edit.LineDown in VS for Intellisense selection
-" Associate <A-k> with Edit.LineUp in VS for Intellisense selection
+" <A-j> Edit.LineDown for Intellisense selection
+" <A-k> Edit.LineUp for Intellisense selection
+" <A-f> Debug.StepOver
+" <A-d> Debug.StepInto
+" <A-s> Debug.StepOut
+" <A-a> Debug.RunToCursor
+" <A-w> Debug.SetNextStatement
+" <A-q> DebuggerContextMenus.ProcessesWindow.ContinueProcess
+
 
 " General settings
 " ----------------
@@ -47,23 +50,18 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 " --------------------------------
 " tt=test again, tc=test continue, td=test debug, ta=test Stop,
 " sd=start debug, sc=start continue, S=Stop debug, bS=build Stop
-map <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
-map <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
-map <Leader>td :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
-map <Leader>St :vsc Tools.TestDriven.NET.Abort<CR>
-map <Leader>sd :vsc Debug.Start<CR>
-map <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
+nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
+nmap <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
+nmap <Leader>td :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
+nmap <Leader>St :vsc Tools.TestDriven.NET.Abort<CR>
+nmap <Leader>sd :vsc Debug.Start<CR>
+nmap <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
 nmap <leader>Sd :vsc Debug.StopDebugging<CR>
 nmap <leader>Sb :vsc Build.Cancel<CR>
 
 " While debugging
 " ---------------
-map <A-f> :vsc Debug.StepOver<CR>
-map <A-d> :vsc Debug.StepInto<CR>
-map <A-s> :vsc Debug.StepOut<CR>
-map <A-a> :vsc Debug.RunToCursor<CR>
-"map <A-w> :vsc Debug.SetNextStatement<CR>
-"map <A-q> :vsc Debug.Continue ??
+" StepOver, StepInto, StepOut, etc are configured directly in VS to Alt- combinations
 
 " Show windows
 " ------------
@@ -109,15 +107,12 @@ noremap zO :vsc Edit.ExpandAllOutlining <return>
 
 " Navigation
 " ----------
-" map gb
-" map gB
 nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
 
 " Next and previous tab
 nnoremap gl gt
 nnoremap gh gT
-
 
 " Close tab
 map <C-w> :vsc Window.CloseDocumentWindow<CR>
@@ -145,18 +140,11 @@ map gE :vsc Edit.PreviousErrorInView<CR>
 nnoremap n nzz
 nnoremap N Nzz
 
-" Edit.GoToFindResults1Location
-" Edit.GoToFindResults1NextLocation
-" Edit.GoToFindResults1PrevLocation
-" Edit.GoToFindResults2Location
-" Edit.GoToFindResults2NextLocation
-" Edit.GoToFindResults2PrevLocation
-
 " Various GUI features
 " --------------------
-map <Leader>tm :vsc Edit.ToggleBookmark<CR>
+map <Leader>m :vsc Edit.ToggleBookmark<CR>
 
-map <Leader>tb :vsc Debug.ToggleBreakpoint<CR>
+map <Leader>b :vsc Debug.ToggleBreakpoint<CR>
 " map <Leader>teb :vsc Debug.EnableBreakpoint<CR>
 
 " Keep tab
@@ -166,11 +154,9 @@ map <Leader>kt :vsc Window.PinTab<CR>
 map <Leader>ot :vsc Window.KeepTabOpen<CR>
 
 "Show definiton
-" map <Leader>sd :vsc Edit.PeekDefinition<CR>
-"Show info
-map <Leader>si :vsc Edit.QuickInfo<CR>
-" Show parameter info
-map <Leader>sp :vsc Edit.ParameterInfo<CR>
+" map <Leader>p :vsc Edit.PeekDefinition<CR>
+" Show parameter and quick info
+map <Leader>s :vsc Edit.ParameterInfo<CR>  :vsc Edit.QuickInfo<CR>
 " Yank parameter info
 " map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 
@@ -200,15 +186,24 @@ noremap - :vsc Edit.UncommentSelection <return>
 nnoremap <Leader>dw :%s/\s\+$//<CR>:nohl<CR>
 vnoremap <Leader>dw :s/\s\+$//<CR>:nohl<CR>
 
-noremap == :vsc Edit.FormatDocument <return>
-"Edit.FormatSelection
-"vnoremap <Tab> >
-"vnoremap <S-Tab> <
+nnoremap == :vsc Edit.FormatDocument <CR> :vsc Edit.SortUsings <CR>
+vnoremap == :vsc Edit.FormatSelection <CR>
 
 " reselect visual block after indent
-"vnoremap < <gv
-"vnoremap > >gv
+vnoremap < <gv
+vnoremap > >gv
+
+vnoremap w :vsc Edit.SurroundWith<CR>
+
 " -------------------------------------------------------------------------------------------------------------------
+
+
+" Edit.GoToFindResults1Location
+" Edit.GoToFindResults1NextLocation
+" Edit.GoToFindResults1PrevLocation
+" Edit.GoToFindResults2Location
+" Edit.GoToFindResults2NextLocation
+" Edit.GoToFindResults2PrevLocation
 
 
 " Delete extraneous blank lines
@@ -225,7 +220,6 @@ noremap == :vsc Edit.FormatDocument <return>
 
 " Build --> Ctrl-Shift-B
 " Debug.DetachAll --> maybe later
-" DebuggerContextMenus.ProcessesWindow.ContinueProcess
 " DebuggerContextMenus.ProcessesWindow.DetachProcess
 " DebuggerContextMenus.ProcessesWindow.TerminateProcess
 
@@ -260,4 +254,3 @@ noremap == :vsc Edit.FormatDocument <return>
 " nnoremap z8 mzzMgg/# region<cr>nnnnnnnnnn`z/ÿÿÿ<cr>zz
 " Fold like ^m^o^m^m, but return cursor to last position
 " nnoremap z9 mzzM`zzz
-
