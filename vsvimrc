@@ -1,7 +1,14 @@
 " VsVim looks in the following folders: HOME, VIM and USERPROFILE
+" TODO: issue with Alt-bindings for debugging.
+" TODO: allow moving current tab to the left/right
+" TODO: bug only CTRL-enter works, but not S-enter...
+" TODO: surround with and insert snippet
+" TODO: remove trailing whitespace in line or region
 " TODO: consider which bindings should be moved to the left hand
-" TODO: maybe use K for finding references
 " TODO: need a better way to manage and switch tabs
+" TODO: a Vim-style UI for opening a file
+" TODO: commands to move cursor to next/previous error in whole document
+
 
 " I let Visual Studio handle those:
 " <C-c>
@@ -41,15 +48,14 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 map <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 map <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
 map <Leader>td :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
-map <Leader>tS :vsc Tools.TestDriven.NET.Abort<CR>
+map <Leader>St :vsc Tools.TestDriven.NET.Abort<CR>
 map <Leader>sd :vsc Debug.Start<CR>
 map <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
-nmap <leader>S :vsc Debug.StopDebugging<CR>
-nmap <leader>bS :vsc Build.Cancel<CR>
+nmap <leader>Sd :vsc Debug.StopDebugging<CR>
+nmap <leader>Sb :vsc Build.Cancel<CR>
 
 " While debugging
 " ---------------
-"TODO: issue with Alt-bindings...
 map <A-f> :vsc Debug.StepOver<CR>
 map <A-d> :vsc Debug.StepInto<CR>
 map <A-s> :vsc Debug.StepOut<CR>
@@ -110,6 +116,7 @@ nmap <C-I> :vsc View.NavigateForward<CR>
 nnoremap gl gt
 nnoremap gh gT
 
+
 " Close tab
 map <C-w> :vsc Window.CloseDocumentWindow<CR>
 
@@ -129,6 +136,9 @@ map gm :vsc Edit.NextBookmarkInDocument<CR>
 map <Leader>gm :vsc Edit.NextBookmark<CR>
 map gM :vsc Edit.PreviousBookmarkInDocument<CR>
 map <Leader>gM :vsc Edit.PreviousBookmark<CR>
+
+map ge :vsc Edit.NextErrorInView<CR>
+map gE :vsc Edit.PreviousErrorInView<CR>
 
 " keep search results in the center of the screen
 nnoremap n nzz
@@ -155,7 +165,7 @@ map <Leader>kt :vsc Window.PinTab<CR>
 map <Leader>ot :vsc Window.KeepTabOpen<CR>
 
 "Show definiton
-map <Leader>sd :vsc Edit.PeekDefinition<CR>
+" map <Leader>sd :vsc Edit.PeekDefinition<CR>
 "Show info
 map <Leader>si :vsc Edit.QuickInfo<CR>
 " Show parameter info
@@ -168,7 +178,6 @@ map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 " add empty lines with no insert mode
 map <S-enter> O<Esc>
 map <enter> o<Esc>
-" TODO: bug only CTRL-enter works, but not S-enter...
 " TODO: in insert mode, S-enter should also work
 
 nnoremap <S-space> i<space><Esc>
@@ -201,7 +210,6 @@ noremap == :vsc Edit.FormatDocument <return>
 "vnoremap > >gv
 " -------------------------------------------------------------------------------------------------------------------
 
-"TODO: surround with and insert snippet
 
 " Delete extraneous blank lines
 ":nnoremap <silent> <Leader>ds :g/^$/,/./-j<CR>:nohl<CR>
@@ -233,6 +241,9 @@ noremap == :vsc Edit.FormatDocument <return>
 " https://github.com/cakn/vimfiles/blob/master/_vsvimrc
 " https://github.com/potz/dotfiles/blob/401ff11fafdb80c927387a471cacc5a5a2b53c28/.vsvimrc
 " https://github.com/StanislawSwierc/Profile/blob/d268cc58366fa8d6a347b3e98bd4daff8257d212/_vsvimrc
+
+" Built-in VS commands and shortcuts
+http://weblogs.asp.net/scottgu/visual-studio-2010-keyboard-shortcuts
 
 " VS-QuickNavigation extension
 " (https://visualstudiogallery.msdn.microsoft.com/229dde61-7402-4c6c-b440-bfc95102f755)
