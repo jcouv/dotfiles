@@ -18,7 +18,7 @@
 " <A-s> Debug.StepOut
 " <A-a> Debug.RunToCursor
 " <A-w> Debug.SetNextStatement
-" <A-q> DebuggerContextMenus.ProcessesWindow.ContinueProcess
+" <A-c> Debug.Start to "continue"
 
 
 " General settings
