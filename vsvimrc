@@ -37,7 +37,9 @@ set number
 let mapleader=","
 
 nnoremap <Esc> :noh<CR>
-nnoremap <leader>rs :source D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
+nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
+" nnoremap <leader>rs :source D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
+
 nnoremap <leader>vs :edit D:\jcouv\.babun\cygwin\home\jcouv\.vsvimr<CR>
 nnoremap <leader>o :vsc File.OpenFile<CR>
 
@@ -123,11 +125,10 @@ map <C-w> :vsc Window.CloseDocumentWindow<CR>
 map gk :vsc Edit.PreviousMethod<CR>
 map gj :vsc Edit.NextMethod<CR>
 
-" TODO: C-P and C-N should be for intellisense completion instead
 " It's also useful to bind those keys in VS as well
-noremap <C-n> :vsc Edit.FindNext<CR>
-noremap <C-p> :vsc Edit.FindPrevious<CR>
-noremap <C-f> :vsc Edit.Find<CR>
+" noremap <C-n> :vsc Edit.FindNext<CR>
+" noremap <C-p> :vsc Edit.FindPrevious<CR>
+" noremap <C-f> :vsc Edit.Find<CR>
 
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>
@@ -156,7 +157,7 @@ nnoremap N Nzz
 map <Leader>tm :vsc Edit.ToggleBookmark<CR>
 
 map <Leader>tb :vsc Debug.ToggleBreakpoint<CR>
-map <Leader>teb :vsc Debug.EnableBreakpoint<CR>
+" map <Leader>teb :vsc Debug.EnableBreakpoint<CR>
 
 " Keep tab
 " Maybe 'k' is sufficient?
@@ -171,14 +172,13 @@ map <Leader>si :vsc Edit.QuickInfo<CR>
 " Show parameter info
 map <Leader>sp :vsc Edit.ParameterInfo<CR>
 " Yank parameter info
-map <Leader>yp :vsc Edit.CopyParameterTip<CR>
+" map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 
 " Making edits
 " ------------
 " add empty lines with no insert mode
 map <S-enter> O<Esc>
 map <enter> o<Esc>
-" TODO: in insert mode, S-enter should also work
 
 nnoremap <S-space> i<space><Esc>
 
@@ -197,8 +197,8 @@ noremap + :vsc Edit.CommentSelection <return>
 noremap - :vsc Edit.UncommentSelection <return>
 
 " Delete trailing spaces
-nnoremap <Leader>dw :%s/\s\+$//e<CR>:nohl<CR>
-nnoremap <Leader>DW :%s/\s\+$//e<CR>:nohl<CR>
+nnoremap <Leader>dw :%s/\s\+$//<CR>:nohl<CR>
+vnoremap <Leader>dw :s/\s\+$//<CR>:nohl<CR>
 
 noremap == :vsc Edit.FormatDocument <return>
 "Edit.FormatSelection
@@ -243,7 +243,7 @@ noremap == :vsc Edit.FormatDocument <return>
 " https://github.com/StanislawSwierc/Profile/blob/d268cc58366fa8d6a347b3e98bd4daff8257d212/_vsvimrc
 
 " Built-in VS commands and shortcuts
-http://weblogs.asp.net/scottgu/visual-studio-2010-keyboard-shortcuts
+" http://weblogs.asp.net/scottgu/visual-studio-2010-keyboard-shortcuts
 
 " VS-QuickNavigation extension
 " (https://visualstudiogallery.msdn.microsoft.com/229dde61-7402-4c6c-b440-bfc95102f755)
