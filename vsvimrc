@@ -4,6 +4,7 @@
 " TODO: need a better way to manage and switch tabs
 " TODO: a Vim-style UI for opening a file
 " TODO: commands to move cursor to next/previous error in whole document
+" TODO: add shortcut for Edit.GoToImplementation
 
 
 " I let Visual Studio handle those:
