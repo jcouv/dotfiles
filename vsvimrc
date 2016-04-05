@@ -1,10 +1,14 @@
 " VsVim looks in the following folders: HOME, VIM and USERPROFILE
 
+" TODO: show Intellisense error
 " TODO: allow moving current tab to the left/right
 " TODO: need a better way to manage and switch tabs
 " TODO: a Vim-style UI for opening a file
 " TODO: commands to move cursor to next/previous error in whole document
 " TODO: add shortcut for Edit.GoToImplementation
+" TODO: delete blank lines
+" TODO: combine the info shortcuts together again
+" TODO: figure out why reloading the vsvimrc file causes highlights
 
 
 " I let Visual Studio handle those:
@@ -157,7 +161,8 @@ map <Leader>ot :vsc Window.KeepTabOpen<CR>
 "Show definiton
 " map <Leader>p :vsc Edit.PeekDefinition<CR>
 " Show parameter and quick info
-map <Leader>s :vsc Edit.ParameterInfo<CR>  :vsc Edit.QuickInfo<CR>
+map <Leader>sp :vsc Edit.ParameterInfo<CR>
+map <Leader>si :vsc Edit.QuickInfo<CR>
 " Yank parameter info
 " map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 
@@ -206,6 +211,7 @@ vnoremap w :vsc Edit.SurroundWith<CR>
 " Edit.GoToFindResults2NextLocation
 " Edit.GoToFindResults2PrevLocation
 
+" Edit.BreakLine
 
 " Delete extraneous blank lines
 ":nnoremap <silent> <Leader>ds :g/^$/,/./-j<CR>:nohl<CR>
