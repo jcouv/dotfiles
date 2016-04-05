@@ -5,7 +5,6 @@
 " TODO: need a better way to manage and switch tabs
 " TODO: a Vim-style UI for opening a file
 " TODO: commands to move cursor to next/previous error in whole document
-" TODO: add shortcut for Edit.GoToImplementation
 " TODO: delete blank lines
 " TODO: combine the info shortcuts together again
 " TODO: figure out why reloading the vsvimrc file causes highlights
@@ -73,7 +72,7 @@ nmap <leader>Sb :vsc Build.Cancel<CR>
 map <Leader>wa :vsc Debug.Autos<CR>
 map <Leader>wm :vsc View.BookmarkWindow<CR>
 map <Leader>wc :vsc View.CommandWindow<CR>
-" wd for diff with previous?
+map <Leader>wd :vsc Team.Git.CompareWithUnmodified<CR>
 map <Leader>we :vsc Debug.ExceptionSettings<CR>
 map <Leader>wf :vsc View.FindResults1<CR>
 map <Leader>wF :vsc View.FullScreen<CR>
@@ -132,6 +131,7 @@ map gj :vsc Edit.NextMethod<CR>
 
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>
+map gi :vsc Edit.GoToImplementation<CR>
 
 map gm :vsc Edit.NextBookmarkInDocument<CR>
 map <Leader>gm :vsc Edit.NextBookmark<CR>
@@ -212,6 +212,10 @@ vnoremap w :vsc Edit.SurroundWith<CR>
 " Edit.GoToFindResults2PrevLocation
 
 " Edit.BreakLine
+
+"Team.Git.ViewHistory
+"Debug.QuickWatch
+
 
 " Delete extraneous blank lines
 ":nnoremap <silent> <Leader>ds :g/^$/,/./-j<CR>:nohl<CR>
