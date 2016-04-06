@@ -8,6 +8,8 @@
 " TODO: delete blank lines
 " TODO: combine the info shortcuts together again
 " TODO: figure out why reloading the vsvimrc file causes highlights
+" TODO: compare with previous
+" TODO: need better keybindings for search in project, solution and files.
 
 
 " I let Visual Studio handle those:
@@ -44,8 +46,8 @@ set number
 let mapleader=","
 
 nnoremap <Esc> :noh<CR>
-nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
-" nnoremap <leader>rs :source D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
+" nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
+nnoremap <leader>rs :source D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
 
 nnoremap <leader>vs :edit D:\jcouv\.babun\cygwin\home\jcouv\.vsvimr<CR>
 nnoremap <leader>o :vsc File.OpenFile<CR>
@@ -163,6 +165,7 @@ map <Leader>ot :vsc Window.KeepTabOpen<CR>
 " Show parameter and quick info
 map <Leader>sp :vsc Edit.ParameterInfo<CR>
 map <Leader>si :vsc Edit.QuickInfo<CR>
+
 " Yank parameter info
 " map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 
@@ -216,6 +219,9 @@ vnoremap w :vsc Edit.SurroundWith<CR>
 "Team.Git.ViewHistory
 "Debug.QuickWatch
 
+" TestDriven.NET.RerunWithDefault
+" TestDriven.NET.RerunWithDebugger
+" TestDriven.NET.NewProc
 
 " Delete extraneous blank lines
 ":nnoremap <silent> <Leader>ds :g/^$/,/./-j<CR>:nohl<CR>
