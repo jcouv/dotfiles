@@ -4,6 +4,8 @@
 " TODO: need a better way to manage and switch tabs
 " TODO: a Vim-style UI for opening a file
 " TODO: commands to move cursor to next/previous error in whole document
+" TODO: compare with previous
+" TODO: need better keybindings for search in project, solution and files.
 
 
 " I let Visual Studio handle those:
@@ -18,7 +20,7 @@
 " <A-s> Debug.StepOut
 " <A-a> Debug.RunToCursor
 " <A-w> Debug.SetNextStatement
-" <A-q> DebuggerContextMenus.ProcessesWindow.ContinueProcess
+" <A-c> Debug.Start 
 
 
 " General settings
@@ -40,8 +42,8 @@ set number
 let mapleader=","
 
 nnoremap <Esc> :noh<CR>
-nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
-" nnoremap <leader>rs :source D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
+" nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
+nnoremap <leader>rs :source D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
 
 nnoremap <leader>vs :edit D:\jcouv\.babun\cygwin\home\jcouv\.vsvimr<CR>
 nnoremap <leader>o :vsc File.OpenFile<CR>
@@ -156,7 +158,9 @@ map <Leader>ot :vsc Window.KeepTabOpen<CR>
 "Show definiton
 " map <Leader>p :vsc Edit.PeekDefinition<CR>
 " Show parameter and quick info
-map <Leader>s :vsc Edit.ParameterInfo<CR>  :vsc Edit.QuickInfo<CR>
+map <Leader>s :vsc Edit.ParameterInfo<CR>
+" TODO fix  :vsc Edit.QuickInfo<CR>
+
 " Yank parameter info
 " map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 
@@ -205,6 +209,9 @@ vnoremap w :vsc Edit.SurroundWith<CR>
 " Edit.GoToFindResults2NextLocation
 " Edit.GoToFindResults2PrevLocation
 
+" TestDriven.NET.RerunWithDefault
+" TestDriven.NET.RerunWithDebugger
+" TestDriven.NET.NewProc
 
 " Delete extraneous blank lines
 ":nnoremap <silent> <Leader>ds :g/^$/,/./-j<CR>:nohl<CR>
