@@ -117,8 +117,8 @@ nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
 
 " Next and previous tab
-nnoremap gl gt
-nnoremap gh gT
+noremap <C-l> gt
+noremap <C-h> gT
 
 " Close tab
 map <C-w> :vsc Window.CloseDocumentWindow<CR>
