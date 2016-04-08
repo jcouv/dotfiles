@@ -20,6 +20,7 @@ set number
 set relativenumber
 
 set clipboard=unnamed
+let mapleader=","
 
 " Incremental searching is sexy
 set incsearch
@@ -114,6 +115,7 @@ nnoremap <CR> :noh<CR><CR>
 "nnoremap <Esc> :noh<CR><Esc>
 
 " add empty lines with no insert mode
+" TODO: S-enter doesn't work in vim
 map <S-enter> O<Esc>
 map <enter> o<Esc>
 
@@ -129,7 +131,12 @@ map H ^
 map L $
 
 " Delete trailing spaces
-nnoremap <Leader>dw :%s/\s\+$//e<CR>:nohl<CR>
+nnoremap <Leader>dw :%s/\s\+$//<CR>:nohl<CR>
+vnoremap <Leader>dw :s/\s\+$//<CR>:nohl<CR>
+
+" reselect visual block after indent
+vnoremap < <gv
+vnoremap > >gv
 
 "copy line without CR
 noremap Y ^y$
