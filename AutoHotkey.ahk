@@ -14,7 +14,7 @@ d::send, {Volume_Down}
 
 #IfWinActive
 
-Volume_Mute::playpause()
+$Volume_Mute::playpause()
 playpause()
 {
   Process,Exist, vlc.exe
@@ -24,6 +24,8 @@ playpause()
     ControlSend , , {space}, ahk_exe vlc.exe
     Return
   }
+  Send {Volume_Mute}
+
   SetTitleMatchMode, 2
   If (WinExist("Netflix - Google Chrome"))
   {
