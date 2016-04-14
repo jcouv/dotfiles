@@ -10,13 +10,14 @@
 " TODO: figure out why reloading the vsvimrc file causes highlights
 " TODO: compare with previous
 " TODO: need better keybindings for search in project, solution and files.
-
+" TODO: need key to move cursor across split
 
 " I let Visual Studio handle those:
 " <C-c>
 " <C-v>
 " <C-a>
 " <C-x>
+" <C-f>
 " <A-j> Edit.LineDown for Intellisense selection
 " <A-k> Edit.LineUp for Intellisense selection
 " <A-f> Debug.StepOver
@@ -117,8 +118,10 @@ nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
 
 " Next and previous tab
-noremap <C-l> gt
-noremap <C-h> gT
+" TODO: there is a bug when using C-l or C-h in insert mode
+" Note we give up Visual Studio's default (replace) for Ctrl+H
+map <C-l> gt
+map <C-h> gT
 
 " Close tab
 map <C-w> :vsc Window.CloseDocumentWindow<CR>
@@ -134,6 +137,7 @@ map gj :vsc Edit.NextMethod<CR>
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>
 map gi :vsc Edit.GoToImplementation<CR>
+map gp :vsc Edit.PeekDefinition<CR>
 
 map gm :vsc Edit.NextBookmarkInDocument<CR>
 map <Leader>gm :vsc Edit.NextBookmark<CR>
@@ -202,7 +206,7 @@ vnoremap == :vsc Edit.FormatSelection <CR>
 vnoremap < <gv
 vnoremap > >gv
 
-vnoremap w :vsc Edit.SurroundWith<CR>
+vnoremap <c-w> :vsc Edit.SurroundWith<CR>
 
 " -------------------------------------------------------------------------------------------------------------------
 
