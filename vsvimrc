@@ -50,7 +50,7 @@ nnoremap <Esc> :noh<CR>
 " nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
 nnoremap <leader>rs :source D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
 
-nnoremap <leader>vs :edit D:\jcouv\.babun\cygwin\home\jcouv\.vsvimr<CR>
+nnoremap <leader>vs :edit D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
 nnoremap <leader>o :vsc File.OpenFile<CR>
 
 " Start/stop debugging and running
@@ -60,7 +60,7 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 nmap <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
 nmap <Leader>td :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
-nmap <Leader>St :vsc Tools.TestDriven.NET.Abort<CR>
+nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>sd :vsc Debug.Start<CR>
 nmap <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
 nmap <leader>Sd :vsc Debug.StopDebugging<CR>
@@ -169,7 +169,6 @@ map <Leader>ot :vsc Window.KeepTabOpen<CR>
 " Show parameter and quick info
 map <Leader>sp :vsc Edit.ParameterInfo<CR>
 map <Leader>si :vsc Edit.QuickInfo<CR>
-
 " Yank parameter info
 " map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 
