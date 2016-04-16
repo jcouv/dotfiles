@@ -59,6 +59,7 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 nmap <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
 nmap <Leader>td :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
+nmap <Leader>st :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>sd :vsc Debug.Start<CR>
 nmap <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
@@ -81,6 +82,7 @@ map <Leader>wF :vsc View.FullScreen<CR>
 map <Leader>WF :vsc View.FullScreen<CR>
 map <Leader>wg :vsc Team.Git.GoToGitChanges<CR>
 map <Leader>wh :vsc Window.AutoHideAll<CR>
+map <Leader>wH :vsc Window.NextToolWindow<CR>
 map <Leader>wi :vsc Debug.Immediate<CR>
 map <Leader>wk :vsc Tools.CustomizeKeyboard<CR>
 map <Leader>wl :vsc Debug.Locals<CR>
@@ -117,8 +119,8 @@ nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
 
 " Next and previous tab
-nnoremap gl gt
-nnoremap gh gT
+noremap <c-l> gt
+noremap <c-h> gT
 
 " Close tab
 map <C-w> :vsc Window.CloseDocumentWindow<CR>
@@ -139,6 +141,10 @@ map gm :vsc Edit.NextBookmarkInDocument<CR>
 map <Leader>gm :vsc Edit.NextBookmark<CR>
 map gM :vsc Edit.PreviousBookmarkInDocument<CR>
 map <Leader>gM :vsc Edit.PreviousBookmark<CR>
+
+" TODO: Window.NextSplitPane
+" TODO: Window.Split
+" TODO: close split pane
 
 map ge :vsc Edit.NextErrorInView<CR>
 map gE :vsc Edit.PreviousErrorInView<CR>
@@ -201,7 +207,7 @@ vnoremap == :vsc Edit.FormatSelection <CR>
 vnoremap < <gv
 vnoremap > >gv
 
-vnoremap w :vsc Edit.SurroundWith<CR>
+vnoremap <Leader>w :vsc Edit.SurroundWith<CR>
 
 " -------------------------------------------------------------------------------------------------------------------
 
