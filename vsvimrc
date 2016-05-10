@@ -1,5 +1,6 @@
 " VsVim looks in the following folders: HOME, VIM and USERPROFILE
 
+" TODO: close all non-pinned tabs/documents
 " TODO: show Intellisense error
 " TODO: allow moving current tab to the left/right
 " TODO: need a better way to manage and switch tabs
@@ -20,13 +21,14 @@
 " <C-f>
 " <A-j> Edit.LineDown for Intellisense selection
 " <A-k> Edit.LineUp for Intellisense selection
-" <A-f> Debug.StepOver
-" <A-d> Debug.StepInto
-" <A-s> Debug.StepOut
-" <A-a> Debug.RunToCursor
-" <A-w> Debug.SetNextStatement
-" <A-c> Debug.Start to "continue"
-
+" <A-f> Debug.StepOver to go "Forward"
+" <A-d> Debug.StepInto to go "Deeper"
+" <A-s> Debug.StepOut to "eScape"
+" <A-r> Debug.RunToCursor to "Run to cursor"
+" <A-q> Debug.SetNextStatement to "Quantum jump"
+" <A-c> Debug.Start to "Continue"
+" <A-b> Debug.ToggleBreakpoint to "set/unset Breakpoint"
+" <A-a> EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests to run "Again"
 
 " General settings
 " ----------------
@@ -118,6 +120,7 @@ noremap zO :vsc Edit.ExpandAllOutlining <return>
 " ----------
 nmap <C-O> :vsc View.NavigateBackward<CR>
 nmap <C-I> :vsc View.NavigateForward<CR>
+nmap gb :vsc View.NavigateBackward<CR>
 
 " Next and previous tab
 <<<<<<< HEAD
@@ -171,7 +174,7 @@ map <Leader>b :vsc Debug.ToggleBreakpoint<CR>
 
 " Keep tab
 " Maybe 'k' is sufficient?
-map <Leader>kt :vsc Window.PinTab<CR>
+map <Leader>k :vsc Window.PinTab<CR>
 " Open tab
 map <Leader>ot :vsc Window.KeepTabOpen<CR>
 
@@ -186,8 +189,8 @@ map <Leader>si :vsc Edit.QuickInfo<CR>
 " Making edits
 " ------------
 " add empty lines with no insert mode
-map <S-enter> O<Esc>
-map <enter> o<Esc>
+nmap <S-enter> O<Esc>
+nmap <enter> o<Esc>
 
 nnoremap <S-space> i<space><Esc>
 
@@ -237,6 +240,7 @@ vnoremap <Leader>w :vsc Edit.SurroundWith<CR>
 " TestDriven.NET.RerunWithDefault
 " TestDriven.NET.RerunWithDebugger
 " TestDriven.NET.NewProc
+" Edit.HideSelection makes an outline of the selection
 
 " Delete extraneous blank lines
 ":nnoremap <silent> <Leader>ds :g/^$/,/./-j<CR>:nohl<CR>
