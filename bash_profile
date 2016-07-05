@@ -38,6 +38,10 @@ alias fuslogvw='/c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/bin/NE
 alias windbg='/c/Program\ Files\ \(x86\)/Debugging\ Tools\ for\ Windows\ \(x86\)/windbg.exe'
 alias perfview='//clrmain/tools/PerfView.exe'
 
+alias g='git'
+alias gd='git diff'
+alias gs='git status'
+
 # Key bindings to manipulate screen in bash vi-mode
 # bind -x specifies commands to execute in the background
 bind -m vi -x '"t":"screen -X screen"'

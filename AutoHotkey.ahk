@@ -49,3 +49,5 @@ playpause()
 !k::send, {up}
 #IfWinActive
 
+!j::send, {down}
+!k::send, {up}
