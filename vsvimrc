@@ -14,11 +14,11 @@
 " TODO: need key to move cursor across split
 
 " I let Visual Studio handle those:
-" <C-c>
-" <C-v>
 " <C-a>
-" <C-x>
+" <C-c>
 " <C-f>
+" <C-v>
+" <C-x>
 " <A-j> Edit.LineDown for Intellisense selection
 " <A-k> Edit.LineUp for Intellisense selection
 " <A-f> Debug.StepOver to go "Forward"
@@ -59,10 +59,10 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 " --------------------------------
 " tt=test again, tc=test continue, td=test debug, ta=test Stop,
 " sd=start debug, sc=start continue, S=Stop debug, bS=build Stop
-nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
-nmap <Leader>tc :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
-nmap <Leader>td :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
-nmap <Leader>st :vsc Tools.TestDriven.NET.Abort<CR>
+" nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
+nmap <Leader>t :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
+nmap <Leader>d :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
+" nmap <Leader>st :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>sd :vsc Debug.Start<CR>
 nmap <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
@@ -90,7 +90,7 @@ map <Leader>wi :vsc Debug.Immediate<CR>
 map <Leader>wk :vsc Tools.CustomizeKeyboard<CR>
 map <Leader>wl :vsc Debug.Locals<CR>
 " map <Leader>wm :vsc Debug.Modules<CR>
-map <Leader>wo :vsc Debug.Output<CR>
+map <Leader>wo :vsc View.Output<CR>
 map <Leader>wp :vsc Debug.Breakpoints<CR>
 map <Leader>wr :vsc View.FindSymbolResults<CR>
 map <Leader>ws :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
@@ -182,6 +182,7 @@ map <Leader>ot :vsc Window.KeepTabOpen<CR>
 " map <Leader>p :vsc Edit.PeekDefinition<CR>
 " Show parameter and quick info
 map <Leader>sp :vsc Edit.ParameterInfo<CR>
+map <Leader>p :vsc Edit.ParameterInfo<CR>
 map <Leader>si :vsc Edit.QuickInfo<CR>
 " Yank parameter info
 " map <Leader>yp :vsc Edit.CopyParameterTip<CR>
@@ -212,7 +213,8 @@ noremap - :vsc Edit.UncommentSelection <return>
 nnoremap <Leader>dw :%s/\s\+$//<CR>:nohl<CR>
 vnoremap <Leader>dw :s/\s\+$//<CR>:nohl<CR>
 
-nnoremap == :vsc Edit.FormatDocument <CR> :vsc Edit.SortUsings <CR>
+nnoremap == :vsc Edit.FormatDocument <CR>
+" nnoremap == :vsc Edit.FormatDocument <CR> :vsc Edit.SortUsings <CR>
 vnoremap == :vsc Edit.FormatSelection <CR>
 
 " reselect visual block after indent
@@ -224,6 +226,7 @@ vnoremap <Leader>w :vsc Edit.SurroundWith<CR>
 
 " -------------------------------------------------------------------------------------------------------------------
 
+" Edit.ToggleWordWrap
 
 " Edit.GoToFindResults1Location
 " Edit.GoToFindResults1NextLocation
