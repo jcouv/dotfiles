@@ -60,14 +60,15 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 " t=test, d=debug test
 " sd=start debug, sc=start continue, S=Stop debug, bS=build Stop
 " nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
-nmap <Leader>t :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" <CR> :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
-nmap <Leader>d :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
+nmap <Leader>c :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR>
+nmap <Leader>t :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR> :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
+nmap <Leader>d :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR> :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
 "nmap <Leader>st :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>sd :vsc Debug.Start<CR>
 nmap <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
-nmap <leader>Sd :vsc Debug.StopDebugging<CR>
-nmap <leader>Sb :vsc Build.Cancel<CR>
+"nmap <leader>Sd :vsc Debug.StopDebugging<CR>
+"nmap <leader>Sb :vsc Build.Cancel<CR>
 
 " While debugging
 " ---------------
@@ -94,6 +95,7 @@ map <Leader>wo :vsc View.Output<CR>
 map <Leader>wp :vsc Debug.Breakpoints<CR>
 map <Leader>wr :vsc View.FindSymbolResults<CR>
 map <Leader>ws :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
+map <Leader>e :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
 map <Leader>wt :vsc Debug.Threads<CR>
 map <Leader>wv :vsc VsVim.Options<CR>
 map <Leader>ww :vsc Window.Windows<CR>
@@ -179,6 +181,7 @@ map <Leader>ot :vsc Window.KeepTabOpen<CR>
 map <Leader>sp :vsc Edit.ParameterInfo<CR>
 map <Leader>p :vsc Edit.ParameterInfo<CR>
 map <Leader>si :vsc Edit.QuickInfo<CR>
+map <Leader>i :vsc Edit.QuickInfo<CR>
 " Yank parameter info
 " map <Leader>yp :vsc Edit.CopyParameterTip<CR>
 

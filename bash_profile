@@ -14,7 +14,7 @@ alias issues='cd /d/issues/'
 alias ..='cd ..'
 alias roslyn-build='msbuild /v:m /m Roslyn.sln'
 alias roslyn-test='msbuild /v:m /m /t:test BuildAndTest.proj'
-alias roslyn-restore=' ./nuget.exe restore -configfile NuGet.Config Roslyn.sln'
+alias roslyn-restore='./Restore.cmd'
 alias roslyn-ide='devenv /rootsuffix RoslynDev'
 alias :q=exit
 alias ildasm='/c/Program\ Files\ \(x86\)/Microsoft\ SDKs/Windows/v10.0A/bin/NETFX\ 4.6.1\ Tools/ildasm.exe'
@@ -60,4 +60,6 @@ function do_git {
   "`which git`" "$cmd" "$extra" "$@"
 }
 #alias  git='do_git'
+
+export PERL5LIB=/usr/lib/perl5/vendor_perl/5.22
 
