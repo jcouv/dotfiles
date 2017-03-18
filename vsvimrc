@@ -89,18 +89,18 @@ map <Leader>wF :vsc View.FullScreen<CR>
 map <Leader>WF :vsc View.FullScreen<CR>
 map <Leader>wg :vsc Team.Git.GoToGitChanges<CR>
 map <Leader>wh :vsc Window.AutoHideAll<CR>
-map <Leader>wH :vsc Window.NextToolWindow<CR>
+"map <Leader>wH :vsc Window.NextToolWindow<CR>
 map <Leader>wi :vsc Debug.Immediate<CR>
 map <Leader>wk :vsc Tools.CustomizeKeyboard<CR>
 map <Leader>wl :vsc Debug.Locals<CR>
 " map <Leader>wm :vsc Debug.Modules<CR>
 map <Leader>wo :vsc View.Output<CR>
-map <Leader>wp :vsc Debug.Breakpoints<CR>
+map <Leader>wb :vsc Debug.Breakpoints<CR>
 map <Leader>wr :vsc View.FindSymbolResults<CR>
 map <Leader>ws :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
 map <Leader>s :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
-map <Leader>e :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
-map <Leader>wt :vsc Debug.Threads<CR>
+"map <Leader>e :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
+"map <Leader>wt :vsc Debug.Threads<CR>
 map <Leader>wv :vsc VsVim.Options<CR>
 map <Leader>ww :vsc Window.Windows<CR>
 
@@ -131,8 +131,8 @@ nmap gb :vsc View.NavigateBackward<CR>
 " Next and previous tab
 " TODO: there is a bug when using C-l or C-h in insert mode
 " Note we give up Visual Studio's default (replace) for Ctrl+H
-map <C-l> gt
-map <C-h> gT
+map <C-l> :vsc Window.NextTab<CR>
+map <C-h> :vsc Window.PreviousTab<CR>
 
 " Find
 map <C-f> Edit.Find
