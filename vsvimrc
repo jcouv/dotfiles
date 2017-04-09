@@ -127,8 +127,8 @@ nmap gb :vsc View.NavigateBackward<CR>
 " Next and previous tab
 " TODO: there is a bug when using C-l or C-h in insert mode
 " Note we give up Visual Studio's default (replace) for Ctrl+H
-map <C-l> gt
-map <C-h> gT
+map <C-l> :vsc Window.NextTab<CR>
+map <C-h> :vsc Window.PreviousTab<CR>
 
 " Close tab
 map <C-w> :vsc Window.CloseDocumentWindow<CR>
@@ -139,7 +139,7 @@ map gj :vsc Edit.NextMethod<CR>
 " It's also useful to bind those keys in VS as well
 " noremap <C-n> :vsc Edit.FindNext<CR>
 " noremap <C-p> :vsc Edit.FindPrevious<CR>
-" noremap <C-f> :vsc Edit.Find<CR>
+noremap <C-f> :vsc Edit.Find<CR>
 
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>
