@@ -29,7 +29,8 @@
 " <A-c> Debug.Start to "Continue"
 " <A-b> Debug.ToggleBreakpoint to "set/unset Breakpoint"
 " <A-a> EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests to run "Again"
-
+" <A-D> Debug.StepIntoSpecific for "Deeper (specific)"
+"
 " General settings
 " ----------------
 set incsearch
@@ -50,9 +51,9 @@ let mapleader=","
 
 nnoremap <Esc> :noh<CR>
 " nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
-nnoremap <leader>rs :source D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
+nnoremap <leader>rs :source C:\jcouv\.babun\cygwin\home\jcouv\vsvimrc<CR>
 
-nnoremap <leader>vs :edit D:\jcouv\.babun\cygwin\home\jcouv\.vsvimrc<CR>
+nnoremap <leader>vs :edit C:\jcouv\.babun\cygwin\home\jcouv\vsvimrc<CR>
 nnoremap <leader>o :vsc File.OpenFile<CR>
 
 " Start/stop debugging and running
@@ -60,9 +61,10 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 " t=test, d=debug test
 " sd=start debug, sc=start continue, S=Stop debug, bS=build Stop
 " nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
-nmap <Leader>c :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR>
+nmap <Leader>c :vsc Debug.StopDebugging<CR> :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR>
 nmap <Leader>t :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR> :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
 nmap <Leader>d :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR> :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
+nmap <Leader>B :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Build<CR>
 "nmap <Leader>st :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>sd :vsc Debug.Start<CR>
@@ -78,7 +80,8 @@ nmap <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
 " ------------
 map <Leader>wa :vsc Debug.Autos<CR>
 map <Leader>wm :vsc View.BookmarkWindow<CR>
-map <Leader>wc :vsc View.CommandWindow<CR>
+"map <Leader>wc :vsc View.CommandWindow<CR>
+map <Leader>wc :vsc Debug.CallStack<CR>
 map <Leader>wd :vsc Team.Git.CompareWithUnmodified<CR>
 map <Leader>we :vsc Debug.ExceptionSettings<CR>
 map <Leader>wf :vsc View.FindResults1<CR>
@@ -86,17 +89,18 @@ map <Leader>wF :vsc View.FullScreen<CR>
 map <Leader>WF :vsc View.FullScreen<CR>
 map <Leader>wg :vsc Team.Git.GoToGitChanges<CR>
 map <Leader>wh :vsc Window.AutoHideAll<CR>
-map <Leader>wH :vsc Window.NextToolWindow<CR>
+"map <Leader>wH :vsc Window.NextToolWindow<CR>
 map <Leader>wi :vsc Debug.Immediate<CR>
 map <Leader>wk :vsc Tools.CustomizeKeyboard<CR>
 map <Leader>wl :vsc Debug.Locals<CR>
 " map <Leader>wm :vsc Debug.Modules<CR>
 map <Leader>wo :vsc View.Output<CR>
-map <Leader>wp :vsc Debug.Breakpoints<CR>
+map <Leader>wb :vsc Debug.Breakpoints<CR>
 map <Leader>wr :vsc View.FindSymbolResults<CR>
 map <Leader>ws :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
-map <Leader>e :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
-map <Leader>wt :vsc Debug.Threads<CR>
+map <Leader>s :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
+"map <Leader>e :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
+"map <Leader>wt :vsc Debug.Threads<CR>
 map <Leader>wv :vsc VsVim.Options<CR>
 map <Leader>ww :vsc Window.Windows<CR>
 
@@ -129,6 +133,9 @@ nmap gb :vsc View.NavigateBackward<CR>
 " Note we give up Visual Studio's default (replace) for Ctrl+H
 map <C-l> :vsc Window.NextTab<CR>
 map <C-h> :vsc Window.PreviousTab<CR>
+
+" Find
+map <C-f> Edit.Find
 
 " Close tab
 map <C-w> :vsc Window.CloseDocumentWindow<CR>
