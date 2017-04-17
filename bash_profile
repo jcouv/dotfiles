@@ -23,7 +23,7 @@ alias :qa='echo "Confirm with :qa!"'
 
 alias csc-roslyn3='/d/repos/roslyn3/Binaries/Debug/Exes/csc/csc.exe'
 alias csc-roslyn2='/d/repos/roslyn2/Binaries/Debug/Exes/csc/csc.exe'
-alias csc-roslyn='/d/repos/roslyn/Binaries/Debug/Exes/csc/csc.exe'
+alias csc-roslyn='/home/jcouv/repos/roslyn/Binaries/Debug/Exes/csc/csc.exe'
 alias csc-native='/c/Windows/Microsoft.NET/Framework/v4.0.30319/csc.exe'
 alias csc-vs='/c/Program\ Files\ \(x86\)/MSBuild/14.0/Bin/csc.exe'
 

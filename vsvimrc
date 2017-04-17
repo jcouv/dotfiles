@@ -62,8 +62,8 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 " sd=start debug, sc=start continue, S=Stop debug, bS=build Stop
 " nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 nmap <Leader>c :vsc Debug.StopDebugging<CR> :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR>
-nmap <Leader>t :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR> :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
-nmap <Leader>d :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR> :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
+nmap <Leader>t :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
+nmap <Leader>d :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
 nmap <Leader>B :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Build<CR>
 "nmap <Leader>st :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR>
