@@ -134,19 +134,18 @@ nmap gb :vsc View.NavigateBackward<CR>
 map <C-l> :vsc Window.NextTab<CR>
 map <C-h> :vsc Window.PreviousTab<CR>
 
-" Find
-map <C-f> Edit.Find
-
 " Close tab
 map <C-w> :vsc Window.CloseDocumentWindow<CR>
 
 map gk :vsc Edit.PreviousMethod<CR>
 map gj :vsc Edit.NextMethod<CR>
 
+" Find
+noremap <C-f> :vsc Edit.Find<CR>
+
 " It's also useful to bind those keys in VS as well
 " noremap <C-n> :vsc Edit.FindNext<CR>
 " noremap <C-p> :vsc Edit.FindPrevious<CR>
-noremap <C-f> :vsc Edit.Find<CR>
 
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>
