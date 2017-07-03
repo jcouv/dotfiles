@@ -88,7 +88,9 @@ map <Leader>wf :vsc View.FindResults1<CR>
 map <Leader>wF :vsc View.FullScreen<CR>
 map <Leader>WF :vsc View.FullScreen<CR>
 map <Leader>wg :vsc Team.Git.GoToGitChanges<CR>
-map <Leader>wh :vsc Window.AutoHideAll<CR>
+map <Leader>wp :vsc Team.Git.CompareWithPrevious<CR>
+map <Leader>wh :vsc Team.Git.ViewHistory<CR>
+"map <Leader>wh :vsc Window.AutoHideAll<CR>
 "map <Leader>wH :vsc Window.NextToolWindow<CR>
 map <Leader>wi :vsc Debug.Immediate<CR>
 map <Leader>wk :vsc Tools.CustomizeKeyboard<CR>
