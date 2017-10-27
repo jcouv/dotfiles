@@ -14,13 +14,7 @@
 " TODO: need key to move cursor across split
 
 " I let Visual Studio handle those:
-" <C-a>
-" <C-c>
-" <C-f>
-" <C-v>
 " <C-x>
-" <A-j> Edit.LineDown for Intellisense selection
-" <A-k> Edit.LineUp for Intellisense selection
 " <A-f> Debug.StepOver to go "Forward"
 " <A-d> Debug.StepInto to go "Deeper"
 " <A-s> Debug.StepOut to "eScape"
@@ -142,8 +136,11 @@ map <C-w> :vsc Window.CloseDocumentWindow<CR>
 map gk :vsc Edit.PreviousMethod<CR>
 map gj :vsc Edit.NextMethod<CR>
 
-" Find
+" Ensure Visual Studio defaults
 noremap <C-f> :vsc Edit.Find<CR>
+noremap <C-a> :vsc Edit.SelectAll<CR>
+noremap <C-c> :vsc Edit.Copy<CR>
+noremap <C-v> :vsc Edit.Paste<CR>
 
 " It's also useful to bind those keys in VS as well
 " noremap <C-n> :vsc Edit.FindNext<CR>
