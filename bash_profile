@@ -9,7 +9,7 @@ for DOTFILE in `find ~/.dotfiles/bash/*.bash`; do
   [ -f "$DOTFILE" ] && source "$DOTFILE"
 done
 
-alias repos='cd /d/repos/'
+alias repos='cd /d/repos/ > /dev/null 2>&1 || cd /mnt/c/repos/'
 alias issues='cd /d/issues/'
 alias ..='cd ..'
 alias roslyn-build='MSBuild.exe /v:m /m Roslyn.sln'
