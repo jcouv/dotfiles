@@ -18,6 +18,8 @@ ln -s .dotfiles/screenrc .screenrc
 rm .inputrc
 ln -s .dotfiles/inputrc .inputrc
 
+#cp minttyrc  /mnt/c/Users/jcouv/AppData/Roaming/wsltty/config
+
 git config --global user.name "Julien Couvreur"
 git config --global user.email "jcouv@microsoft.com"
 git config --global core.editor "vim"

@@ -47,6 +47,7 @@ alias gdc='git diff --cached'
 alias gs='git status'
 
 alias start='cygstart'
+#alias start='cmd.exe /c start'
 
 # Key bindings to manipulate screen in bash vi-mode
 # bind -x specifies commands to execute in the background
