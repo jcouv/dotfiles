@@ -28,7 +28,7 @@
 " <A-q> Debug.SetNextStatement to "Quantum jump"
 " <A-c> Debug.Start to "Continue"
 " <A-b> Debug.ToggleBreakpoint to "set/unset Breakpoint"
-" <A-a> EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests to run "Again"
+" <A-a> EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests or TestExplorer.RepeatLastRun to run "Again"
 " <A-D> Debug.StepIntoSpecific for "Deeper (specific)"
 "
 " General settings
@@ -62,8 +62,9 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 " sd=start debug, sc=start continue, S=Stop debug, bS=build Stop
 " nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 nmap <Leader>c :vsc Debug.StopDebugging<CR> :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR>
-nmap <Leader>t :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
-nmap <Leader>d :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
+nmap <Leader>t :vsc TestExplorer.RunSelectedTests<CR>
+nmap <Leader>d :vsc TestExplorer.DebugSelectedTests<CR>
+nmap <Leader>f :vsc TestExplorer.RunFailedTests<CR>
 nmap <Leader>B :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Build<CR>
 nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>sd :vsc Debug.Start<CR>
@@ -96,7 +97,7 @@ map <Leader>wb :vsc Debug.Breakpoints<CR>
 map <Leader>wr :vsc View.FindSymbolResults<CR>
 map <Leader>ws :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
 map <Leader>s :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
-"map <Leader>wt :vsc Debug.Threads<CR>
+map <Leader>wt :vsc TestExplorer.ShowTestExplorer<CR>
 map <Leader>wv :vsc VsVim.Options<CR>
 map <Leader>ww :vsc Window.Windows<CR>
 
