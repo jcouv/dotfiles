@@ -58,7 +58,9 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 nmap <Leader>c :vsc Debug.StopDebugging<CR> :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR>
 nmap <Leader>t :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
 nmap <Leader>d :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
-nmap <Leader>B :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Build<CR>
+"nmap <Leader>B :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Build<CR>
+nmap <Leader>B :vsc Build.BuildSelection<CR>
+nmap <C-B> :vsc Build.BuildSelection<CR>
 "nmap <Leader>st :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR>
 nmap <Leader>sd :vsc Debug.Start<CR>
@@ -137,10 +139,10 @@ map gk :vsc Edit.PreviousMethod<CR>
 map gj :vsc Edit.NextMethod<CR>
 
 " Ensure Visual Studio defaults
-noremap <C-f> :vsc Edit.Find<CR>
-noremap <C-a> :vsc Edit.SelectAll<CR>
-noremap <C-c> :vsc Edit.Copy<CR>
-noremap <C-v> :vsc Edit.Paste<CR>
+"noremap <C-f> :vsc Edit.Find<CR>
+"noremap <C-a> :vsc Edit.SelectAll<CR>
+"noremap <C-c> :vsc Edit.Copy<CR>
+"noremap <C-v> :vsc Edit.Paste<CR>
 
 " It's also useful to bind those keys in VS as well
 " noremap <C-n> :vsc Edit.FindNext<CR>
