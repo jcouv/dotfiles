@@ -22,7 +22,7 @@
 " <A-q> Debug.SetNextStatement to "Quantum jump"
 " <A-c> Debug.Start to "Continue"
 " <A-b> Debug.ToggleBreakpoint to "set/unset Breakpoint"
-" <A-a> EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests to run "Again"
+" <A-a> EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests or TestExplorer.RepeatLastRun to run "Again"
 " <A-D> Debug.StepIntoSpecific for "Deeper (specific)"
 "
 " General settings
@@ -45,9 +45,9 @@ let mapleader=","
 
 nnoremap <Esc> :noh<CR>
 " nnoremap <leader>rs :source C:\Users\Julien\.babun\cygwin\home\Julien\.vsvimrc<CR>
-nnoremap <leader>rs :source C:\jcouv\.babun\cygwin\home\jcouv\vsvimrc<CR>
+nnoremap <leader>rs :source C:\Users\Dumky\vsvimrc<CR>
 
-nnoremap <leader>vs :edit C:\jcouv\.babun\cygwin\home\jcouv\vsvimrc<CR>
+nnoremap <leader>vs :edit C:\Users\Dumky\vsvimrc<CR>
 nnoremap <leader>o :vsc File.OpenFile<CR>
 
 " Start/stop debugging and running
@@ -56,17 +56,15 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 " sd=start debug, sc=start continue, S=Stop debug, bS=build Stop
 " nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 nmap <Leader>c :vsc Debug.StopDebugging<CR> :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR>
-nmap <Leader>t :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RunTests<CR>
-nmap <Leader>d :vsc EditorContextMenus.CodeWindow.TestWith.TestDriven.NET.Debugger<CR>
+nmap <Leader>t :vsc TestExplorer.ShowTestExplorer<CR> :vsc TestExplorer.RunAllTestsInContext<CR>
+nmap <Leader>d :vsc TestExplorer.ShowTestExplorer<CR> :vsc TestExplorer.DebugAllTestsInContext<CR>
+nmap <Leader>f :vsc TestExplorer.ShowTestExplorer<CR> :vsc TestExplorer.RunFailedTests<CR>
 "nmap <Leader>B :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Build<CR>
 nmap <Leader>B :vsc Build.BuildSelection<CR>
 nmap <C-B> :vsc Build.BuildSelection<CR>
-"nmap <Leader>st :vsc Tools.TestDriven.NET.Abort<CR>
-nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR>
+nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR> :vsc TestExplorer.CancelTests<CR>
 nmap <Leader>sd :vsc Debug.Start<CR>
 nmap <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
-"nmap <leader>Sd :vsc Debug.StopDebugging<CR>
-"nmap <leader>Sb :vsc Build.Cancel<CR>
 
 " While debugging
 " ---------------
@@ -97,8 +95,7 @@ map <Leader>wb :vsc Debug.Breakpoints<CR>
 map <Leader>wr :vsc View.FindSymbolResults<CR>
 map <Leader>ws :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
 map <Leader>s :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
-"map <Leader>e :vsc View.SolutionExplorer<CR> :vsc SolutionExplorer.SyncWithActiveDocument<CR>
-"map <Leader>wt :vsc Debug.Threads<CR>
+map <Leader>wt :vsc TestExplorer.ShowTestExplorer<CR>
 map <Leader>wv :vsc VsVim.Options<CR>
 map <Leader>ww :vsc Window.Windows<CR>
 
@@ -122,9 +119,8 @@ noremap zO :vsc Edit.ExpandAllOutlining <return>
 
 " Navigation
 " ----------
-nmap <C-O> :vsc View.NavigateBackward<CR>
-nmap <C-I> :vsc View.NavigateForward<CR>
 nmap gb :vsc View.NavigateBackward<CR>
+nmap gf :vsc View.NavigateForward<CR>
 
 " Next and previous tab
 " TODO: there is a bug when using C-l or C-h in insert mode
@@ -151,16 +147,15 @@ map gj :vsc Edit.NextMethod<CR>
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>
 map gi :vsc Edit.GoToImplementation<CR>
-map gp :vsc Edit.PeekDefinition<CR>
+"map gp :vsc Edit.PeekDefinition<CR>
+
+map <Leader><Leader> :vsc Diff.NextDifference<CR>
+map <Leader>. :vsc Diff.PreviousDifference<CR>
 
 map gm :vsc Edit.NextBookmarkInDocument<CR>
-map <Leader>gm :vsc Edit.NextBookmark<CR>
+"map <Leader>gm :vsc Edit.NextBookmark<CR>
 map gM :vsc Edit.PreviousBookmarkInDocument<CR>
-map <Leader>gM :vsc Edit.PreviousBookmark<CR>
-
-" TODO: Window.NextSplitPane
-" TODO: Window.Split
-" TODO: close split pane
+"map <Leader>gM :vsc Edit.PreviousBookmark<CR>
 
 map ge :vsc Edit.NextErrorInView<CR>
 map gE :vsc Edit.PreviousErrorInView<CR>
@@ -177,7 +172,6 @@ map <Leader>b :vsc Debug.ToggleBreakpoint<CR>
 " map <Leader>teb :vsc Debug.EnableBreakpoint<CR>
 
 " Keep tab
-" Maybe 'k' is sufficient?
 map <Leader>k :vsc Window.PinTab<CR>
 " Open tab
 map <Leader>ot :vsc Window.KeepTabOpen<CR>
@@ -219,7 +213,6 @@ nnoremap <Leader>dw :%s/\s\+$//<CR>:nohl<CR>
 vnoremap <Leader>dw :s/\s\+$//<CR>:nohl<CR>
 
 nnoremap == :vsc Edit.FormatDocument <CR>
-" nnoremap == :vsc Edit.FormatDocument <CR> :vsc Edit.SortUsings <CR>
 vnoremap == :vsc Edit.FormatSelection <CR>
 
 " reselect visual block after indent
