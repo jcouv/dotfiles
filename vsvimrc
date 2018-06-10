@@ -14,13 +14,7 @@
 " TODO: need key to move cursor across split
 
 " I let Visual Studio handle those:
-" <C-a>
-" <C-c>
-" <C-f>
-" <C-v>
 " <C-x>
-" <A-j> Edit.LineDown for Intellisense selection
-" <A-k> Edit.LineUp for Intellisense selection
 " <A-f> Debug.StepOver to go "Forward"
 " <A-d> Debug.StepInto to go "Deeper"
 " <A-s> Debug.StepOut to "eScape"
@@ -62,10 +56,12 @@ nnoremap <leader>o :vsc File.OpenFile<CR>
 " sd=start debug, sc=start continue, S=Stop debug, bS=build Stop
 " nmap <Leader>tt :vsc EditorContextMenus.CodeWindow.TestDriven.NET.RerunTests<CR>
 nmap <Leader>c :vsc Debug.StopDebugging<CR> :! taskkill /FI "IMAGENAME eq ProcessInvocation86.exe" /F <CR>
-nmap <Leader>t :vsc TestExplorer.RunAllTestsInContext<CR> :vsc TestExplorer.ShowTestExplorer<CR>
-nmap <Leader>d :vsc TestExplorer.DebugAllTestsInContext<CR> :vsc TestExplorer.ShowTestExplorer<CR>
-nmap <Leader>f :vsc TestExplorer.RunFailedTests<CR> :vsc TestExplorer.ShowTestExplorer<CR>
-nmap <Leader>B :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Build<CR>
+nmap <Leader>t :vsc TestExplorer.ShowTestExplorer<CR> :vsc TestExplorer.RunAllTestsInContext<CR>
+nmap <Leader>d :vsc TestExplorer.ShowTestExplorer<CR> :vsc TestExplorer.DebugAllTestsInContext<CR>
+nmap <Leader>f :vsc TestExplorer.ShowTestExplorer<CR> :vsc TestExplorer.RunFailedTests<CR>
+"nmap <Leader>B :vsc EditorContextMenus.CodeWindow.TestDriven.NET.Build<CR>
+nmap <Leader>B :vsc Build.BuildSelection<CR>
+nmap <C-B> :vsc Build.BuildSelection<CR>
 nmap <Leader>S :vsc Build.Cancel<CR> :vsc Debug.StopDebugging<CR> :vsc Tools.TestDriven.NET.Abort<CR> :vsc TestExplorer.CancelTests<CR>
 nmap <Leader>sd :vsc Debug.Start<CR>
 nmap <Leader>sc :vsc Debug.StartWithoutDebugging<CR>
@@ -86,7 +82,9 @@ map <Leader>wf :vsc View.FindResults1<CR>
 map <Leader>wF :vsc View.FullScreen<CR>
 map <Leader>WF :vsc View.FullScreen<CR>
 map <Leader>wg :vsc Team.Git.GoToGitChanges<CR>
-map <Leader>wh :vsc Window.AutoHideAll<CR>
+map <Leader>wp :vsc Team.Git.CompareWithPrevious<CR>
+map <Leader>wh :vsc Team.Git.ViewHistory<CR>
+"map <Leader>wh :vsc Window.AutoHideAll<CR>
 "map <Leader>wH :vsc Window.NextToolWindow<CR>
 map <Leader>wi :vsc Debug.Immediate<CR>
 map <Leader>wk :vsc Tools.CustomizeKeyboard<CR>
@@ -130,17 +128,21 @@ nmap gf :vsc View.NavigateForward<CR>
 map <C-l> :vsc Window.NextTab<CR>
 map <C-h> :vsc Window.PreviousTab<CR>
 
-" Find
-" It's also useful to bind those keys in VS as well
-" noremap <C-n> :vsc Edit.FindNext<CR>
-" noremap <C-p> :vsc Edit.FindPrevious<CR>
-noremap <C-f> :vsc Edit.Find<CR>
-
 " Close tab
 map <C-w> :vsc Window.CloseDocumentWindow<CR>
 
 map gk :vsc Edit.PreviousMethod<CR>
 map gj :vsc Edit.NextMethod<CR>
+
+" Ensure Visual Studio defaults
+"noremap <C-f> :vsc Edit.Find<CR>
+"noremap <C-a> :vsc Edit.SelectAll<CR>
+"noremap <C-c> :vsc Edit.Copy<CR>
+"noremap <C-v> :vsc Edit.Paste<CR>
+
+" It's also useful to bind those keys in VS as well
+" noremap <C-n> :vsc Edit.FindNext<CR>
+" noremap <C-p> :vsc Edit.FindPrevious<CR>
 
 " gd goes to definition by default
 map gr :vsc Edit.FindAllReferences<CR>

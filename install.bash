@@ -24,4 +24,4 @@ git config --global user.name "Julien Couvreur"
 git config --global user.email "jcouv@microsoft.com"
 git config --global core.editor "vim"
 git config --global credential.helper 'cache --timeout 360000'
-
+git config --global log.decorate auto
