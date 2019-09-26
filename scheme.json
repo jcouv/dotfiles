@@ -1,4 +1,10 @@
-    {
+      "colorScheme": "Babun",
+      "cursorColor": "#eeaf00",
+      "cursorShape": "bar",
+      "fontFace": "Consolas",
+      "fontSize": 11
+
+{
       "name": "Babun",
       "black": "#0c0c0c",
       "red": "#d78787",
