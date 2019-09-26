@@ -1,0 +1,22 @@
+    {
+      "name": "Babun",
+      "black": "#0c0c0c",
+      "red": "#d78787",
+      "green": "#afd787",
+      "yellow": "#f7f7af",
+      "blue": "#87aff7",
+      "purple": "#d7afd7",
+      "cyan": "#afd7d7",
+      "white": "#e6e6e6",
+      "brightBlack": "#0a0a0a",
+      "brightRed": "#d78787",
+      "brightGreen": "#afdf87",
+      "brightYellow": "#ffffaf",
+      "brightBlue": "#87afdf",
+      "brightPurple": "#dfafdf",
+      "brightCyan": "#afdfdf",
+      "brightWhite": "#eeeeee",
+      "background": "#1c1c1c",
+      "foreground": "#d0d0d0"
+    }
+
