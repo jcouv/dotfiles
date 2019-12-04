@@ -148,6 +148,7 @@ map gj :vsc Edit.NextMethod<CR>
 map gr :vsc Edit.FindAllReferences<CR>
 map gi :vsc Edit.GoToImplementation<CR>
 "map gp :vsc Edit.PeekDefinition<CR>
+map gp :vsc Edit.GoToBase<CR>
 
 map <Leader><Leader> :vsc Diff.NextDifference<CR>
 map <Leader>. :vsc Diff.PreviousDifference<CR>
