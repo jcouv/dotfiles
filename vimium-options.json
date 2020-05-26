@@ -20,22 +20,6 @@
     {
       "pattern": "https?://devdiv.visualstudio.com/*",
       "passKeys": ""
-    },
-    {
-      "pattern": "https?://asiepshtain.itch.io/*",
-      "passKeys": ""
-    },
-    {
-      "pattern": "https?://v6p9d9t4.ssl.hwcdn.net/*",
-      "passKeys": "asdw"
-    },
-    {
-      "pattern": "https?://asiepshtain.itch.io/vengeance*",
-      "passKeys": "asdw"
-    },
-    {
-      "pattern": "https://playclassic.games/*",
-      "passKeys": ""
     }
   ],
   "filterLinkHints": false,
