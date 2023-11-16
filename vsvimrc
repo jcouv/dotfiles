@@ -15,6 +15,8 @@
 
 " I let Visual Studio handle those:
 " <C-x>
+" <C-c>
+" <C-v>
 " <A-f> Debug.StepOver to go "Forward"
 " <A-d> Debug.StepInto to go "Deeper"
 " <A-s> Debug.StepOut to "eScape"
