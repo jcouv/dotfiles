@@ -1,3 +1,5 @@
+# Use `git config --global --edit` and paste this content
+
 [push]
 	default = matching
 [core]
