@@ -1,33 +1,51 @@
-# Use `git config --global --edit` and paste this content
+[user]
+       email = julien.couvreur@gmail.com
+       name = Julien Couvreur
 
 [push]
-	default = matching
+       default = matching
+
 [core]
-	trustctime = false
-	editor = vim
-	filemode = false
+       trustctime = false
+       editor = vim
+       filemode = false
+
 [color]
-	ui = true
+       ui = true
+
 [credential]
-	helper = cache --timeout=3600
+       helper = cache --timeout=3600
+
 [merge]
-	tool = vimdiff
+       tool = vimdiff
+
 [mergetool]
-	keeptemporaries = false
-	keepbackups = false
-	prompt = false
-	trustexitcode = false
+       keeptemporaries = false
+       keepbackups = false
+       prompt = false
+       trustexitcode = false
+
 [alias]
-	last = log -1 --stat
-	cp = cherry-pick
-	co = checkout
-	cl = clone
-	ci = commit
-	st = status -sb
-	br = branch
-	unstage = reset HEAD --
-	dc = diff --cached
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
-[user]
-	email = julien.couvreur@gmail.com
-	name = Julien Couvreur
+       last = log -1 --stat
+       cp = cherry-pick
+       co = checkout
+       cl = clone
+       ci = commit
+       st = status -sb
+       br = branch
+       unstage = reset HEAD --
+       dc = diff --cached
+       lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
+
+[help]
+	autocorrect = prompt
+
+[branch]
+	sort = -committerdate
+
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+
