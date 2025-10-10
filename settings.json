@@ -1,0 +1,172 @@
+{
+  // Goes into %APPDATA%\Code\User\settings.json or: $env:APPDATA\Code\User\settings.json (PowerShell)
+  "diffEditor.renderSideBySide": true,
+  "debug.disassemblyView.showSourceCode": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.maxComputationTime": 0,
+
+  "vim.normalModeKeyBindings": [
+    {
+      // go to references
+      "before": ["g", "r"],
+      "commands": ["references-view.find"]
+    },
+    {
+      // go to implementation
+      "before": ["g", "i"],
+      "commands": ["editor.action.goToImplementation"]
+    },
+    // {
+    //   "before": ["<leader>", "m"],
+    //   "commands": ["workbench.action.gotoSymbol"]
+    // },
+    // {
+    //   "before": ["<leader>", ","],
+    //   "commands": ["workbench.action.showAllSymbols"]
+    // },
+    {
+      "before": ["<leader>", "t"],
+      "commands": ["testing.runAtCursor"]
+    },
+    {
+      "before": ["<leader>", "d"],
+      "commands": ["testing.debugAtCursor"]
+    },
+    {
+      "before": ["<leader>", "D"],
+      "commands": ["dotnet.test.debugTestsInContext"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      // add empty lines with no insert mode
+      "before": ["<enter>"],
+      "after": ["o", "<Esc>"]
+    },
+    {
+      // H takes you to the start of the line
+      "before": ["H"],
+      "after": ["^"]
+    },
+    {
+      // L takes you to the end of the line
+      "before": ["L"],
+      "after": ["$"]
+    },
+    {
+      // + to comment line
+      "before": ["+"],
+      "commands": ["editor.action.addCommentLine"]
+    },
+    {
+      // - to uncomment line
+      "before": ["-"],
+      "commands": ["editor.action.removeCommentLine"]
+    },
+    {
+      // open file
+      "before": ["<leader>", "o"],
+      "commands": ["workbench.action.files.openFile"]
+    },
+    {
+      "before": ["<leader>", "b"],
+      "commands": ["editor.debug.action.toggleBreakpoint"]
+    },
+    {
+      "before": ["<Esc>"],
+      "commands": [":noh"],
+      "after": ["<Esc>"]
+    },
+    // {
+    //   "before": ["<Space>"],
+    //   "commands": ["editor.toggleFold"]
+    // },
+    // {
+    //   "before": ["<leader>", "j"],
+    //   "commands": ["bookmarks.toggle"]
+    // },
+    // {
+    //   "before": ["<leader>", "a"],
+    //   "after": ["<C-a>"]
+    // },
+    // {
+    //   "before": ["<leader>", "x"],
+    //   "after": ["<C-x>"]
+    // },
+    {
+      // <leader>-p to show parameter info
+      "before": ["<leader>", "p"],
+      "commands": ["editor.action.triggerParameterHints"]
+    },
+    {
+      "before": ["g", "b"],
+      "commands": ["workbench.action.navigateBack"]
+    },
+    {
+      // <leader>-i to show quick info
+      "before": ["<leader>", "i"],
+      "commands": ["editor.action.showHover"]
+    },
+    {
+      "before": ["<leader>", "I"],
+      "commands": ["inlineChat.start"]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      // reselect visual block after indent
+      "before": ["<"],
+      "after": ["<", "g", "v"]
+    },
+    {
+      // reselect visual block after indent
+      "before": [">"],
+      "after": [">", "g", "v"]
+    },
+    {
+      // + to comment line
+      "before": ["+"],
+      "commands": ["editor.action.addCommentLine"]
+    },
+    {
+      // + to comment line
+      "before": ["-"],
+      "commands": ["editor.action.removeCommentLine"]
+    }
+  ],
+  "vim.handleKeys": {
+    "<C-r>": true
+  },
+  "vim.leader": ",",
+  "vim.camelCaseMotion.enable": true,
+  "vim.hlsearch": true,
+  "vim.useSystemClipboard": true,
+  "vim.overrideCopy": false,
+  "extensions.experimental.affinity": {
+    "vscodevim.vim": 1,
+    "ms-dotnettools.csdevkit": 2,
+    "333fred.net-compiler-developer-sdk": 2,
+    "ms-dotnettools.csharp": 2,
+    "ms-dotnettools.vscodeintellicode-csharp": 2
+  },
+  "csharp.debug.justMyCode": false,
+  "csharp.debug.symbolOptions.moduleFilter.mode": "loadOnlyIncluded",
+  "csharp.debug.symbolOptions.moduleFilter.includedModules": [
+    "*CodeAnalysis*.dll",
+    "*Roslyn*.dll"
+  ],
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "editor.formatOnSave": true,
+  "[json]": {
+    // Use "Prettier - Code formatter" as default formatter for JSON files
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    // Use "Prettier - Code formatter" as default formatter for JSON files with comments
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
+  "breadcrumbs.enabled": true
+}
