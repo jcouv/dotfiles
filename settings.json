@@ -1,172 +1,567 @@
 {
-  // Goes into %APPDATA%\Code\User\settings.json or: $env:APPDATA\Code\User\settings.json (PowerShell)
-  "diffEditor.renderSideBySide": true,
-  "debug.disassemblyView.showSourceCode": false,
-  "diffEditor.ignoreTrimWhitespace": false,
-  "diffEditor.maxComputationTime": 0,
-
-  "vim.normalModeKeyBindings": [
-    {
-      // go to references
-      "before": ["g", "r"],
-      "commands": ["references-view.find"]
+    // Goes into %APPDATA%\Code\User\settings.json or: $env:APPDATA\Code\User\settings.json (PowerShell)
+    "diffEditor.renderSideBySide": false,
+    "debug.disassemblyView.showSourceCode": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "diffEditor.maxComputationTime": 0,
+    "vim.normalModeKeyBindings": [
+        {
+            "before": [
+                ";"
+            ],
+            "after": [
+                ":"
+            ]
+        },
+        {
+            // requires mishkinf.goto-next-previous-member extension
+            "before": [
+                "g",
+                "j"
+            ],
+            "commands": [
+                "gotoNextPreviousMember.nextMember"
+            ]
+        },
+        {
+            // requires mishkinf.goto-next-previous-member extension
+            "before": [
+                "g",
+                "k"
+            ],
+            "commands": [
+                "gotoNextPreviousMember.previousMember"
+            ]
+        },
+        {
+            // Next and previous editor/tab
+            "before": [
+                "<C-l>"
+            ],
+            "commands": [
+                "workbench.action.nextEditor"
+            ]
+        },
+        {
+            // Next and previous editor/tab
+            "before": [
+                "<C-h>"
+            ],
+            "commands": [
+                "workbench.action.previousEditor"
+            ]
+        },
+        {
+            // Find all references
+            "before": [
+                "g",
+                "r"
+            ],
+            "commands": [
+                "references-view.find"
+            ]
+        },
+        {
+            // Go to implementation
+            "before": [
+                "g",
+                "i"
+            ],
+            "commands": [
+                "editor.action.goToImplementation"
+            ]
+        },
+        {
+            // requires alefragnani.bookmarks extension
+            "before": [
+                "g",
+                "m"
+            ],
+            "commands": [
+                "bookmarks.jumpToNext"
+            ]
+        },
+        {
+            // requires alefragnani.bookmarks extension
+            "before": [
+                "g",
+                "M"
+            ],
+            "commands": [
+                "bookmarks.jumpToPrevious"
+            ]
+        },
+        {
+            // requires alefragnani.bookmarks extension
+            "before": [
+                "<leader>",
+                "m"
+            ],
+            "commands": [
+                "bookmarks.toggle"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "t"
+            ],
+            "commands": [
+                "testing.runAtCursor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "T"
+            ],
+            "commands": [
+                "testing.runCurrentFile"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "d"
+            ],
+            "commands": [
+                "testing.debugAtCursor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "D"
+            ],
+            "commands": [
+                "dotnet.test.debugTestsInContext"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "f"
+            ],
+            "commands": [
+                "workbench.action.quickOpen"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "k"
+            ],
+            "commands": [
+                "workbench.action.pinEditor"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "K"
+            ],
+            "commands": [
+                "workbench.action.unpinEditor"
+            ]
+        },
+        {
+            // H/L is more natural than 0/$
+            "before": [
+                "H"
+            ],
+            "after": [
+                "^"
+            ]
+        },
+        {
+            "before": [
+                "L"
+            ],
+            "after": [
+                "$"
+            ]
+        },
+        {
+            // Navigate backward
+            "before": [
+                "g",
+                "b"
+            ],
+            "commands": [
+                "workbench.action.navigateBack"
+            ]
+        },
+        {
+            // Navigate forward
+            "before": [
+                "g",
+                "f"
+            ],
+            "commands": [
+                "workbench.action.navigateForward"
+            ]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            // Toggle breakpoint
+            "before": [
+                "<leader>",
+                "b"
+            ],
+            "commands": [
+                "editor.debug.action.toggleBreakpoint"
+            ]
+        },
+        {
+            "before": [
+                "<Esc>"
+            ],
+            "commands": [
+                ":noh"
+            ],
+            "after": [
+                "<Esc>"
+            ]
+        },
+        {
+            // Open file
+            "before": [
+                "<leader>",
+                "o"
+            ],
+            "commands": [
+                "workbench.action.files.openFile"
+            ]
+        },
+        {
+            "before": [
+                "<Space>"
+            ],
+            "commands": [
+                "editor.toggleFold"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "a"
+            ],
+            "after": [
+                "<C-a>"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "x"
+            ],
+            "after": [
+                "<C-x>"
+            ]
+        },
+        {
+            // Show parameter info
+            "before": [
+                "<leader>",
+                "p"
+            ],
+            "commands": [
+                "editor.action.triggerParameterHints"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "h"
+            ],
+            "commands": [
+                "workbench.action.navigateBack"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "l"
+            ],
+            "commands": [
+                "workbench.action.navigateForward"
+            ]
+        },
+        {
+            // Show quick info
+            "before": [
+                "<leader>",
+                "i"
+            ],
+            "commands": [
+                "editor.action.showHover"
+            ]
+        },
+        {
+            // Format document
+            "before": [
+                "=",
+                "="
+            ],
+            "commands": [
+                "editor.action.formatDocument"
+            ]
+        },
+        {
+            // Comment selection
+            "before": [
+                "+"
+            ],
+            "commands": [
+                "editor.action.addCommentLine"
+            ]
+        },
+        {
+            // Uncomment selection
+            "before": [
+                "-"
+            ],
+            "commands": [
+                "editor.action.removeCommentLine"
+            ]
+        },
+        {
+            "before": [
+                "<leader>",
+                "w",
+                "d"
+            ],
+            "commands": [
+                "git.openChange"
+            ]
+        },
+        {
+            // Add empty line below without entering insert mode
+            "before": [
+                "<enter>"
+            ],
+            "after": [
+                "o",
+                "<Esc>"
+            ]
+        },
+        {
+            // Delete char backward without yank
+            "before": [
+                "X"
+            ],
+            "after": [
+                "\"_X"
+            ]
+        },
+        {
+            // Copy line without CR
+            "before": [
+                "Y"
+            ],
+            "after": [
+                "^",
+                "y",
+                "$"
+            ]
+        },
+        {
+            // Delete trailing whitespace
+            "before": [
+                "<leader>",
+                "d",
+                "w"
+            ],
+            "commands": [
+                "editor.action.trimTrailingWhitespace"
+            ]
+        },
+        {
+            // Expand all outlining
+            "before": [
+                "z",
+                "O"
+            ],
+            "commands": [
+                "editor.unfoldAll"
+            ]
+        },
+        {
+            // Cancel build/debug/tests
+            "before": [
+                "<leader>",
+                "S"
+            ],
+            "commands": [
+                "workbench.action.tasks.terminate",
+                "workbench.action.debug.stop",
+                "testing.cancelRun"
+            ]
+        },
+        {
+            // Next diff
+            "before": [
+                "<leader>",
+                ","
+            ],
+            "commands": [
+                "workbench.action.compareEditor.nextChange"
+            ]
+        },
+        {
+            // Previous diff
+            "before": [
+                "<leader>",
+                "."
+            ],
+            "commands": [
+                "workbench.action.compareEditor.previousChange"
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            // Reselect visual block after indent
+            "before": [
+                "<"
+            ],
+            "commands": [
+                "editor.action.outdentLines"
+            ],
+            "after": [
+                "g",
+                "v"
+            ]
+        },
+        {
+            // Reselect visual block after indent
+            "before": [
+                ">"
+            ],
+            "commands": [
+                "editor.action.indentLines"
+            ],
+            "after": [
+                "g",
+                "v"
+            ]
+        },
+        {
+            // H/L is more natural than 0/$
+            "before": [
+                "H"
+            ],
+            "after": [
+                "^"
+            ]
+        },
+        {
+            // H/L is more natural than 0/$
+            "before": [
+                "L"
+            ],
+            "after": [
+                "$"
+            ]
+        },
+        {
+            // Format selection
+            "before": [
+                "=",
+                "="
+            ],
+            "commands": [
+                "editor.action.formatSelection"
+            ]
+        },
+        {
+            // Delete trailing whitespace
+            "before": [
+                "<leader>",
+                "d",
+                "w"
+            ],
+            "commands": [
+                "editor.action.trimTrailingWhitespace"
+            ]
+        }
+    ],
+    "vim.operatorPendingModeKeyBindings": [
+        {
+            // H/L is more natural than 0/$
+            "before": [
+                "H"
+            ],
+            "after": [
+                "^"
+            ]
+        },
+        {
+            // H/L is more natural than 0/$
+            "before": [
+                "L"
+            ],
+            "after": [
+                "$"
+            ]
+        }
+    ],
+    "vim.handleKeys": {
+        "<C-r>": true,
+        "<C-c>": false,
+        "<C-v>": false,
+        "<C-x>": false,
+        "<C-w>": false,
+        "<C-i>": false
     },
-    {
-      // go to implementation
-      "before": ["g", "i"],
-      "commands": ["editor.action.goToImplementation"]
+    "vim.leader": ",",
+    "vim.ignorecase": true,
+    "vim.smartcase": true,
+    "vim.scrolloff": 5,
+    "vim.camelCaseMotion.enable": true,
+    "vim.hlsearch": true,
+    "vim.overrideCopy": false,
+    "vim.useSystemClipboard": true,
+    "extensions.experimental.affinity": {
+        "vscodevim.vim": 1,
+        "ms-dotnettools.csdevkit": 2,
+        "333fred.net-compiler-developer-sdk": 2,
+        "ms-dotnettools.csharp": 2,
+        "ms-dotnettools.vscodeintellicode-csharp": 2
     },
-    // {
-    //   "before": ["<leader>", "m"],
-    //   "commands": ["workbench.action.gotoSymbol"]
-    // },
-    // {
-    //   "before": ["<leader>", ","],
-    //   "commands": ["workbench.action.showAllSymbols"]
-    // },
-    {
-      "before": ["<leader>", "t"],
-      "commands": ["testing.runAtCursor"]
+    "csharp.debug.justMyCode": false,
+    "csharp.debug.symbolOptions.moduleFilter.mode": "loadOnlyIncluded",
+    "csharp.debug.symbolOptions.moduleFilter.includedModules": [
+        "*CodeAnalysis*.dll",
+        "*Roslyn*.dll"
+    ],
+    "chat.tools.terminal.outputLocation": "chat",
+    "chat.tools.terminal.autoApprove": {
+        "dotnet test": true,
+        "dotnet build": true,
+        "npx jest": true,
+        "npx eslint": true
     },
-    {
-      "before": ["<leader>", "d"],
-      "commands": ["testing.debugAtCursor"]
+    "chat.viewSessions.orientation": "stacked",
+    "editor.cursorSurroundingLines": 5,
+    "workbench.colorTheme": "Visual Studio 2019 Dark",
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    {
-      "before": ["<leader>", "D"],
-      "commands": ["dotnet.test.debugTestsInContext"]
+    "chat.tools.urls.autoApprove": {
+        "https://microsoft.github.io": {
+            "approveRequest": true,
+            "approveResponse": false
+        },
+        "https://code.visualstudio.com": {
+            "approveRequest": false,
+            "approveResponse": true
+        },
+        "https://github.com/microsoft": true
+    },
+    "git.enableSmartCommit": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
-  ],
-  "vim.normalModeKeyBindingsNonRecursive": [
-    {
-      // add empty lines with no insert mode
-      "before": ["<enter>"],
-      "after": ["o", "<Esc>"]
-    },
-    {
-      // H takes you to the start of the line
-      "before": ["H"],
-      "after": ["^"]
-    },
-    {
-      // L takes you to the end of the line
-      "before": ["L"],
-      "after": ["$"]
-    },
-    {
-      // + to comment line
-      "before": ["+"],
-      "commands": ["editor.action.addCommentLine"]
-    },
-    {
-      // - to uncomment line
-      "before": ["-"],
-      "commands": ["editor.action.removeCommentLine"]
-    },
-    {
-      // open file
-      "before": ["<leader>", "o"],
-      "commands": ["workbench.action.files.openFile"]
-    },
-    {
-      "before": ["<leader>", "b"],
-      "commands": ["editor.debug.action.toggleBreakpoint"]
-    },
-    {
-      "before": ["<Esc>"],
-      "commands": [":noh"],
-      "after": ["<Esc>"]
-    },
-    // {
-    //   "before": ["<Space>"],
-    //   "commands": ["editor.toggleFold"]
-    // },
-    // {
-    //   "before": ["<leader>", "j"],
-    //   "commands": ["bookmarks.toggle"]
-    // },
-    // {
-    //   "before": ["<leader>", "a"],
-    //   "after": ["<C-a>"]
-    // },
-    // {
-    //   "before": ["<leader>", "x"],
-    //   "after": ["<C-x>"]
-    // },
-    {
-      // <leader>-p to show parameter info
-      "before": ["<leader>", "p"],
-      "commands": ["editor.action.triggerParameterHints"]
-    },
-    {
-      "before": ["g", "b"],
-      "commands": ["workbench.action.navigateBack"]
-    },
-    {
-      // <leader>-i to show quick info
-      "before": ["<leader>", "i"],
-      "commands": ["editor.action.showHover"]
-    },
-    {
-      "before": ["<leader>", "I"],
-      "commands": ["inlineChat.start"]
-    }
-  ],
-  "vim.visualModeKeyBindingsNonRecursive": [
-    {
-      // reselect visual block after indent
-      "before": ["<"],
-      "after": ["<", "g", "v"]
-    },
-    {
-      // reselect visual block after indent
-      "before": [">"],
-      "after": [">", "g", "v"]
-    },
-    {
-      // + to comment line
-      "before": ["+"],
-      "commands": ["editor.action.addCommentLine"]
-    },
-    {
-      // + to comment line
-      "before": ["-"],
-      "commands": ["editor.action.removeCommentLine"]
-    }
-  ],
-  "vim.handleKeys": {
-    "<C-r>": true
-  },
-  "vim.leader": ",",
-  "vim.camelCaseMotion.enable": true,
-  "vim.hlsearch": true,
-  "vim.useSystemClipboard": true,
-  "vim.overrideCopy": false,
-  "extensions.experimental.affinity": {
-    "vscodevim.vim": 1,
-    "ms-dotnettools.csdevkit": 2,
-    "333fred.net-compiler-developer-sdk": 2,
-    "ms-dotnettools.csharp": 2,
-    "ms-dotnettools.vscodeintellicode-csharp": 2
-  },
-  "csharp.debug.justMyCode": false,
-  "csharp.debug.symbolOptions.moduleFilter.mode": "loadOnlyIncluded",
-  "csharp.debug.symbolOptions.moduleFilter.includedModules": [
-    "*CodeAnalysis*.dll",
-    "*Roslyn*.dll"
-  ],
-  "github.copilot.nextEditSuggestions.enabled": true,
-  "editor.formatOnSave": true,
-  "[json]": {
-    // Use "Prettier - Code formatter" as default formatter for JSON files
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    // Use "Prettier - Code formatter" as default formatter for JSON files with comments
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[csharp]": {
-    "editor.defaultFormatter": "ms-dotnettools.csharp"
-  },
-  "breadcrumbs.enabled": true
 }

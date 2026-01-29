@@ -1,0 +1,70 @@
+[
+    {
+        "key": "ctrl+enter",
+        "command": "workbench.action.terminal.sendSequence",
+        "when": "terminalFocus",
+        "args": {
+            "text": "\\\r\n"
+        }
+    },
+    {
+        "key": "shift+enter",
+        "command": "workbench.action.terminal.sendSequence",
+        "when": "terminalFocus",
+        "args": {
+            "text": "\\\r\n"
+        }
+    },
+    {
+        "key": "ctrl+,",
+        "command": "-workbench.action.openSettings"
+    },
+    {
+        "key": "ctrl+,",
+        "command": "-workbench.action.openSettings2"
+    },
+    {
+        "key": "ctrl+,",
+        "command": "workbench.action.quickOpen"
+    },
+    {
+        "key": "f7",
+        "command": "multiDiffEditor.goToPreviousChange",
+        "when": "activeEditor == 'multiDiffEditor'"
+    },
+    {
+        "key": "f7",
+        "command": "workbench.action.compareEditor.previousChange",
+        "when": "textCompareEditorVisible"
+    },
+    {
+        "key": "f7",
+        "command": "workbench.action.editor.previousChange",
+        "when": "editorTextFocus && !textCompareEditorActive && quickDiffDecorationVisible"
+    },
+    {
+        "key": "f8",
+        "command": "multiDiffEditor.goToNextChange",
+        "when": "activeEditor == 'multiDiffEditor'"
+    },
+    {
+        "key": "f8",
+        "command": "workbench.action.compareEditor.nextChange",
+        "when": "textCompareEditorVisible"
+    },
+    {
+        "key": "f8",
+        "command": "workbench.action.editor.nextChange",
+        "when": "editorTextFocus && !textCompareEditorActive && quickDiffDecorationVisible"
+    },
+    {
+        "key": "ctrl+i",
+        "command": "inlineChat.start",
+        "when": "editorTextFocus && !editorReadonly && vim.mode == 'Normal'"
+    },
+    {
+        "key": "ctrl+w",
+        "command": "workbench.action.closeActiveEditor",
+        "when": "vim.mode == 'Insert' || vim.mode == 'CommandlineInProgress' || !vim.active"
+    }
+]
