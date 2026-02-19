@@ -18,6 +18,7 @@
 
 [merge]
        tool = vimdiff
+       conflictstyle = diff3
 
 [mergetool]
        keeptemporaries = false
