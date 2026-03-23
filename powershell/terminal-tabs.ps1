@@ -11,26 +11,109 @@ else {
     $null
 }
 
+function Initialize-PSReadLineColors {
+    if (-not (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue)) {
+        Import-Module PSReadLine -ErrorAction SilentlyContinue
+    }
+
+    if (-not (Get-Command Set-PSReadLineOption -ErrorAction SilentlyContinue)) {
+        return
+    }
+
+    Set-PSReadLineOption -Colors @{
+        Command   = '#C3E88D'
+        Comment   = '#82AAFF'
+        Default   = '#D0D0D0'
+        Error     = '#D78787'
+        Keyword   = '#DFAFDF'
+        Member    = '#89DDFF'
+        Number    = '#B2CCD6'
+        Operator  = '#D0D0D0'
+        Parameter = '#82AAFF'
+        String    = '#FFFFAF'
+        Type      = '#AFDFDF'
+        Variable  = '#D7AFD7'
+    }
+}
+
+function Initialize-FileInfoColors {
+    if ($PSStyle -and $PSStyle.FileInfo) {
+        $PSStyle.FileInfo.Directory = $PSStyle.Foreground.BrightBlue
+    }
+}
+
+function Get-WindowsTerminalTabColorIndex {
+    param(
+        [string]$RepoName
+    )
+
+    if ([string]::IsNullOrWhiteSpace($RepoName)) {
+        return 8
+    }
+
+    switch ($RepoName.ToLowerInvariant()) {
+        'roslyn'  { return 4 }
+        'roslyn2' { return 6 }
+        'roslyn3' { return 2 }
+    }
+
+    $palette = @(
+        1,
+        2,
+        4,
+        5,
+        6
+    )
+
+    [uint32]$hash = 2166136261
+    foreach ($character in $RepoName.ToLowerInvariant().ToCharArray()) {
+        [uint64]$nextHash = ([uint64]($hash -bxor [uint32][char]$character) * 16777619)
+        $hash = [uint32]($nextHash % 4294967296)
+    }
+
+    return $palette[[int]($hash % $palette.Count)]
+}
+
+function Get-WindowsTerminalTabAppearance {
+    param(
+        [string]$Path = (Get-Location).Path
+    )
+
+    $repoRoot = 'Q:\repos'
+    $repoName = $null
+
+    if ($Path.StartsWith($repoRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+        $relativePath = $Path.Substring($repoRoot.Length).TrimStart('\')
+        if ($relativePath.Length -gt 0) {
+            $repoName = $relativePath.Split('\', 2)[0]
+        }
+    }
+
+    $title = if ($repoName) {
+        $repoName
+    }
+    else {
+        $leaf = Split-Path -Path $Path -Leaf
+        if ([string]::IsNullOrEmpty($leaf)) { $Path } else { $leaf }
+    }
+
+    [pscustomobject]@{
+        Title = $title
+        ColorIndex = Get-WindowsTerminalTabColorIndex -RepoName $repoName
+    }
+}
+
 function Set-WindowsTerminalTabAppearance {
     param(
         [string]$Path = (Get-Location).Path
     )
 
-    $leaf = Split-Path -Path $Path -Leaf
-    if ([string]::IsNullOrEmpty($leaf)) {
-        $leaf = $Path
+    $appearance = Get-WindowsTerminalTabAppearance -Path $Path
+    $host.UI.RawUI.WindowTitle = $appearance.Title
+
+    if ($env:WT_SESSION) {
+        [Console]::Write("`e[2;15;$($appearance.ColorIndex),|")
     }
-
-    $host.UI.RawUI.WindowTitle = $leaf
-
-    $colorIndex = switch -Regex ($leaf) {
-        '^roslyn$'  { 4; break }
-        '^roslyn2$' { 6; break }
-        '^roslyn3$' { 2; break }
-        default     { 8; break }
-    }
-
-    [Console]::Write("`e[2;15;${colorIndex},|")
 }
 
 function global:prompt {
@@ -43,3 +126,6 @@ function global:prompt {
         "PS $($executionContext.SessionState.Path.CurrentLocation)> "
     }
 }
+
+Initialize-PSReadLineColors
+Initialize-FileInfoColors
