@@ -1,6 +1,14 @@
 # Add the following line to $PROFILE to load this file automatically:
 # . 'C:\repos\dotfiles\powershell\terminal-tabs.ps1'
 
+# Navigate to preferred starting directory (first match wins)
+if ($PWD.Path -eq $env:USERPROFILE) {
+    $startDirs = @("Q:\repos\roslyn", "C:\repos\roslyn", "C:\repos")
+    foreach ($d in $startDirs) {
+        if (Test-Path $d) { Set-Location $d; break }
+    }
+}
+
 $script:TerminalTabsOriginalPrompt = if ($script:TerminalTabsOriginalPrompt) {
     $script:TerminalTabsOriginalPrompt
 }

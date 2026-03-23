@@ -69,7 +69,7 @@
         "defaults": 
         {
             "antialiasingMode": "cleartype",
-            "startingDirectory": "Q:\\repos\\roslyn"
+            "startingDirectory": "%USERPROFILE%"
         },
         "list": 
         [
