@@ -64,6 +64,7 @@
             "type": "remainingProfiles"
         }
     ],
+    "theme": "repo-tabs",
     "profiles": 
     {
         "defaults": 
@@ -150,5 +151,25 @@
             "yellow": "#F7F7AF"
         }
     ],
-    "themes": []
+    "themes": 
+    [
+        {
+            "name": "repo-tabs",
+            "tab": 
+            {
+                "background": "#3A3A3A",
+                "showCloseButton": "activeOnly",
+                "unfocusedBackground": "#3A3A3A"
+            },
+            "tabRow": 
+            {
+                "background": "#1E1E1E",
+                "unfocusedBackground": "#1E1E1E"
+            },
+            "window": 
+            {
+                "applicationTheme": "dark"
+            }
+        }
+    ]
 }

@@ -56,21 +56,25 @@ function Get-WindowsTerminalTabColorIndex {
     )
 
     if ([string]::IsNullOrWhiteSpace($RepoName)) {
-        return 8
+        return 238
     }
 
     switch ($RepoName.ToLowerInvariant()) {
-        'roslyn'  { return 4 }
-        'roslyn2' { return 6 }
-        'roslyn3' { return 2 }
+        'roslyn'  { return 24 }
+        'roslyn2' { return 23 }
+        'roslyn3' { return 22 }
     }
 
+    # Use darker 256-color entries so active/inactive tab differences stay subtle.
     $palette = @(
-        1,
-        2,
-        4,
-        5,
-        6
+        17,
+        22,
+        23,
+        24,
+        52,
+        53,
+        58,
+        60
     )
 
     [uint32]$hash = 2166136261
