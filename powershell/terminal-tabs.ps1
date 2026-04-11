@@ -137,3 +137,9 @@ function global:prompt {
 
 Initialize-PSReadLineColors
 Initialize-FileInfoColors
+
+Remove-Alias ac -Force -ErrorAction SilentlyContinue
+function ac { copilot --yolo @args }
+
+Remove-Alias ci -Force -ErrorAction SilentlyContinue
+function ci { code-insiders @args }
