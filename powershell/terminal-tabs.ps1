@@ -143,7 +143,14 @@ Initialize-PSReadLineColors
 Initialize-FileInfoColors
 
 Remove-Alias ac -Force -ErrorAction SilentlyContinue
-function ac { copilot --yolo @args }
+function ac {
+    $copilotDevCli = 'Q:\repos\copilot-agent-runtime\dist-cli\index.js'
+    if (-not (Test-Path $copilotDevCli)) {
+        throw "Local Copilot build not found at $copilotDevCli. Build it in Q:\repos\copilot-agent-runtime first."
+    }
+
+    & node --enable-source-maps --report-on-fatalerror $copilotDevCli --yolo @args
+}
 
 Remove-Alias ci -Force -ErrorAction SilentlyContinue
 function ci { code-insiders @args }
