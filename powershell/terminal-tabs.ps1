@@ -152,5 +152,8 @@ function ac {
     & node --enable-source-maps --report-on-fatalerror $copilotDevCli --yolo @args
 }
 
+Remove-Alias acc -Force -ErrorAction SilentlyContinue
+function acc { & copilot --yolo @args }
+
 Remove-Alias ci -Force -ErrorAction SilentlyContinue
 function ci { code-insiders @args }
