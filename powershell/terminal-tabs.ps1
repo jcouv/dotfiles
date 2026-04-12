@@ -144,9 +144,52 @@ Initialize-FileInfoColors
 
 Remove-Alias ac -Force -ErrorAction SilentlyContinue
 function ac {
-    $copilotDevCli = 'Q:\repos\copilot-agent-runtime\dist-cli\index.js'
-    if (-not (Test-Path $copilotDevCli)) {
-        throw "Local Copilot build not found at $copilotDevCli. Build it in Q:\repos\copilot-agent-runtime first."
+    $repoRoot = 'Q:\repos\copilot-agent-runtime'
+    $copilotDevCli = Join-Path $repoRoot 'dist-cli\index.js'
+    $buildMarker = Join-Path $repoRoot 'dist-cli\app.js'
+    $buildInputs = @(
+        (Join-Path $repoRoot 'src'),
+        (Join-Path $repoRoot 'package.json'),
+        (Join-Path $repoRoot 'package-lock.json'),
+        (Join-Path $repoRoot 'esbuild.ts'),
+        (Join-Path $repoRoot 'tsconfig.json')
+    )
+
+    $needsBuild = (-not (Test-Path $copilotDevCli)) -or (-not (Test-Path $buildMarker))
+    if (-not $needsBuild) {
+        $builtAt = (Get-Item $buildMarker).LastWriteTimeUtc
+
+        foreach ($inputPath in $buildInputs) {
+            if (-not (Test-Path $inputPath)) {
+                continue
+            }
+
+            $inputItem = Get-Item $inputPath
+            if ($inputItem -is [System.IO.DirectoryInfo]) {
+                $candidate = (Get-ChildItem $inputPath -Recurse -File | Measure-Object -Property LastWriteTimeUtc -Maximum).Maximum
+            }
+            else {
+                $candidate = $inputItem.LastWriteTimeUtc
+            }
+
+            if ($candidate -and $candidate -gt $builtAt) {
+                $needsBuild = $true
+                break
+            }
+        }
+    }
+
+    if ($needsBuild) {
+        Push-Location $repoRoot
+        try {
+            & npm run build
+            if ($LASTEXITCODE -ne 0) {
+                throw "Failed to build Copilot in $repoRoot."
+            }
+        }
+        finally {
+            Pop-Location
+        }
     }
 
     & node --enable-source-maps --report-on-fatalerror $copilotDevCli --yolo @args
