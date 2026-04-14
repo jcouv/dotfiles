@@ -31,3 +31,18 @@ If you want to confirm they loaded, use:
 ```text
 /instructions
 ```
+
+## Ralph runner
+
+This repo also includes a single-file .NET runner for Ralph using GitHub Copilot CLI:
+
+```text
+dotnet run .\copilot\ralph.cs -- 10
+```
+
+It looks for these files in the current working directory:
+
+- `prd.json`
+- `prompt.md`
+
+It also expects `copilot` to be installed and already authenticated locally.

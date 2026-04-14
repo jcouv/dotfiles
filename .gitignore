@@ -1,1 +1,5 @@
 **~
+archive/
+.last-branch
+prd.json
+progress.txt
