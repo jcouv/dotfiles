@@ -9,6 +9,20 @@ if ($PWD.Path -eq $env:USERPROFILE) {
     }
 }
 
+$copilotInstructionsDir = Join-Path (Split-Path -Parent $PSScriptRoot) 'copilot\instructions'
+if (Test-Path $copilotInstructionsDir) {
+    $instructionDirs = @()
+    if ($env:COPILOT_CUSTOM_INSTRUCTIONS_DIRS) {
+        $instructionDirs = $env:COPILOT_CUSTOM_INSTRUCTIONS_DIRS -split ',' | Where-Object {
+            -not [string]::IsNullOrWhiteSpace($_)
+        }
+    }
+
+    if ($instructionDirs -notcontains $copilotInstructionsDir) {
+        $env:COPILOT_CUSTOM_INSTRUCTIONS_DIRS = (@($copilotInstructionsDir) + $instructionDirs) -join ','
+    }
+}
+
 $script:TerminalTabsOriginalPrompt = if ($script:TerminalTabsOriginalPrompt) {
     $script:TerminalTabsOriginalPrompt
 }

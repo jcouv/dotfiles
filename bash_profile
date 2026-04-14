@@ -5,6 +5,16 @@ if [ -f "${HOME}/.bashrc" ] ; then
   source "${HOME}/.bashrc"
 fi
 
+DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+COPILOT_INSTRUCTIONS_DIR="${DOTFILES_ROOT}/copilot/instructions"
+if [ -d "${COPILOT_INSTRUCTIONS_DIR}" ]; then
+  if [ -z "${COPILOT_CUSTOM_INSTRUCTIONS_DIRS}" ]; then
+    export COPILOT_CUSTOM_INSTRUCTIONS_DIRS="${COPILOT_INSTRUCTIONS_DIR}"
+  elif [[ ",${COPILOT_CUSTOM_INSTRUCTIONS_DIRS}," != *",${COPILOT_INSTRUCTIONS_DIR},"* ]]; then
+    export COPILOT_CUSTOM_INSTRUCTIONS_DIRS="${COPILOT_INSTRUCTIONS_DIR},${COPILOT_CUSTOM_INSTRUCTIONS_DIRS}"
+  fi
+fi
+
 for DOTFILE in `find ~/.dotfiles/bash/*.bash`; do
   [ -f "$DOTFILE" ] && source "$DOTFILE"
 done
@@ -69,4 +79,3 @@ function do_git {
 #alias  git='do_git'
 
 export PERL5LIB=/usr/lib/perl5/vendor_perl/5.22
-
