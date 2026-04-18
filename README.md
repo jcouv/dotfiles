@@ -37,12 +37,14 @@ If you want to confirm they loaded, use:
 This repo also includes a single-file .NET runner for Ralph using GitHub Copilot CLI:
 
 ```text
-dotnet run .\copilot\ralph.cs -- 10
+dotnet run .\copilot\ralph\ralph.cs -- 10
 ```
 
-It looks for these files in the current working directory:
+The bundled runner prompt lives next to the script under `copilot\ralph\prompt.md`.
+
+It looks for these work files in the current working directory:
 
 - `prd.json`
-- `prompt.md`
+- `progress.txt` (created automatically if needed)
 
 It also expects `copilot` to be installed and already authenticated locally.

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 
@@ -24,6 +25,7 @@ static class RalphApp
             return 1;
         }
 
+        var runnerDirectory = GetRunnerDirectory();
         var workingDirectory = Directory.GetCurrentDirectory();
         var prdFile = Path.Combine(workingDirectory, "prd.json");
         var progressFile = Path.Combine(workingDirectory, "progress.txt");
@@ -34,7 +36,7 @@ static class RalphApp
         TrackCurrentBranch(prdFile, lastBranchFile);
         EnsureProgressFile(progressFile);
 
-        var promptFile = Path.Combine(workingDirectory, "prompt.md");
+        var promptFile = Path.Combine(runnerDirectory, "prompt.md");
 
         var executable = ResolveExecutableOnPath("copilot");
         var missingItems = new List<string>();
@@ -45,7 +47,7 @@ static class RalphApp
 
         if (!File.Exists(promptFile))
         {
-            missingItems.Add($"Missing prompt file '{Path.GetFileName(promptFile)}' in {workingDirectory}");
+            missingItems.Add($"Missing prompt file '{Path.GetFileName(promptFile)}' in {runnerDirectory}");
         }
 
         if (missingItems.Count > 0)
@@ -126,13 +128,13 @@ static class RalphApp
     private static void PrintUsage()
     {
         Console.WriteLine("Usage:");
-        Console.WriteLine(@"  dotnet run .\copilot\ralph.cs");
-        Console.WriteLine(@"  dotnet run .\copilot\ralph.cs -- [max_iterations]");
+        Console.WriteLine(@"  dotnet run .\copilot\ralph\ralph.cs");
+        Console.WriteLine(@"  dotnet run .\copilot\ralph\ralph.cs -- [max_iterations]");
         Console.WriteLine();
         Console.WriteLine("Examples:");
-        Console.WriteLine(@"  dotnet run .\copilot\ralph.cs");
-        Console.WriteLine(@"  dotnet run .\copilot\ralph.cs -- 10");
-        Console.WriteLine(@"  dotnet run .\copilot\ralph.cs -- 20");
+        Console.WriteLine(@"  dotnet run .\copilot\ralph\ralph.cs");
+        Console.WriteLine(@"  dotnet run .\copilot\ralph\ralph.cs -- 10");
+        Console.WriteLine(@"  dotnet run .\copilot\ralph\ralph.cs -- 20");
     }
 
     private static void ArchivePreviousRunIfBranchChanged(
@@ -267,6 +269,11 @@ static class RalphApp
         }
 
         return output.ToString();
+    }
+
+    private static string GetRunnerDirectory([CallerFilePath] string? sourcePath = null)
+    {
+        return Path.GetDirectoryName(sourcePath) ?? Directory.GetCurrentDirectory();
     }
 
     private static async Task PumpAsync(StreamReader reader, TextWriter writer, StringBuilder sink)

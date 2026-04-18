@@ -241,7 +241,7 @@ Add ability to mark tasks with different statuses.
    - Copy current `prd.json` and `progress.txt` to archive
    - Reset `progress.txt` with fresh header
 
-**The `copilot\ralph.cs` runner handles this automatically** when you run it, but if you are manually updating `prd.json` between runs, archive first.
+**The `copilot\ralph\ralph.cs` runner handles this automatically** when you run it, but if you are manually updating `prd.json` between runs, archive first.
 
 ---
 
