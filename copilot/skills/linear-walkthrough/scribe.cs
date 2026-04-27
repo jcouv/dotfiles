@@ -1,5 +1,5 @@
 // scribe.cs — incrementally edit an existing PR review walkthrough.
-// Usage: dotnet run scribe.cs -- note|step|hunk|prompt|undo|open --file <review.md> ...
+// Usage: dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- note|step|hunk|prompt|undo|open --file <review.md> ...
 
 #nullable enable
 
@@ -43,7 +43,7 @@ static int RunScribe(string[] args)
             "prompt" => RunPrompt(verbArgs),
             "undo" => RunUndo(verbArgs, openAfterWrite),
             "open" => RunOpen(verbArgs),
-            "init" => throw new UserInputException("Use walkthrough.cs to start a walkthrough from a PR URL or local compare target."),
+            "init" => throw new UserInputException("Use the `linear-walkthrough` skill to start a walkthrough from a PR URL or local compare target."),
             _ => throw new UserInputException($"Unknown command '{verb}'. Use note, step, hunk, prompt, undo, or open.")
         };
     }
@@ -178,7 +178,7 @@ static string ResolveExistingFile(string[] args)
     {
         var p = Path.IsPathRooted(explicit_) ? explicit_ : Path.GetFullPath(Path.Combine(cwd, explicit_));
         if (!File.Exists(p))
-            throw new UserInputException($"Couldn't find the review file at '{p}'. Run walkthrough.cs first or pass --file <review.md>.");
+            throw new UserInputException($"Couldn't find the review file at '{p}'. Use the `linear-walkthrough` skill first or pass --file <review.md>.");
         return p;
     }
     return ResolveOnlyReviewFile(cwd);
@@ -206,7 +206,7 @@ static string ResolveOnlyReviewFile(string cwd)
     return matches.Length switch
     {
         1 => matches[0],
-        0 => throw new UserInputException("No review file found in the current folder. Run walkthrough.cs first or pass --file <review.md>."),
+        0 => throw new UserInputException("No review file found in the current folder. Use the `linear-walkthrough` skill first or pass --file <review.md>."),
         _ => throw new UserInputException("Multiple review files found. Pass --file <review.md> so the helper knows which one to update.")
     };
 }
@@ -227,16 +227,16 @@ static void PrintUsage()
         Add reviewer-facing notes to an existing PR walkthrough file.
 
         Usage:
-          dotnet run scribe.cs -- note --file <review.md> --path src/File.cs --text "Observation"
-          dotnet run scribe.cs -- step --file <review.md> --title "Core flow" --path src/File.cs --text "Explain the change story"
-          dotnet run scribe.cs -- hunk --file <review.md> --path src/File.cs --summary "Why it matters" --lines 18-30
-          dotnet run scribe.cs -- hunk --file <review.md> --path src/File.cs --summary "Why it matters" --content "@@ real diff hunk @@"
-          dotnet run scribe.cs -- prompt --file <review.md>
-          dotnet run scribe.cs -- undo --file <review.md>
-          dotnet run scribe.cs -- open --file <review.md>
+          dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- note --file <review.md> --path src/File.cs --text "Observation"
+          dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- step --file <review.md> --title "Core flow" --path src/File.cs --text "Explain the change story"
+          dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- hunk --file <review.md> --path src/File.cs --summary "Why it matters" --lines 18-30
+          dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- hunk --file <review.md> --path src/File.cs --summary "Why it matters" --content "@@ real diff hunk @@"
+          dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- prompt --file <review.md>
+          dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- undo --file <review.md>
+          dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- open --file <review.md>
 
         Notes:
-        - This command assumes the scaffold already exists. Use `dotnet run walkthrough.cs -- <github-pr-url>` first.
+        - This command assumes the review file already exists. Use the `linear-walkthrough` skill first.
         - `note`, `step`, and `hunk` preserve existing content and append structured Markdown blocks.
         - Pass `--section "Reviewer Brief"` to refine the top-level PR brief in place.
         - Pass `--section "Supporting Notes"` to park low-signal churn outside the main narrative.
@@ -483,14 +483,19 @@ static class PromptTemplateRenderer
         "- Avoid large code dumps unless a small excerpt is central to understanding the change.",
         "",
         "When you need to add grounded evidence, prefer commands like:",
-        $"dotnet run scribe.cs -- note --file \"{reviewFilePath}\" --section \"Reviewer Brief\" --path src/auth.cs --text \"This appears to restructure the auth validation flow around empty-token handling.\"",
-        $"dotnet run scribe.cs -- step --file \"{reviewFilePath}\" --title \"Validation now happens earlier\" --path src/auth.cs --path src/handlers/request.cs --text \"Start in src/auth.cs, where invalid tokens are rejected before the rest of the request path runs.\"",
-        $"dotnet run scribe.cs -- note --file \"{reviewFilePath}\" --section \"Supporting Notes\" --path tests/auth.spec.ts --text \"Test coverage follows the core validation change.\"",
-        $"dotnet run scribe.cs -- note --file \"{reviewFilePath}\" --text \"Short reviewer-facing observation\"",
-        $"dotnet run scribe.cs -- hunk --file \"{reviewFilePath}\" --path src/File.cs --summary \"Why this matters\" --lines 18-30",
-        $"dotnet run scribe.cs -- hunk --file \"{reviewFilePath}\" --path src/File.cs --summary \"Why this matters\" --content \"@@ real inspected diff hunk @@\"",
+        $"{HelperCommands.Scribe} -- note --file \"{reviewFilePath}\" --section \"Reviewer Brief\" --path src/auth.cs --text \"This appears to restructure the auth validation flow around empty-token handling.\"",
+        $"{HelperCommands.Scribe} -- step --file \"{reviewFilePath}\" --title \"Validation now happens earlier\" --path src/auth.cs --path src/handlers/request.cs --text \"Start in src/auth.cs, where invalid tokens are rejected before the rest of the request path runs.\"",
+        $"{HelperCommands.Scribe} -- note --file \"{reviewFilePath}\" --section \"Supporting Notes\" --path tests/auth.spec.ts --text \"Test coverage follows the core validation change.\"",
+        $"{HelperCommands.Scribe} -- note --file \"{reviewFilePath}\" --text \"Short reviewer-facing observation\"",
+        $"{HelperCommands.Scribe} -- hunk --file \"{reviewFilePath}\" --path src/File.cs --summary \"Why this matters\" --lines 18-30",
+        $"{HelperCommands.Scribe} -- hunk --file \"{reviewFilePath}\" --path src/File.cs --summary \"Why this matters\" --content \"@@ real inspected diff hunk @@\"",
         "```"
     ]);
+}
+
+static class HelperCommands
+{
+    public const string Scribe = @"dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs";
 }
 
 // ──────────────────────────────────────────────────────────────────

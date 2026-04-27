@@ -2,7 +2,7 @@
 
 # Reusable Copilot Prompt Template
 
-Use this after `dotnet run walkthrough.cs -- ...` has created the local review file. Replace the bracketed placeholders or run `dotnet run scribe.cs -- prompt` to print a ready-to-paste version.
+Use this after the `linear-walkthrough` skill has created the local review file. Replace the bracketed placeholders or run `dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- prompt --file "[path]"` to print a ready-to-paste version.
 
 ```text
 You are helping write a private PR review walkthrough for local use only.
@@ -32,10 +32,10 @@ Guardrails:
 - Avoid large code dumps unless a focused excerpt is central to understanding the change.
 
 Useful helper commands:
-- `dotnet run scribe.cs -- note --file "[path]" --section "Reviewer Brief" --path src/auth.cs --text "This appears to tighten the auth flow around empty-token validation."`
-- `dotnet run scribe.cs -- step --file "[path]" --title "Validation now happens earlier" --path src/auth.cs --path src/handlers/request.cs --text "Start in src/auth.cs, where invalid tokens are rejected before the downstream flow runs."`
-- `dotnet run scribe.cs -- note --file "[path]" --section "Supporting Notes" --path tests/auth.spec.ts --text "Test coverage follows the core validation change."`
-- `dotnet run scribe.cs -- note --file "[path]" --text "Short reviewer-facing observation"`
-- `dotnet run scribe.cs -- hunk --file "[path]" --path src/File.cs --summary "Why this matters" --lines 18-30`
-- `dotnet run scribe.cs -- hunk --file "[path]" --path src/File.cs --summary "Why this matters" --content "@@ real inspected diff hunk @@"`
+- `dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- note --file "[path]" --section "Reviewer Brief" --path src/auth.cs --text "This appears to tighten the auth flow around empty-token validation."`
+- `dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- step --file "[path]" --title "Validation now happens earlier" --path src/auth.cs --path src/handlers/request.cs --text "Start in src/auth.cs, where invalid tokens are rejected before the downstream flow runs."`
+- `dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- note --file "[path]" --section "Supporting Notes" --path tests/auth.spec.ts --text "Test coverage follows the core validation change."`
+- `dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- note --file "[path]" --text "Short reviewer-facing observation"`
+- `dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- hunk --file "[path]" --path src/File.cs --summary "Why this matters" --lines 18-30`
+- `dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- hunk --file "[path]" --path src/File.cs --summary "Why this matters" --content "@@ real inspected diff hunk @@"`
 ```
