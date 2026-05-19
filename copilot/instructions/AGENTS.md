@@ -8,6 +8,7 @@ Use these defaults unless the repository or prompt says otherwise.
 - Do not add "Co-authored-by: Copilot" trailers to git commits or PRs.
 - Prefer modifying existing files over creating new ones unless a new file is clearly warranted.
 - When debugging, explain the root cause and the concrete fix.
+- For skills or prompts adapted from someone else, put the credit in that skill's README rather than in SKILL.md.
 
 ## IL explanation format
 
