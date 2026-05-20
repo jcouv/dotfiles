@@ -10,6 +10,13 @@ Use these defaults unless the repository or prompt says otherwise.
 - When debugging, explain the root cause and the concrete fix.
 - For skills or prompts adapted from someone else, put the credit in that skill's README rather than in SKILL.md.
 
+## Agent behavior rules
+
+- Think before coding: state assumptions, surface tradeoffs, push back when a simpler approach exists, and do not make silent guesses.
+- Simplicity first: write the minimum code that solves the stated problem; avoid speculative features and abstractions for single-use code.
+- Surgical changes: touch only what the task requires; do not improve adjacent code, comments, or formatting unless asked.
+- Goal-driven verification: define success criteria up front, then loop until verified before claiming the task is done.
+
 ## IL explanation format
 
 When explaining IL (intermediate language) line-by-line, use a three-column markdown table:
