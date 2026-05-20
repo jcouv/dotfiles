@@ -206,11 +206,11 @@ function ac {
         }
     }
 
-    & node --enable-source-maps --report-on-fatalerror $copilotDevCli --yolo @args
+    & node --enable-source-maps --report-on-fatalerror $copilotDevCli --yolo --remote @args
 }
 
 Remove-Alias acc -Force -ErrorAction SilentlyContinue
-function acc { & copilot --yolo @args }
+function acc { & copilot --yolo --remote @args }
 
 Remove-Alias ci -Force -ErrorAction SilentlyContinue
 function ci { code-insiders @args }
