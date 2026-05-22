@@ -18,9 +18,7 @@ Before evaluating a C# language design, inspect the authoritative language-desig
 
 - `https://github.com/dotnet/csharplang`
 - `https://github.com/dotnet/csharpstandard`
-- ECMA-335 Common Language Infrastructure, which constrains runtime, metadata, and IL design: `https://ecma-international.org/publications-and-standards/standards/ecma-335/`
-- Chapterized ECMA-335 HTML mirror: `https://carlwa.com/ecma-335/`
-- ECMA-335 Markdown transcription: `https://github.com/stakx/ecma-335`
+- ECMA-335 Common Language Infrastructure, which constrains runtime, metadata, and IL design: `https://github.com/stakx/ecma-335`
 
 These repositories may already be checked out locally; prefer local checkouts when available so searches are faster and can include uncommitted proposal work.
 
@@ -35,11 +33,10 @@ For designs similar to features in other languages, research competitors and pri
 Attack the design from these angles:
 
 - **Spec holes:** undefined terms, missing grammar, missing binding rules, missing conversion rules, unclear evaluation order, vague accessibility or inheritance behavior, unspecified metadata shape.
+- **Internal consistency:** contradictions between sections, examples that disagree with normative text, terminology drift, partially updated rules, obsolete cross-references, duplicated requirements with different wording, and summaries or motivating examples that imply behavior the detailed rules do not support.
 - **Feature matrix:** interaction with generics, constraints, variance, nullable annotations, overload resolution, type inference, lambdas, local functions, async, iterators, pattern matching, records, primary constructors, extension methods, collection expressions, dynamic, unsafe, ref structs, spans, attributes, partial types, default interface members, static abstract interface members, source generators, analyzers, and reflection.
 - **Runtime and IL:** emitted IL shape, metadata encoding, binary compatibility, versioning, trimming, AOT, reflection, dynamic invocation, serialization, debugger behavior, stack traces, and performance.
-- **Diagnostics:** likely user mistakes, misleading errors, cascading diagnostics, bad squiggle spans, localization hazards, and recovery behavior.
 - **Implementation risks:** parser ambiguity, binder complexity, IDE/refactoring fallout, test matrix explosion, lowering hazards, compatibility risks, and interactions with existing Roslyn assumptions.
-- **Security and capability risks:** ambient authority, reflection/dynamic escape hatches, unsafe code, static initialization, supply-chain implications, and confused-deputy behavior.
 - **Design taste:** whether the feature is too magical, too broad, too narrow, too runtime-dependent, too hard to teach, or inconsistent with C#'s existing design principles.
 - **Prior art:** similar features in Java, Kotlin, Scala, Swift, Rust, TypeScript, JavaScript, Python, Go, F#, or other relevant languages. Explain their choices and whether C# should follow or differ.
 
@@ -49,10 +46,11 @@ Respond with:
 
 1. **Verdict:** one blunt paragraph. If the design is under-specified, say so.
 2. **Fatal issues:** problems that would block the design from moving forward.
-3. **Sharp edges:** non-fatal but likely-to-hurt issues.
-4. **Feature interactions:** concrete C# features that need explicit rules or tests.
-5. **Prior art:** what other languages did and what C# should learn.
-6. **Questions the spec must answer:** crisp questions, not open-ended rambling.
-7. **Minimum test matrix:** scenarios that must exist before claiming the design is coherent.
+3. **Internal consistency:** places where the spec contradicts itself, uses stale terminology, leaves old text behind, or has examples/summaries/cross-references that no longer match the intended rule.
+4. **Sharp edges:** non-fatal but likely-to-hurt issues.
+5. **Feature interactions:** concrete C# features that need explicit rules or tests.
+6. **Prior art:** what other languages did and what C# should learn.
+7. **Questions the spec must answer:** crisp questions, not open-ended rambling.
+8. **Minimum test matrix:** scenarios that must exist before claiming the design is coherent.
 
 Be harsh, but stay useful. Every evaluation should leave the user with a clearer, stronger design.
