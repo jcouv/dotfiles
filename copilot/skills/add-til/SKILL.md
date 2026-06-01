@@ -23,7 +23,6 @@ Use these defaults instead of reading existing TIL files just to rediscover the 
 published: true
 title: <Title>
 categories: [til]
-tags: [<tag1>, <tag2>]
 permalink: /til/<slug>.html
 comments: False
 ---
@@ -31,6 +30,5 @@ comments: False
 
 - Body: short, practical Markdown; usually 2-5 concise paragraphs or a short list.
 - Tone: direct, explanatory, and lightly polished; preserve the user's idea but fix typos and clarify technical nuance.
-- Tags: choose 1-3 lowercase topical tags
 
-Only inspect existing posts when the requested entry needs a style comparison, tag reuse is ambiguous, or there is a possible filename/permalink collision.
+Only inspect existing posts when the requested entry needs a style comparison or there is a possible filename/permalink collision.
