@@ -206,11 +206,11 @@ function ac {
         }
     }
 
-    & node --enable-source-maps --report-on-fatalerror $copilotDevCli --yolo --remote @args
+    & node --enable-source-maps --report-on-fatalerror $copilotDevCli --yolo --remote --secret-env-vars=TELEGRAM_BOT_TOKEN @args
 }
 
 Remove-Alias acc -Force -ErrorAction SilentlyContinue
-function acc { & copilot --yolo --remote @args }
+function acc { & copilot --yolo --remote --secret-env-vars=TELEGRAM_BOT_TOKEN @args }
 
 Remove-Alias ci -Force -ErrorAction SilentlyContinue
 function ci { code-insiders @args }
