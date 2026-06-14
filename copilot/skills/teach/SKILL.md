@@ -53,7 +53,8 @@ The lesson should be short, and completable very quickly. Learners' working memo
 
 If possible, open the lesson file for the user by running a CLI command.
 
-Each lesson should link via HTML anchors to other lessons and reference documents.
+Each lesson should link via HTML anchors to other lessons (previous and next and any other cross-references) and reference documents.
+When a new lesson is added, update the previous lessons to link to it as needed.
 
 Each lesson should recommend a primary source for the user to read or watch. This should be the most high-quality, high-trust resource you found on the topic.
 
@@ -125,6 +126,17 @@ Some learning topics lend themselves to reference:
 - Glossaries for any topic with its own nomenclature
 
 Glossaries, in particular, are an essential reference. Once one is created, it should be adhered to in every lesson.
+
+## Interaction Reminders
+
+At the start of each session (or after producing a lesson), briefly remind the user how they can help track progress by invoking `/teach` again with:
+
+- **"I already know X"** — creates a learning record of prior knowledge so you don't re-teach it
+- **Answer a quiz or explain a concept back** — demonstrates understanding; triggers a learning record
+- **"That's not quite right" or ask a clarifying question** — surfaces misconceptions worth recording
+- **"My goal has changed"** — prompts a mission revision and a learning record
+
+Keep the reminder to one or two sentences — don't lecture about the system every time. A light nudge like "Let me know if anything clicked or if you want to skip ahead — it helps me track where you are" is sufficient.
 
 ## `NOTES.md`
 
