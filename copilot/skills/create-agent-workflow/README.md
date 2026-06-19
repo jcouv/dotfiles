@@ -5,7 +5,7 @@ The [create-agent-workflow skill](./SKILL.md) helps an agent create file-based C
 A workflow app uses the bundled Agent Workflow Framework and a `state.json` checkpoint. It typically contains:
 
 - serializable state types for `state.json`
-- agent/prompt definitions derived from `Agent<TInput>` or `Agent<TInput, TOutput>`
+- agent/prompt definitions derived from `AgentAction<TAgent, TInput>` or `AgentFunc<TAgent, TInput, TOutput>`
 - a workflow method that reads state, invokes agents, and saves the next state
 
 The skill includes some working examples as well as an API reference.

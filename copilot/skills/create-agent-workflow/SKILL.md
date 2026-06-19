@@ -8,11 +8,20 @@ user-invocable: true
 
 Create an Agent Workflow Framework app: a file-based C# program that references the framework project, keeps durable state in `state.json`, and orchestrates one or more agents.
 
-An app consists of serializable state types, prompt-providing agent types (`Agent<TInput>` or `Agent<TInput, TOutput>`), and a workflow method that reads state, invokes agents, and saves the next state.
+An app consists of serializable state types, prompt-providing agent types (`AgentAction<TAgent, TInput>` or `AgentFunc<TAgent, TInput, TOutput>`), and a workflow method that reads state, invokes agents, and saves the next state.
 
 ---
 
 ## Framework Overview
+
+The framework provides:
+- standardized agent invocation pattern:
+  Agents are presented as strongly-typed methods (with input and output types) to be invoked.
+  It handles prompt generation, Copilot invocation, output parsing, and journaling.
+- durable state management:
+  `state.json` as the single source of truth for the workflow's current state, enabling resumability and checkpointing.
+- readable workflow logic:
+  The workflow method is a normal C# async method, making it easy to read and write complex orchestration logic with loops, conditionals, and error handling.
 
 The framework is bundled with this skill under:
 
@@ -26,19 +35,17 @@ Core APIs:
 
 - `WorkflowApp.RunAsync(...)`: parses command-line args, loads `state.json`, creates the journal, and starts the workflow.
 - `JsonState<TState>`: reads and writes `state.json`.
-- `Agent<TInput>`: void-returning agent (no output).
-- `Agent<TInput, TOutput>`: agent with a result (the prompt must result in a JSON file that deserializes to `TOutput`).
+- `AgentAction<TAgent, TInput>`: void-returning agent (no output).
+- `AgentFunc<TAgent, TInput, TOutput>`: value-returning agent (the prompt must result in a JSON file that deserializes to `TOutput`).
 - `AgentJournal`: records durable agent invocation folders.
 
-JSON is serialized as camelCase and read case-insensitively.
-
-The app owns the state model (`AppState` in examples below). The JSON state file is both the starting point and the observable, resumable checkpoint. Workflow code owns status progression: agents should report work done or return typed outputs, but the workflow decides and saves the next state.
+The app owns the state model (`AppState` in examples below). The JSON state file is both the starting point and the observable, resumable checkpoint. Workflow code owns status progression: agents should report work done or return values, but the workflow decides and saves the next state.
 
 ---
 
 ## Standard App Shape
 
-Create a `.cs` file in the target repository, usually under `.agent\<workflow-name>\`, and place `state.json` beside it:
+Create a `.cs` file in the target repository, usually under `.agent\<workflow-name>\`:
 
 Start it with:
 
@@ -46,9 +53,11 @@ Start it with:
 #:project <absolute path to this skill>\framework\AgentWorkflow.csproj
 #:property JsonSerializerIsReflectionEnabledByDefault=true
 
+#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
+
 using AgentWorkflow;
 
-return await WorkflowApp.RunAsync<AppState>(args, runAsync: RunWorkflowAsync).ConfigureAwait(false);
+return await WorkflowApp.RunAsync<AppState>(args, runAsync: RunWorkflowAsync);
 
 static async Task RunWorkflowAsync(JsonState<AppState> state, AgentJournal journal)
 {
@@ -56,43 +65,40 @@ static async Task RunWorkflowAsync(JsonState<AppState> state, AgentJournal journ
 }
 ```
 
-Recommended layout:
+Then create some serializable state types and place a `state.json` beside `workflow.cs` with the initial state.
 
-```text
-.agent\<workflow-name>\
-  workflow.cs       C# workflow app using this framework
-  state.json        serialized AppState checkpoint
-  invocations\      framework-created agent invocation records
-```
+Finally, implement the workflow logic in `RunWorkflowAsync`: read from `state.Value`, invoke agents with `MyAgent.InvokeAndUpdateAsync(..., state, ...)`, and checkpoint non-agent state transitions with `state.UpdateAsync(...)`.
 
-After creating `workflow.cs` and `state.json`, run a rubber-duck subagent to verify the workflow design is minimal and sufficient for the user's goal before running agents that can make changes.
 
 Compile and run it with:
 
 ```powershell
-dotnet run .\.agent\<workflow-name>\workflow.cs
+dotnet run workflow.cs
 ```
 
-Common runs:
+Use `--dry-run` to compile, load `state.json`, verify deserialization, and exit before workflow logic can invoke agents.
+
+Once the dry run succeeds, run a rubber-duck subagent to verify the workflow design is minimal and sufficient for the user's goal before running agents that can make changes.
+
+Use `--single-step` to run until the next successful `state.UpdateAsync(...)` checkpoint. Use `--show-agent-output` to show Copilot output:
 
 ```powershell
-dotnet run .\.agent\<workflow-name>\workflow.cs -- --dry-run
-dotnet run .\.agent\<workflow-name>\workflow.cs -- --show-agent-output
 dotnet run .\.agent\<workflow-name>\workflow.cs -- --single-step
 ```
 
-Agent invocations run Copilot with `--yolo --no-ask-user` so workflows can proceed without interactive prompts.
+Note: Agent invocations run Copilot with `--yolo --no-ask-user` so workflows can proceed without interactive prompts.
+
+Another useful option is `--show-agent-output`, which runs agents without `-s` so their output is printed to the console. This is helpful for debugging and for workflows where the user needs to see agent output to make decisions.
 
 ---
 
 ## Design Guidance
 
-1. Keep `TState` explicit, serializable, and minimal: only durable information needed to resume and choose the next step.
-2. Start with full-state JSON snapshots; do not invent partial update logic unless state size demands it.
-3. Make the workflow method idempotent/resumable: it should be safe to restart from the top.
-4. Confirm what information should pass from agent to agent at each workflow transition.
-5. For typed-output agents, include the exact JSON shape in the prompt. For action-only agents, use `Agent<TInput>` and do not ask for `{}` output files.
-6. Let evaluators inspect the real world: worktree, logs, artifacts, tests, and state. Builders build; evaluators decide; workflow code saves status.
+1. Keep `TState` explicit, serializable, and minimal: only information that should be passed from agent to agent at each workflow transition and to resume the workflow from an interruption.
+2. Make the workflow method idempotent/resumable: it should be safe to restart from the top.
+3. Before implementation, clarify ambiguous orchestration policy with the user, especially whether `failed`/`blocked` means stop the whole workflow on every resume, skip that item and continue, or wait for manual intervention.
+4. Use `MyAgent.InvokeAndUpdateAsync(...)` for agent calls so each invocation is followed by a checkpoint. Use `state.UpdateAsync(...)` for simple state transitions that do not invoke an agent.
+5. For value-returning agents, include a TypeScript-style JSON type for the output and optionally override `ValidateOutput` for custom validation. For void-returning agents (derived from `AgentAction<TAgent, TInput>`), the framework expects no output file.
 
 ---
 
@@ -104,9 +110,11 @@ Use this as the smallest file-based app that compiles, loads `state.json`, and e
 #:project <absolute path to this skill>\framework\AgentWorkflow.csproj
 #:property JsonSerializerIsReflectionEnabledByDefault=true
 
+#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
+
 using AgentWorkflow;
 
-return await WorkflowApp.RunAsync<EmptyState>(args, RunWorkflowAsync).ConfigureAwait(false);
+return await WorkflowApp.RunAsync<EmptyState>(args, RunWorkflowAsync);
 
 static Task RunWorkflowAsync(JsonState<EmptyState> state, AgentJournal journal)
 {
@@ -132,9 +140,11 @@ This example triages one pending issue at a time. `no_repro` and `by_design` fin
 #:project <absolute path to this skill>\framework\AgentWorkflow.csproj
 #:property JsonSerializerIsReflectionEnabledByDefault=true
 
+#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
+
 using AgentWorkflow;
 
-return await WorkflowApp.RunAsync<ChecklistState>(args: args, runAsync: RunWorkflowAsync).ConfigureAwait(false);
+return await WorkflowApp.RunAsync<ChecklistState>(args: args, runAsync: RunWorkflowAsync);
 
 static async Task RunWorkflowAsync(JsonState<ChecklistState> state, AgentJournal journal)
 {
@@ -142,20 +152,23 @@ static async Task RunWorkflowAsync(JsonState<ChecklistState> state, AgentJournal
     {
         if (item.Status == IssueStatus.Pending)
         {
-            var triage = await Agent.InvokeAsync<TriageAgent, TriageInput, TriageOutput>(
-                new TriageInput(item),
-                journal).ConfigureAwait(false);
+            await TriageAgent.InvokeAndUpdateAsync(
+                new TriageAgent.Input(item),
+                journal,
+                state,
+                (current, triage) =>
+                {
+                    var nextStatus = triage.Decision switch
+                    {
+                        TriageDecision.NoRepro => IssueStatus.Done,
+                        TriageDecision.ByDesign => IssueStatus.Done,
+                        TriageDecision.NeedsFix => IssueStatus.NeedsFix,
+                        TriageDecision.Blocked => IssueStatus.Blocked,
+                        _ => throw new InvalidOperationException($"Unknown triage decision '{triage.Decision}'.")
+                    };
 
-            var nextStatus = triage.Decision switch
-            {
-                TriageDecision.NoRepro => IssueStatus.Done,
-                TriageDecision.ByDesign => IssueStatus.Done,
-                TriageDecision.NeedsFix => IssueStatus.NeedsFix,
-                TriageDecision.Blocked => IssueStatus.Blocked,
-                _ => throw new InvalidOperationException($"Unknown triage decision '{triage.Decision}'.")
-            };
-
-            await state.SaveAsync(state.Value.SetStatus(item.Id, nextStatus, triage)).ConfigureAwait(false);
+                    return current.SetStatus(item.Id, nextStatus, triage);
+                });
             continue;
         }
 
@@ -164,11 +177,11 @@ static async Task RunWorkflowAsync(JsonState<ChecklistState> state, AgentJournal
             var triage = item.LastTriage
                 ?? throw new InvalidOperationException($"Item '{item.Id}' needs a fix but has no triage result.");
 
-            var fix = await Agent.InvokeAsync<FixerAgent, FixerInput, FixerOutput>(
-                new FixerInput(item, triage),
-                journal).ConfigureAwait(false);
-
-            await state.SaveAsync(state.Value.SetStatus(item.Id, IssueStatus.Done, fix: fix)).ConfigureAwait(false);
+            await FixerAgent.InvokeAndUpdateAsync(
+                new FixerAgent.Input(item, triage),
+                journal,
+                state,
+                (current, fix) => current.SetStatus(item.Id, IssueStatus.Done, fix: fix));
         }
     }
 }
@@ -195,70 +208,81 @@ public static class TriageDecision
     public const string Blocked = "blocked";
 }
 
-public sealed record ChecklistState(
-    IReadOnlyList<ChecklistItemState> Items);
+public sealed record ChecklistState(IReadOnlyList<ChecklistItemState> Items);
 
 public sealed record ChecklistItemState(
     string Id,
     string IssueId,
     string Title,
     string Status,
-    TriageOutput? LastTriage,
-    FixerOutput? LastFix);
+    TriageAgent.Output? LastTriage,
+    FixerAgent.Output? LastFix);
 
-public sealed record TriageInput(
-    ChecklistItemState Item);
-
-public sealed record TriageOutput(
-    string Decision);
-
-public sealed record FixerInput(
-    ChecklistItemState Item,
-    TriageOutput Triage);
-
-public sealed record FixerOutput(
-    string Outcome,
-    string? PullRequestUrl);
-
-public sealed class TriageAgent : Agent<TriageInput, TriageOutput>
+public sealed class TriageAgent : AgentFunc<TriageAgent, TriageAgent.Input, TriageAgent.Output>
 {
-    public override string Prompt(TriageInput input) => $$"""
+    public sealed record Input(ChecklistItemState Item);
+
+    public sealed record Output(string Decision);
+
+    public override string Prompt(Input input) => $$"""
         You are the Triage agent.
 
         Triage issue {{input.Item.IssueId}}: {{input.Item.Title}}.
 
         Return a decision of no_repro, by_design, needs_fix, or blocked.
 
-        Write a JSON file matching this shape:
-
-        {
-          "decision": "no_repro | by_design | needs_fix | blocked"
-        }
-
         ## Triage guidance
         ...
-        """;
+
+        ## Output
+        Write a JSON file matching this TypeScript type:
+
+        type TriageOutput = {
+          decision: "no_repro" | "by_design" | "needs_fix" | "blocked";
+        };
+
+        """; // note the framework appends instructions regarding the output file
+
+    public override bool ValidateOutput(Output output)
+    {
+        return output.Decision is TriageDecision.NoRepro
+            or TriageDecision.ByDesign
+            or TriageDecision.NeedsFix
+            or TriageDecision.Blocked;
+    }
 }
 
-public sealed class FixerAgent : Agent<FixerInput, FixerOutput>
+public sealed class FixerAgent : AgentFunc<FixerAgent, FixerAgent.Input, FixerAgent.Output>
 {
-    public override string Prompt(FixerInput input) => $$"""
+    public sealed record Input(ChecklistItemState Item, TriageAgent.Output Triage);
+
+    public sealed record Output(string Outcome, string? PullRequestUrl);
+
+    public override string Prompt(Input input) => $$"""
         You are the Fixer agent.
 
         Fix issue {{input.Item.IssueId}}: {{input.Item.Title}}.
+        Prior triage decision: {{input.Triage.Decision}}.
 
         Report either that a PR was opened or that the fix was abandoned.
 
-        Write a JSON file matching this shape:
-
-        {
-          "outcome": "pr_opened | abandoned",
-          "pullRequestUrl": "string or null"
-        }
-
         ## Fixing guidance
         ...
-        """;
+
+        ## Output
+        Write a JSON file matching this TypeScript type:
+
+        type FixerOutput = {
+          outcome: "pr_opened" | "abandoned";
+          pullRequestUrl: string | null;
+        };
+
+        """; // note the framework appends instructions regarding the output file
+
+    public override bool ValidateOutput(Output output)
+    {
+        return output.Outcome is "pr_opened" or "abandoned";
+    }
 }
 
 public static class ChecklistStateExtensions
@@ -267,8 +291,8 @@ public static class ChecklistStateExtensions
         this ChecklistState state,
         string itemId,
         string status,
-        TriageOutput? triage = null,
-        FixerOutput? fix = null)
+        TriageAgent.Output? triage = null,
+        FixerAgent.Output? fix = null)
     {
         return state with
         {
@@ -317,52 +341,67 @@ Place this `state.json` next to `workflow.cs`:
 ## Builder/Evaluator Pattern
 
 Use this when one agent implements work and a separate evaluator accepts, requests changes, or blocks. This example retries until acceptance, blocking, or `MaxRounds`.
+If adapting this to a checklist, ask the user whether a blocked/failed item is a hard stop for the whole workflow or only for that item. Encode that policy explicitly in the startup guard and item picker.
 
 ```csharp
 #:project <absolute path to this skill>\framework\AgentWorkflow.csproj
 #:property JsonSerializerIsReflectionEnabledByDefault=true
 
+#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
+
 using AgentWorkflow;
 
 const int MaxRounds = 3;
 
-return await WorkflowApp.RunAsync<BuildReviewState>(args, RunWorkflowAsync).ConfigureAwait(false);
+return await WorkflowApp.RunAsync<BuildReviewState>(args, RunWorkflowAsync);
 
 static async Task RunWorkflowAsync(JsonState<BuildReviewState> state, AgentJournal journal)
 {
-    while (state.Value.Status is ReviewStatus.Pending or ReviewStatus.ChangesRequested)
+    while (state.Value.Status is ReviewStatus.Pending or ReviewStatus.ChangesRequested or ReviewStatus.Evaluating)
     {
-        if (state.Value.Round >= MaxRounds)
+        if (state.Value.Status is ReviewStatus.Pending or ReviewStatus.ChangesRequested)
         {
-            await state.SaveAsync(state.Value with { Status = ReviewStatus.Failed }).ConfigureAwait(false);
-            return;
+            if (state.Value.Round >= MaxRounds)
+            {
+                await state.UpdateAsync(static current => current with { Status = ReviewStatus.Failed });
+                return;
+            }
+
+            var nextRound = state.Value.Round + 1;
+            await BuilderAgent.InvokeAndUpdateAsync(
+                new BuilderAgent.Input(state.Value.Item, nextRound, state.Value.LastEvaluation),
+                journal,
+                state,
+                (current, _) => current with
+                {
+                    Status = ReviewStatus.Evaluating,
+                    Round = nextRound
+                });
+            continue;
         }
 
-        var nextRound = state.Value.Round + 1;
-        await Agent.InvokeAsync<BuilderAgent, BuilderInput>(
-            new BuilderInput(state.Value.Item, nextRound, state.Value.LastEvaluation),
-            journal).ConfigureAwait(false);
+        await EvaluatorAgent.InvokeAndUpdateAsync(
+            new EvaluatorAgent.Input(state.Value.Item, state.Value.Round),
+            journal,
+            state,
+            (current, evaluation) =>
+            {
+                var nextStatus = evaluation.Decision switch
+                {
+                    EvaluationDecision.Accepted => ReviewStatus.Done,
+                    EvaluationDecision.ChangesRequested => ReviewStatus.ChangesRequested,
+                    EvaluationDecision.Blocked => ReviewStatus.Blocked,
+                    _ => throw new InvalidOperationException($"Unknown evaluator decision '{evaluation.Decision}'.")
+                };
 
-        var evaluation = await Agent.InvokeAsync<EvaluatorAgent, EvaluatorInput, EvaluatorOutput>(
-            new EvaluatorInput(state.Value.Item, nextRound),
-            journal).ConfigureAwait(false);
+                return current with
+                {
+                    Status = nextStatus,
+                    LastEvaluation = evaluation
+                };
+            });
 
-        var nextStatus = evaluation.Decision switch
-        {
-            EvaluationDecision.Accepted => ReviewStatus.Done,
-            EvaluationDecision.ChangesRequested => ReviewStatus.ChangesRequested,
-            EvaluationDecision.Blocked => ReviewStatus.Blocked,
-            _ => throw new InvalidOperationException($"Unknown evaluator decision '{evaluation.Decision}'.")
-        };
-
-        await state.SaveAsync(state.Value with
-        {
-            Status = nextStatus,
-            Round = nextRound,
-            LastEvaluation = evaluation
-        }).ConfigureAwait(false);
-
-        if (nextStatus is ReviewStatus.Done or ReviewStatus.Blocked)
+        if (state.Value.Status is ReviewStatus.Done or ReviewStatus.Blocked)
             return;
     }
 }
@@ -370,6 +409,7 @@ static async Task RunWorkflowAsync(JsonState<BuildReviewState> state, AgentJourn
 public static class ReviewStatus
 {
     public const string Pending = "pending";
+    public const string Evaluating = "evaluating";
     public const string ChangesRequested = "changes_requested";
     public const string Done = "done";
     public const string Blocked = "blocked";
@@ -387,28 +427,15 @@ public sealed record BuildReviewState(
     BuilderEvaluatorItemState Item,
     string Status,
     int Round,
-    EvaluatorOutput? LastEvaluation);
+    EvaluatorAgent.Output? LastEvaluation);
 
-public sealed record BuilderEvaluatorItemState(
-    string Id,
-    string Title);
+public sealed record BuilderEvaluatorItemState(string Id, string Title);
 
-public sealed record BuilderInput(
-    BuilderEvaluatorItemState Item,
-    int Round,
-    EvaluatorOutput? PreviousEvaluation);
-
-public sealed record EvaluatorInput(
-    BuilderEvaluatorItemState Item,
-    int Round);
-
-public sealed record EvaluatorOutput(
-    string Decision,
-    string Feedback);
-
-public sealed class BuilderAgent : Agent<BuilderInput>
+public sealed class BuilderAgent : AgentAction<BuilderAgent, BuilderAgent.Input>
 {
-    public override string Prompt(BuilderInput input) => $$"""
+    public sealed record Input(BuilderEvaluatorItemState Item, int Round, EvaluatorAgent.Output? PreviousEvaluation);
+
+    public override string Prompt(Input input) => $$"""
         You are the Builder.
 
         Implement item {{input.Item.Id}}: {{input.Item.Title}}.
@@ -422,9 +449,13 @@ public sealed class BuilderAgent : Agent<BuilderInput>
         """;
 }
 
-public sealed class EvaluatorAgent : Agent<EvaluatorInput, EvaluatorOutput>
+public sealed class EvaluatorAgent : AgentFunc<EvaluatorAgent, EvaluatorAgent.Input, EvaluatorAgent.Output>
 {
-    public override string Prompt(EvaluatorInput input) => $$"""
+    public sealed record Input(BuilderEvaluatorItemState Item, int Round);
+
+    public sealed record Output(string Decision, string Feedback);
+
+    public override string Prompt(Input input) => $$"""
         You are the Evaluator.
 
         Verify item {{input.Item.Id}}: {{input.Item.Title}}.
@@ -434,15 +465,22 @@ public sealed class EvaluatorAgent : Agent<EvaluatorInput, EvaluatorOutput>
         Return a decision of accepted, changes_requested, or blocked.
         Do not edit implementation files.
 
-        Write a JSON file matching this shape:
+        Write a JSON file matching this TypeScript type:
 
-        {
-          "decision": "accepted | changes_requested | blocked",
-          "feedback": "string"
-        }
+        type EvaluatorOutput = {
+          decision: "accepted" | "changes_requested" | "blocked";
+          feedback: string;
+        };
 
         ...
-        """;
+        """; // note the framework appends instructions regarding the output file
+
+    public override bool ValidateOutput(Output output)
+    {
+        return output.Decision is EvaluationDecision.Accepted
+            or EvaluationDecision.ChangesRequested
+            or EvaluationDecision.Blocked;
+    }
 }
 ```
 
@@ -462,7 +500,7 @@ public static Task<int> WorkflowApp.RunAsync<TState>(
 
 ```text
 --dry-run                   Load state, then exit without invoking agents.
---max-output-retries <n>    Retries for typed agent output. Default: 2.
+--max-output-retries <n>    Retries for value-returning agent output. Default: 2.
 --single-step               Exit after the next state checkpoint.
 --show-agent-output         Do not pass -s to Copilot agent invocations.
 ```
@@ -473,40 +511,51 @@ public static Task<int> WorkflowApp.RunAsync<TState>(
 public sealed class JsonState<TState>
 {
     public TState Value { get; }
-    public Task SaveAsync(TState newValue);
+    public Task UpdateAsync(Func<TState, TState> update);
 }
 ```
 
-`Value` is the loaded state. `SaveAsync` writes `state.json` atomically and updates `Value`.
+`Value` is the loaded state. `UpdateAsync` computes the next state from the current state, writes `state.json` atomically, and updates `Value`.
 
-### Agents
+### Strongly-typed Agents
 
 ```csharp
-public abstract class Agent<TInput>
+public abstract class AgentAction<TAgent, TInput>
 {
     public string Name { get; }
     public abstract string Prompt(TInput input);
+    public static Task<AgentInvocation> InvokeAndUpdateAsync<TState>(
+        TInput input,
+        AgentJournal journal,
+        JsonState<TState> state,
+        Func<TState, AgentInvocation, TState> update);
 }
-AgentInvocation invocation = await Agent.InvokeAsync<MyAgent, MyInput>(input, journal).ConfigureAwait(false);
+AgentInvocation invocation = await MyAgent.InvokeAndUpdateAsync(input, journal, state, update);
 
-public abstract class Agent<TInput, TOutput> : Agent<TInput>
+public abstract class AgentFunc<TAgent, TInput, TOutput> : AgentAction<TAgent, TInput>
 {
+    public static Task<TOutput> InvokeAndUpdateAsync<TState>(
+        TInput input,
+        AgentJournal journal,
+        JsonState<TState> state,
+        Func<TState, TOutput, TState> update);
+    public virtual bool ValidateOutput(TOutput output);
 }
-MyOutput output = await Agent.InvokeAsync<MyAgent, MyInput, MyOutput>(input, journal).ConfigureAwait(false);
+MyOutput output = await MyAgent.InvokeAndUpdateAsync(input, journal, state, update);
 ```
 
-`Agent<TInput>` is action-only. `Agent<TInput, TOutput>` requires `output.json` that deserializes to `TOutput`.
+`AgentAction<TAgent, TInput>` is void-returning. `AgentFunc<TAgent, TInput, TOutput>` is value-returning and requires `output.json` that deserializes to `TOutput` and passes `ValidateOutput`. The default `ValidateOutput` implementation returns `true`.
 
 ### `AgentJournal` and `AgentInvocation`
 
-Pass the `AgentJournal` from `RunAsync` to each `Agent.InvokeAsync`. Each invocation folder records:
+Pass the `AgentJournal` from `RunAsync` to each agent's `InvokeAndUpdateAsync` method. Each invocation folder records:
 
 ```text
 input.json       serialized input object passed to the agent
 prompt.md        prompt generated by the agent type
 transcript.txt   Copilot transcript for the run
 invocation.json  metadata: id, agent name, paths, status, timestamps
-output.json      typed output, only for Agent<TInput, TOutput>
+output.json      returned value, only for AgentFunc<TAgent, TInput, TOutput>
 ```
 
 Void-returning agent calls return an `AgentInvocation` with paths, status, agent name, input/output type names, and timestamps.

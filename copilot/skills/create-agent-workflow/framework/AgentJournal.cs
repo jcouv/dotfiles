@@ -18,20 +18,21 @@ public sealed class AgentJournal
     private string InvocationsDirectory => Path.Combine(_options.WorkflowDirectory, "invocations");
 
     internal Task<AgentInvocation> InvokeActionAsync<TAgent, TInput>(TInput input)
-        where TAgent : Agent<TInput>, new()
+        where TAgent : AgentAction<TAgent, TInput>, new()
     {
         return InvokeActionAsync(new TAgent(), input);
     }
 
     internal Task<TOutput> InvokeAsync<TAgent, TInput, TOutput>(TInput input)
-        where TAgent : Agent<TInput, TOutput>, new()
+        where TAgent : AgentFunc<TAgent, TInput, TOutput>, new()
     {
         return InvokeAsync(new TAgent(), input);
     }
 
-    private async Task<TOutput> InvokeAsync<TInput, TOutput>(
-        Agent<TInput, TOutput> agent,
+    private async Task<TOutput> InvokeAsync<TAgent, TInput, TOutput>(
+        AgentFunc<TAgent, TInput, TOutput> agent,
         TInput input)
+        where TAgent : AgentFunc<TAgent, TInput, TOutput>, new()
     {
         var prompt = agent.Prompt(input);
         var invocation = await CreateInvocationAsync(agent.Name, typeof(TInput), typeof(TOutput), input, prompt, hasOutput: true);
@@ -46,7 +47,7 @@ public sealed class AgentJournal
         await File.WriteAllTextAsync(invocation.PromptPath, promptWithOutputContract);
 
         var outputPath = invocation.OutputPath
-            ?? throw new InvalidOperationException("Typed-output invocations must have an output path.");
+            ?? throw new InvalidOperationException("Value-returning invocations must have an output path.");
 
         for (var retry = 0; retry <= _options.MaxOutputRetries; retry++)
         {
@@ -57,7 +58,8 @@ public sealed class AgentJournal
 
             await RunAgentProcessAsync(invocation, promptWithOutputContract);
 
-            if (await TryReadOutputAsync<TOutput>(outputPath) is { } output)
+            if (await TryReadOutputAsync<TOutput>(outputPath) is { } output &&
+                agent.ValidateOutput(output))
             {
                 await SaveInvocationAsync(invocation with { Status = AgentInvocationStatus.Completed, CompletedAt = DateTimeOffset.UtcNow });
                 return output;
@@ -65,12 +67,13 @@ public sealed class AgentJournal
         }
 
         await SaveInvocationAsync(invocation with { Status = AgentInvocationStatus.Failed, CompletedAt = DateTimeOffset.UtcNow });
-        throw new InvalidOperationException($"{agent.Name} did not produce valid {typeof(TOutput).Name} JSON at '{outputPath}'.");
+        throw new InvalidOperationException($"{agent.Name} did not produce valid {typeof(TOutput).Name} JSON accepted by {nameof(AgentFunc<TAgent, TInput, TOutput>.ValidateOutput)} at '{outputPath}'.");
     }
 
-    private async Task<AgentInvocation> InvokeActionAsync<TInput>(
-        Agent<TInput> agent,
+    private async Task<AgentInvocation> InvokeActionAsync<TAgent, TInput>(
+        AgentAction<TAgent, TInput> agent,
         TInput input)
+        where TAgent : AgentAction<TAgent, TInput>, new()
     {
         var prompt = agent.Prompt(input);
         var invocation = await CreateInvocationAsync(agent.Name, typeof(TInput), outputType: null, input, prompt, hasOutput: false);

@@ -100,7 +100,7 @@ public static class WorkflowApp
         Console.WriteLine();
         Console.WriteLine("Options:");
         Console.WriteLine("  --dry-run                   Load state, then exit without invoking agents.");
-        Console.WriteLine("  --max-output-retries <n>    Retries for typed agent output. Default: 2");
+        Console.WriteLine("  --max-output-retries <n>    Retries for value-returning agent output. Default: 2");
         Console.WriteLine("  --single-step               Exit after the next state checkpoint.");
         Console.WriteLine("  --show-agent-output         Do not pass -s to Copilot agent invocations.");
     }

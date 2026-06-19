@@ -46,7 +46,7 @@ public sealed class JsonState<TState>
         return new JsonState<TState>(path, value, WorkflowJsonSerializer.Options, exitAfterNextSave);
     }
 
-    public async Task SaveAsync(TState newValue)
+    private async Task SaveAsync(TState newValue)
     {
         await AtomicJsonFile.WriteAsync(_path, newValue, _jsonOptions);
         Value = newValue;
@@ -55,6 +55,12 @@ public sealed class JsonState<TState>
         {
             throw new WorkflowCheckpointReachedException(_path);
         }
+    }
+
+    public Task UpdateAsync(Func<TState, TState> update)
+    {
+        ArgumentNullException.ThrowIfNull(update);
+        return SaveAsync(update(Value));
     }
 }
 
