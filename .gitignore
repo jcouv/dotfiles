@@ -3,3 +3,5 @@ archive/
 .last-branch
 prd.json
 progress.txt
+copilot/skills/create-agent-workflow/framework/bin/
+copilot/skills/create-agent-workflow/framework/obj/
