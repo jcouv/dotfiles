@@ -9,7 +9,14 @@ public static class WorkflowApp
         Func<JsonState<TState>, AgentJournal, Task> runAsync,
         [CallerFilePath] string workflowFilePath = "")
     {
-        if (!TryCreateOptions(args, workflowFilePath, out var options, out var exitCode))
+        if (IsHelpRequested(args))
+        {
+            PrintUsage();
+            return 0;
+        }
+
+        var workflowDirectory = GetWorkflowDirectory(workflowFilePath);
+        if (!TryCreateOptions(args, workflowDirectory, out var options, out var exitCode))
         {
             return exitCode;
         }
@@ -20,19 +27,11 @@ public static class WorkflowApp
 
     private static bool TryCreateOptions(
         string[] args,
-        string workflowFilePath,
+        string workflowDirectory,
         out WorkflowAppOptions options,
         out int exitCode)
     {
-        if (args.Any(arg => arg is "--help" or "-h" or "/?"))
-        {
-            PrintUsage();
-            options = WorkflowAppOptions.Empty;
-            exitCode = 0;
-            return false;
-        }
-
-        options = WorkflowAppOptions.Parse(args, workflowFilePath);
+        options = WorkflowAppOptions.Parse(args, workflowDirectory);
         if (options.Error is not null)
         {
             Console.Error.WriteLine($"Error: {options.Error}");
@@ -44,6 +43,23 @@ public static class WorkflowApp
 
         exitCode = 0;
         return true;
+    }
+
+    private static bool IsHelpRequested(string[] args)
+        => args.Any(arg => arg is "--help" or "-h" or "/?");
+
+    private static string GetWorkflowDirectory(string workflowFilePath)
+    {
+        if (!string.IsNullOrWhiteSpace(workflowFilePath))
+        {
+            var directory = Path.GetDirectoryName(Path.GetFullPath(workflowFilePath));
+            if (!string.IsNullOrEmpty(directory))
+            {
+                return directory;
+            }
+        }
+
+        throw new InvalidOperationException("Could not determine the workflow directory from workflow.cs.");
     }
 
     private static async Task<int> RunAsync<TState>(
@@ -99,9 +115,8 @@ internal sealed record WorkflowAppOptions(
     bool SingleStep,
     string? Error)
 {
-    public static WorkflowAppOptions Parse(string[] args, string workflowFilePath)
+    public static WorkflowAppOptions Parse(string[] args, string workflowDirectory)
     {
-        var workflowDirectory = GetDefaultWorkflowDirectory(workflowFilePath);
         var statePath = Path.Combine(workflowDirectory, "state.json");
         var maxOutputRetries = 2;
         var silent = true;
@@ -145,20 +160,6 @@ internal sealed record WorkflowAppOptions(
     }
 
     public static WorkflowAppOptions Empty { get; } = new(string.Empty, string.Empty, 0, true, false, false, Error: null);
-
-    private static string GetDefaultWorkflowDirectory(string workflowFilePath)
-    {
-        if (!string.IsNullOrWhiteSpace(workflowFilePath))
-        {
-            var directory = Path.GetDirectoryName(Path.GetFullPath(workflowFilePath));
-            if (!string.IsNullOrEmpty(directory))
-            {
-                return directory;
-            }
-        }
-
-        return Path.Combine(Directory.GetCurrentDirectory(), ".agent", "workflow");
-    }
 
     private static bool TryReadValue(string[] args, ref int index, out string value)
     {
