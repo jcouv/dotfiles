@@ -6,43 +6,40 @@ user-invocable: true
 
 # Create Agent Workflow
 
-Create an Agent Workflow Framework app: a file-based C# program that references the framework project and orchestrates one or more agents with durable JSON state.
+Create an Agent Workflow Framework app: a file-based C# program that references the framework project, keeps durable state in `state.json`, and orchestrates one or more agents.
+
+An app consists of serializable state types, prompt-providing agent types (`Agent<TInput>` or `Agent<TInput, TOutput>`), and a workflow method that reads state, invokes agents, and saves the next state.
 
 ---
 
 ## Framework Overview
 
-The Agent Workflow Framework is bundled with this skill under:
+The framework is bundled with this skill under:
 
 ```text
 framework\AgentWorkflow.csproj
 ```
 
-When creating an app, resolve that to the absolute path of this skill installation.
+When creating an app, resolve that to the absolute path of this skill installation and reference it with `#:project`.
 
-The framework provides:
+Core APIs:
 
-- `WorkflowApp.RunAsync(...)`: entrypoint to parse the command-line args and start the workflow.
-- `JsonState<TState>`: loads and saves an arbitrary app-defined JSON state object.
+- `WorkflowApp.RunAsync(...)`: parses command-line args, loads `state.json`, creates the journal, and starts the workflow.
+- `JsonState<TState>`: reads and writes `state.json`.
 - `Agent<TInput>`: action-only agent, no structured output file.
 - `Agent<TInput, TOutput>`: typed-output agent whose prompt must result in a JSON file that deserializes to `TOutput`.
 - `AgentJournal`: records durable agent invocation folders with input, prompt, transcript, optional output, and invocation metadata.
 
 Each agent invocation writes `input.json`, `prompt.md`, `transcript.txt`, and `invocation.json`. Typed-output agents also write `output.json`.
-`JsonState<TState>.SaveAsync(...)` writes `state.json` atomically and updates `state.Value` to the saved value.
 JSON is serialized as camelCase and read case-insensitively.
 
-The app defines a state object model (`AppState` in examples below) and a corresponding JSON state file (`state.json`) to populate it.
-The state file is the starting point for the state, and also serves as an observable and resumable checkpoint.
-The app initializes the framework and runs a workflow. As part of that workflow, it may read the state, call agents (defined as prompts) and update the state.
-
-Best practice: workflow code owns all status field progression. Status fields control workflow progression, so agents should report work done or return typed outputs, but they should not decide or mutate the next status. The workflow should inspect agent results and save the next `AppState`.
+The app owns the state model (`AppState` in examples below). The JSON state file is both the starting point and the observable, resumable checkpoint. Workflow code owns status progression: agents should report work done or return typed outputs, but the workflow decides and saves the next state.
 
 ---
 
 ## Standard App Shape
 
-Create a `.cs` file in the target repository, usually under `.agent\<workflow-name>\`.
+Create a `.cs` file in the target repository, usually under `.agent\<workflow-name>\`, and place `state.json` beside it:
 
 Start it with:
 
@@ -56,15 +53,11 @@ return await WorkflowApp.RunAsync<AppState>(args, runAsync: RunWorkflowAsync).Co
 
 static async Task RunWorkflowAsync(JsonState<AppState> state, AgentJournal journal)
 {
-    // Workflow logic goes here:
-    // - read state
-    // - invoke agents
-    // - save state
-    // - loop and conditional control flow
+    // Workflow logic: Read state, invoke agents, and save the next state.
 }
 ```
 
-Recommended file structure:
+Recommended layout:
 
 ```text
 .agent\<workflow-name>\
@@ -73,8 +66,6 @@ Recommended file structure:
   invocations\      framework-created agent invocation records
 ```
 
-The framework uses folder and file naming conventions: file `state.json` and subfolder `invocations\` must be in the same folder as `workflow.cs`.
-`WorkflowApp.RunAsync<TState>(...)` deserializes `state.json` into the requested `TState` before it calls the workflow method.
 After creating `workflow.cs` and `state.json`, run a rubber-duck subagent to verify the workflow design is minimal and sufficient for the user's goal before running agents that can make changes.
 
 Compile and run it with:
@@ -83,30 +74,25 @@ Compile and run it with:
 dotnet run .\.agent\<workflow-name>\workflow.cs
 ```
 
-For validation without invoking agents, use the `--dry-run` option. It compiles the C# file, loads `state.json`, verifies the state can deserialize as `AppState`, and exits before workflow logic can invoke agents.
-
-Useful options:
+Use `--dry-run` to compile, load `state.json`, verify deserialization, and exit before workflow logic can invoke agents. Use `--single-step` to run until the next successful `state.SaveAsync(...)` checkpoint. Use `--show-agent-output` to show Copilot output:
 
 ```powershell
 dotnet run .\.agent\<workflow-name>\workflow.cs -- --show-agent-output
+dotnet run .\.agent\<workflow-name>\workflow.cs -- --single-step
 ```
 
-Note: agent invocations run Copilot with `--yolo --no-ask-user` so workflows can proceed without interactive prompts.
+Agent invocations run Copilot with `--yolo --no-ask-user` so workflows can proceed without interactive prompts.
 
 ---
 
 ## Design Guidance
 
-1. Keep `TState` explicit and serializable.
+1. Keep `TState` explicit, serializable, and minimal: only durable information needed to resume and choose the next step.
 2. Start with full-state JSON snapshots; do not invent partial update logic unless state size demands it.
-3. Keep `TState` minimal. `state.json` should hold only the durable information needed to resume the workflow and choose the next step.
-4. Confirm with the user what information should be passed from agent to agent at each workflow transition.
-5. Make the workflow method idempotent/resumable: it should be safe to restart from the top.
-6. Keep app status strings app-owned. The framework should not interpret them, and agents should not choose or mutate them.
-7. For typed-output agents, include the exact JSON shape in the prompt.
-8. For action-only agents, use `Agent<TInput>` and do not ask for `{}` output files.
-9. Let evaluators inspect the real world: worktree, logs, artifacts, tests, and state.
-10. Avoid letting builders self-accept. Builders build; evaluators decide; workflow code saves status.
+3. Make the workflow method idempotent/resumable: it should be safe to restart from the top.
+4. Confirm what information should pass from agent to agent at each workflow transition.
+5. For typed-output agents, include the exact JSON shape in the prompt. For action-only agents, use `Agent<TInput>` and do not ask for `{}` output files.
+6. Let evaluators inspect the real world: worktree, logs, artifacts, tests, and state. Builders build; evaluators decide; workflow code saves status.
 
 ---
 
@@ -140,7 +126,7 @@ Place this `state.json` next to `workflow.cs`:
 
 ## End-to-End Example: Triage and Fix Checklist
 
-This example models a checklist of issue IDs. The workflow triages one pending issue at a time. If triage returns `no_repro` or `by_design`, the workflow marks the item done and the next run moves to the next item. Otherwise, the workflow marks the item as needing a fix; the next run invokes the fixer agent. The fixer reports either that a PR was opened or that the fix was abandoned.
+This example triages one pending issue at a time. `no_repro` and `by_design` finish the item; `needs_fix` sends the item to the fixer; `blocked` stops that item.
 
 ```csharp
 #:project <absolute path to this skill>\framework\AgentWorkflow.csproj
@@ -330,9 +316,7 @@ Place this `state.json` next to `workflow.cs`:
 
 ## Builder/Evaluator Pattern
 
-Use this when one agent should implement work and a separate evaluator should decide whether the work is accepted.
-
-This example retries builder/evaluator rounds until the evaluator accepts, blocks, or the workflow reaches `MaxRounds`.
+Use this when one agent implements work and a separate evaluator accepts, requests changes, or blocks. This example retries until acceptance, blocking, or `MaxRounds`.
 
 ```csharp
 #:project <absolute path to this skill>\framework\AgentWorkflow.csproj
@@ -461,3 +445,73 @@ public sealed class EvaluatorAgent : Agent<EvaluatorInput, EvaluatorOutput>
         """;
 }
 ```
+
+---
+
+## Framework API Quick Reference
+
+### `WorkflowApp`
+
+```csharp
+public static Task<int> WorkflowApp.RunAsync<TState>(
+    string[] args,
+    Func<JsonState<TState>, AgentJournal, Task> runAsync,
+    string workflowFilePath = "");
+```
+
+`RunAsync` derives paths from the folder containing `workflow.cs`, loads `state.json`, creates an `AgentJournal`, then invokes the workflow. Supported options:
+
+```text
+--dry-run                   Load state, then exit without invoking agents.
+--max-output-retries <n>    Retries for typed agent output. Default: 2.
+--single-step               Exit after the next state checkpoint.
+--show-agent-output         Do not pass -s to Copilot agent invocations.
+```
+
+### `JsonState<TState>`
+
+```csharp
+public sealed class JsonState<TState>
+{
+    public TState Value { get; }
+    public Task SaveAsync(TState newValue);
+}
+```
+
+`Value` is the loaded state. `SaveAsync` writes `state.json` atomically and updates `Value`.
+
+### Agents
+
+```csharp
+public abstract class Agent<TInput>
+{
+    public string Name { get; }
+    public abstract string Prompt(TInput input);
+}
+AgentInvocation invocation = await Agent.InvokeAsync<MyAgent, MyInput>(input, journal).ConfigureAwait(false);
+
+public abstract class Agent<TInput, TOutput> : Agent<TInput>
+{
+}
+MyOutput output = await Agent.InvokeAsync<MyAgent, MyInput, MyOutput>(input, journal).ConfigureAwait(false);
+```
+
+`Agent<TInput>` is action-only. `Agent<TInput, TOutput>` requires `output.json` that deserializes to `TOutput`.
+
+### `AgentJournal` and `AgentInvocation`
+
+Pass the `AgentJournal` from `RunAsync` to each `Agent.InvokeAsync`. Each invocation writes:
+
+```text
+input.json
+prompt.md
+transcript.txt
+invocation.json
+output.json (except for void-returning agents)
+```
+
+Void-returning agent calls return an `AgentInvocation` with paths, status, agent name, input/output type names, and timestamps.
+
+### JSON behavior
+
+Framework JSON uses `WorkflowJsonSerializer.Options`: indented output, camelCase property names, case-insensitive reads, and `JsonStringEnumConverter(JsonNamingPolicy.CamelCase)`.

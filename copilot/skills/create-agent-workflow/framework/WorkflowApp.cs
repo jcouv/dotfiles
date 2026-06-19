@@ -14,7 +14,7 @@ public static class WorkflowApp
             return exitCode;
         }
 
-        var state = await JsonState<TState>.LoadAsync(options.StatePath);
+        var state = await JsonState<TState>.LoadAsync(options.StatePath, options.SingleStep);
         return await RunAsync(options, state, runAsync);
     }
 
@@ -65,7 +65,15 @@ public static class WorkflowApp
             Silent = options.Silent,
         });
 
-        await runAsync(state, journal);
+        try
+        {
+            await runAsync(state, journal);
+        }
+        catch (WorkflowCheckpointReachedException ex)
+        {
+            Console.WriteLine($"Saved checkpoint to '{ex.StatePath}'.");
+        }
+
         return 0;
     }
 
@@ -77,6 +85,7 @@ public static class WorkflowApp
         Console.WriteLine("Options:");
         Console.WriteLine("  --dry-run                   Load state, then exit without invoking agents.");
         Console.WriteLine("  --max-output-retries <n>    Retries for typed agent output. Default: 2");
+        Console.WriteLine("  --single-step               Exit after the next state checkpoint.");
         Console.WriteLine("  --show-agent-output         Do not pass -s to Copilot agent invocations.");
     }
 }
@@ -87,6 +96,7 @@ internal sealed record WorkflowAppOptions(
     int MaxOutputRetries,
     bool Silent,
     bool DryRun,
+    bool SingleStep,
     string? Error)
 {
     public static WorkflowAppOptions Parse(string[] args, string workflowFilePath)
@@ -96,6 +106,7 @@ internal sealed record WorkflowAppOptions(
         var maxOutputRetries = 2;
         var silent = true;
         var dryRun = false;
+        var singleStep = false;
 
         for (var i = 0; i < args.Length; i++)
         {
@@ -114,6 +125,10 @@ internal sealed record WorkflowAppOptions(
                     dryRun = true;
                     break;
 
+                case "--single-step":
+                    singleStep = true;
+                    break;
+
                 case "--show-agent-output":
                     silent = false;
                     break;
@@ -123,13 +138,13 @@ internal sealed record WorkflowAppOptions(
             }
         }
 
-        return new WorkflowAppOptions(statePath, workflowDirectory, maxOutputRetries, silent, dryRun, Error: null);
+        return new WorkflowAppOptions(statePath, workflowDirectory, maxOutputRetries, silent, dryRun, singleStep, Error: null);
 
         static WorkflowAppOptions Error(string message)
-            => new(string.Empty, string.Empty, 0, true, false, message);
+            => new(string.Empty, string.Empty, 0, true, false, false, message);
     }
 
-    public static WorkflowAppOptions Empty { get; } = new(string.Empty, string.Empty, 0, true, false, Error: null);
+    public static WorkflowAppOptions Empty { get; } = new(string.Empty, string.Empty, 0, true, false, false, Error: null);
 
     private static string GetDefaultWorkflowDirectory(string workflowFilePath)
     {

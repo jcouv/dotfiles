@@ -1,137 +1,24 @@
-# Agent Workflow Framework API
+# Create Agent Workflow skill
 
-Reference `framework\AgentWorkflow.csproj` from a file-based workflow app:
+The [create-agent-workflow skill](./SKILL.md) helps an agent create file-based C# workflows that orchestrate one or more agents with durable JSON state. Use it for Ralph-style checklist workflows, builder&evaluator loops, and other multi-agent orchestration workflows.
 
-```csharp
-#:project <absolute path to this skill>\framework\AgentWorkflow.csproj
-#:property JsonSerializerIsReflectionEnabledByDefault=true
+A workflow app uses the bundled Agent Workflow Framework and a `state.json` checkpoint. It typically contains:
+
+- serializable state types for `state.json`
+- agent/prompt definitions derived from `Agent<TInput>` or `Agent<TInput, TOutput>`
+- a workflow method that reads state, invokes agents, and saves the next state
+
+The skill includes some working examples as well as an API reference.
+
+The framework also supports `--dry-run` for validation and `--single-step` to exit after the next saved state checkpoint.
+
+Here's an example of prompt one might use (minus details about tools and evaluation criteria):
+
 ```
-
-## `WorkflowApp`
-
-Entrypoint for workflow apps.
-
-```csharp
-public static Task<int> WorkflowApp.RunAsync<TState>(
-    string[] args,
-    Func<JsonState<TState>, AgentJournal, Task> runAsync,
-    string workflowFilePath = "");
-```
-
-`RunAsync` derives paths from the folder containing `workflow.cs`, loads `state.json` as `TState`, creates an `AgentJournal`, then invokes `runAsync(state, journal)`.
-
-Supported app options:
-
-```text
---dry-run                   Load state, then exit without invoking agents.
---max-output-retries <n>    Retries for typed agent output. Default: 2.
---show-agent-output         Do not pass -s to Copilot agent invocations.
-```
-
-## `JsonState<TState>`
-
-Wrapper around the deserialized `state.json`.
-
-```csharp
-public sealed class JsonState<TState>
-{
-    public TState Value { get; }
-    public Task SaveAsync(TState newValue);
-}
-```
-
-`SaveAsync` writes `state.json` atomically and updates `Value` to `newValue`.
-
-## `Agent<TInput>`
-
-Base type for action-only agents. These agents run a prompt and return an `AgentInvocation`; they do not require an `output.json`.
-
-```csharp
-public abstract class Agent<TInput>
-{
-    public string Name { get; }
-    public abstract string Prompt(TInput input);
-}
-```
-
-Invoke with:
-
-```csharp
-AgentInvocation invocation = await Agent.InvokeAsync<MyAgent, MyInput>(
-    input,
-    journal).ConfigureAwait(false);
-```
-
-## `Agent<TInput, TOutput>`
-
-Base type for typed-output agents. These agents must write `output.json` that deserializes to `TOutput`.
-
-```csharp
-public abstract class Agent<TInput, TOutput> : Agent<TInput>
-{
-}
-```
-
-Invoke with:
-
-```csharp
-MyOutput output = await Agent.InvokeAsync<MyAgent, MyInput, MyOutput>(
-    input,
-    journal).ConfigureAwait(false);
-```
-
-## `AgentJournal`
-
-Durable journal for agent invocations. Workflow apps receive it from `WorkflowApp.RunAsync` and pass it as the last argument to `Agent.InvokeAsync`.
-
-Each invocation writes:
-
-```text
-input.json
-prompt.md
-transcript.txt
-invocation.json
-```
-
-Typed-output invocations also write:
-
-```text
-output.json
-```
-
-## `AgentInvocation`
-
-Returned by action-only agent invocations.
-
-```csharp
-public sealed record AgentInvocation(
-    string Id,
-    string AgentName,
-    string InputType,
-    string? OutputType,
-    string Directory,
-    string InputPath,
-    string PromptPath,
-    string? OutputPath,
-    string TranscriptPath,
-    AgentInvocationStatus Status,
-    DateTimeOffset CreatedAt,
-    DateTimeOffset? CompletedAt);
-```
-
-## JSON behavior
-
-All framework JSON uses `WorkflowJsonSerializer.Options`:
-
-```csharp
-public static JsonSerializerOptions WorkflowJsonSerializer.Options { get; }
-```
-
-Behavior:
-
-```text
-WriteIndented = true
-PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-PropertyNameCaseInsensitive = true
-JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+Create an agent workflow to convert the build in this repo to Bazel. We're going to do it project by project. 
+For each project, we'll have an agent make the change, then an evaluator to check it was done well. The evaluator will use rubber-duck review and will verify bit-for-bit parity with tools we'll provide.
+If a project fails to be ported after 3 rounds of porting & evaluating, then we should stop.
+When the porter and evaluator agree, a project is considered done: create a commit to save the progress ("ported project <project name>") and the workflow should continue to the next project in our project checklist.
+Populate the checklist with 3 projects from the repo initially.
+Give me the command to run the resulting workflow tool step-by-step, so I can test it out on the first project.
 ```
