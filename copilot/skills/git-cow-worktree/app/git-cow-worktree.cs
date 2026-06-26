@@ -56,29 +56,23 @@ int Run(string[] argv)
     if (string.IsNullOrEmpty(o.TargetPath))
         throw new UsageException("missing <path> argument");
 
-    var sw = Stopwatch.StartNew();
-    void Phase(string name, long startMs)
-    {
-        if (o.Verbose)
-            Console.Error.WriteLine($"{Tool}: {name,-14} {sw.ElapsedMilliseconds - startMs} ms");
-    }
-
     string repoRoot = Path.GetFullPath(
         GitOut(Directory.GetCurrentDirectory(), "rev-parse", "--show-toplevel").Trim());
     string targetAbs = Path.GetFullPath(o.TargetPath);
 
-    // Default source is the current worktree; --source overrides it.
-    string sourcePath = o.SourcePath is not null ? Path.GetFullPath(o.SourcePath) : repoRoot;
+    // Default source is the current worktree; --source overrides it, normalized
+    // to its worktree root so reflink paths line up with the target's layout.
+    string sourcePath = o.SourcePath is not null
+        ? Path.GetFullPath(GitOut(Path.GetFullPath(o.SourcePath), "rev-parse", "--show-toplevel").Trim())
+        : repoRoot;
 
     // ---- Step 1: create the worktree without checking files out. ----
-    long t = sw.ElapsedMilliseconds;
     var addArgs = new List<string> { "worktree", "add", "--no-checkout" };
     addArgs.AddRange(o.ForwardFlags);
     addArgs.Add(targetAbs);
     if (!string.IsNullOrEmpty(o.CommitIsh))
         addArgs.Add(o.CommitIsh!);
     GitCheck(repoRoot, addArgs.ToArray());
-    Phase("worktree add", t);
 
     string targetSha = GitOut(targetAbs, "rev-parse", "--verify", "HEAD^{commit}").Trim();
 
@@ -93,10 +87,8 @@ int Run(string[] argv)
     int seeded = 0, attempted = 0;
     if (cowSupported)
     {
-        t = sw.ElapsedMilliseconds;
         var paths = TrackedFiles(targetAbs, targetSha);
         (seeded, attempted) = ReflinkAll(cow, sourcePath, targetAbs, paths);
-        Phase("reflink", t);
         if (o.Verbose)
             Console.Error.WriteLine($"{Tool}: reflinked {seeded}/{attempted} tracked files from {sourcePath}");
     }
@@ -107,15 +99,11 @@ int Run(string[] argv)
     }
 
     // ---- Step 4: let git finish the checkout and refresh the index. ----
-    t = sw.ElapsedMilliseconds;
-    GitCheck(targetAbs, "-c", "checkout.workers=0", "checkout", "-f", "HEAD");
-    Phase("checkout", t);
+    GitCheck(targetAbs, "checkout", "-f", "HEAD");
 
     Console.WriteLine(
         $"{Tool}: created worktree at {targetAbs}" +
         (cowSupported ? $" (reflinked {seeded}/{attempted} files from {sourcePath})" : " (regular checkout)"));
-    if (o.Verbose)
-        Console.Error.WriteLine($"{Tool}: total {sw.ElapsedMilliseconds} ms");
     return 0;
 }
 
@@ -148,30 +136,23 @@ void CloneFile(ICopyOnWriteFilesystem cow, string source, string dest)
 (int seeded, int attempted) ReflinkAll(ICopyOnWriteFilesystem cow, string srcRoot, string dstRoot, List<string> paths)
 {
     int seeded = 0;
-    int unsupported = 0;
     var options = new ParallelOptions { MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount, 16) };
     Parallel.ForEach(paths, options, rel =>
     {
-        if (Volatile.Read(ref unsupported) != 0)
+        // Reject any tree path that would escape either root; let the final
+        // checkout handle those (it never does in a normal repo).
+        if (!SafeJoin(srcRoot, rel, out string src) || !SafeJoin(dstRoot, rel, out string dst))
             return;
-        string src = Path.Combine(srcRoot, rel);
-        string dst = Path.Combine(dstRoot, rel);
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(dst)!);
             CloneFile(cow, src, dst);
             Interlocked.Increment(ref seeded);
         }
-        catch (NotSupportedException)
-        {
-            // CoW turned out to be unsupported for this pair: stop seeding and
-            // let the final checkout populate the rest.
-            Interlocked.Exchange(ref unsupported, 1);
-        }
         catch
         {
-            // Per-file failure (e.g. the path does not exist in the source
-            // worktree, or the source is dirty): leave it for the checkout.
+            // Per-file failure (path absent or dirty in the source, or CoW
+            // refused this file): leave it for the final checkout to populate.
         }
     });
     return (seeded, paths.Count);
@@ -201,6 +182,29 @@ List<string> TrackedFiles(string repoDir, string reference)
         result.Add(rec[(tab + 1)..]);
     }
     return result;
+}
+
+// Join a git tree path (always '/'-separated and repo-relative) under root,
+// rejecting empty, '.', '..' or rooted segments that would escape it.
+bool SafeJoin(string root, string gitPath, out string full)
+{
+    full = "";
+    if (gitPath.Length == 0)
+        return false;
+    foreach (string seg in gitPath.Split('/'))
+    {
+        if (seg.Length == 0 || seg == "." || seg == "..")
+            return false;
+    }
+    string rootFull = Path.GetFullPath(root);
+    string candidate = Path.GetFullPath(
+        Path.Combine(rootFull, gitPath.Replace('/', Path.DirectorySeparatorChar)));
+    string prefix = rootFull.EndsWith(Path.DirectorySeparatorChar) ? rootFull : rootFull + Path.DirectorySeparatorChar;
+    var cmp = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+    if (!candidate.StartsWith(prefix, cmp))
+        return false;
+    full = candidate;
+    return true;
 }
 
 // ---------------- process helpers ----------------
@@ -320,7 +324,7 @@ Options:
   --lock          lock the new worktree (forwarded)
   --reason <s>    reason for --lock (forwarded)
   --source <dir>  worktree to reflink files from (default: current worktree)
-  -v, --verbose   print per-phase timing and details
+  -v, --verbose   print source, CoW capability, and reflink count
   -h, --help      show this help
 
 Copy-on-write requires source and target on the same CoW-capable volume
