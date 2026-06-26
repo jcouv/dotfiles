@@ -9,21 +9,21 @@ You are helping write a private PR review walkthrough for local use only.
 
 Context:
 - Review source: [GitHub PR URL or local compare, such as main...feature-branch]
-- Output file: [path to the existing pr-review-*.md file]
+- Output file: [path to the existing pr-review-*.html file]
 
 Instructions:
-1. Read the existing review Markdown and preserve its structure.
-2. Refine `## Reviewer Brief` first with a short, evidence-based set of bullets:
+1. Read the existing review HTML and preserve its structure. Update it only through the scribe helper so the HTML stays well-formed.
+2. Refine the `Reviewer Brief` section first with a short, evidence-based set of points:
    - what changed
    - why it matters
    - which files or areas deserve the most attention
    - a confidence note when intent is inferred rather than explicit
-3. After the brief is in place, turn `## Walkthrough` into a coherent narrative in the order that best helps a reviewer understand the semantic core of the change.
-   - Keep the top-level `## Walkthrough` section, but choose whatever subheadings and flow best fit this PR.
+3. After the brief is in place, turn the `Walkthrough` section into a coherent narrative in the order that best helps a reviewer understand the semantic core of the change.
+   - Keep the top-level `Walkthrough` section, but use `step` titles for whatever subheadings and flow best fit this PR.
 4. Focus on reviewer understanding by default, not exhaustive bug-hunting.
 5. Make each substantive walkthrough segment cite the real file paths it depends on.
 6. When a small excerpt or diff hunk would help, use a real inspected snippet rather than paraphrasing invented code.
-7. Put low-signal churn in `## Supporting Notes` by default, especially tests, localization updates, generated artifacts, or workflow bookkeeping. Keep that section brief unless one of those files is actually central.
+7. Put low-signal churn in the `Supporting Notes` section by default, especially tests, localization updates, generated artifacts, or workflow bookkeeping. Keep that section brief unless one of those files is actually central.
 
 Guardrails:
 - Keep everything private and local in v1. Do not post to GitHub, open a PR comment, or publish the output anywhere else.

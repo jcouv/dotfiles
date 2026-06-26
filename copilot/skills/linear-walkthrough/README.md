@@ -1,6 +1,6 @@
 # linear-walkthrough
 
-This skill creates a private PR review walkthrough as a local Markdown artifact.
+This skill creates a private PR review walkthrough as a local, self-contained HTML artifact (inline CSS, no external dependencies).
 
 This folder now contains the full walkthrough package: the skill, the reusable prompt template, and the helper script used for mechanically grounded notes and hunks.
 
@@ -8,12 +8,12 @@ This folder now contains the full walkthrough package: the skill, the reusable p
 
 - `SKILL.md` - skill metadata and instructions
 - `prompt.md` - reusable prompt template for manual Copilot use
-- `scribe.cs` - helper for adding reviewer-facing notes, steps, and grounded hunks
+- `scribe.cs` - helper that initializes the HTML scaffold and adds reviewer-facing notes, steps, and grounded hunks
 
 ## Preferred flow
 
 1. Invoke the `linear-walkthrough` skill in Copilot.
-2. Let the skill create or refresh the local `pr-review-*.md` artifact.
+2. Let the skill create or refresh the local `pr-review-*.html` artifact (via `scribe.cs -- init`).
 3. If you want to refine the review manually, use `scribe.cs` for grounded updates.
 
 ## Prerequisites
@@ -29,28 +29,35 @@ This folder now contains the full walkthrough package: the skill, the reusable p
 
 ## Useful helper commands
 
+Initialize the self-contained HTML walkthrough:
+
+```powershell
+dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- init --file .\pr-review-123.html --title "PR #123 — concise summary" --subtitle "owner/repo • N files changed"
+```
+
 Print the tailored prompt for the current review file:
 
 ```powershell
-dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- prompt --file .\pr-review-*.md
+dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- prompt --file .\pr-review-123.html
 ```
 
 Add or refine review content:
 
 ```powershell
-dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- note --file .\pr-review-*.md --section "Reviewer Brief" --path src\File.cs --text "Short reviewer-facing observation"
-dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- step --file .\pr-review-*.md --title "Core flow" --path src\File.cs --text "Explain the behavior change in reviewer terms"
-dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- hunk --file .\pr-review-*.md --path src\File.cs --summary "Why it matters" --lines 18-30
+dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- note --file .\pr-review-123.html --section "Reviewer Brief" --path src\File.cs --text "Short reviewer-facing observation"
+dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- step --file .\pr-review-123.html --title "Core flow" --path src\File.cs --text "Explain the behavior change in reviewer terms"
+dotnet run C:\repos\dotfiles\copilot\skills\linear-walkthrough\scribe.cs -- hunk --file .\pr-review-123.html --path src\File.cs --summary "Why it matters" --lines 18-30
 ```
 
 ## Notes
 
-- If `--file` is omitted for `scribe.cs`, it uses the only `pr-review-*.md` file in the current folder.
+- The output is a single self-contained HTML file with inline CSS (light/dark aware) that opens directly in a browser — no build step or external assets.
+- If `--file` is omitted for `scribe.cs`, it uses the only `pr-review-*.html` file in the current folder.
 - `scribe.cs -- undo` removes the last helper-added block.
 - `scribe.cs -- open` opens the review file with the system default app.
-- `--compare <base>...<head>` runs against the git repository for the current working directory. If you run it from the `dotfiles` repo, it compares branches in `dotfiles`, not some other repo.
+- All excerpt and note text is HTML-escaped automatically; always update the file through the helper so it stays well-formed.
 
 ## Future improvements
 
 - The narrative quality still needs work. The walkthrough can sometimes get pulled into lower-signal detail instead of consistently guiding the reviewer through the semantic core of the change, so this is still being iterated on.
-- The current output is static Markdown. A stronger experience would be more interactive: letting the reviewer ask follow-up questions of the model, and making file or diff references clickable so they open the relevant hunk or source range directly in the editor or VS Code.
+- The output is now self-contained HTML, but it is still static. A stronger experience would be more interactive: letting the reviewer ask follow-up questions of the model, and making file or diff references clickable so they open the relevant hunk or source range directly in the editor or VS Code.
