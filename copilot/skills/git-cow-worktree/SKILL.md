@@ -22,7 +22,9 @@ dotnet run "<skill-dir>\app\git-cow-worktree.cs" -- <path> [<commit-ish>] [optio
 
 `<skill-dir>` is this folder. Run with `--help` for all options; the common
 ones are `-b <branch>` (new branch), `--source <dir>` (worktree to reflink
-from), `--dry-run`, and `-v`. Unknown flags are forwarded to `git worktree add`.
+from, defaults to the current worktree), and `-v`. Only the handful of
+`git worktree add` flags listed in `--help` are accepted; for anything else
+use `git worktree add` directly.
 
 The app pins itself to `net10.0`; that runtime plus `git` must be installed.
 
