@@ -15,12 +15,13 @@ An app consists of serializable state types, prompt-providing agent types (`Agen
 ## Framework Overview
 
 The framework provides:
-- standardized agent invocation pattern:
-  Agents are presented as strongly-typed methods (with input and output types) to be invoked.
+- standardized agent invocation pattern:  
+  Agents are presented as strongly-typed methods (with input and output types) to be invoked.  
+  Each agent runs with a fresh context window.  
   It handles prompt generation, Copilot invocation, output parsing, and journaling.
-- durable state management:
-  `state.json` as the single source of truth for the workflow's current state, enabling resumability and checkpointing.
-- readable workflow logic:
+- durable state management:  
+  `state.json` as the single source of truth for the workflow's current state, enabling resumability and checkpointing.  
+- readable workflow logic:  
   The workflow method is a normal C# async method, making it easy to read and write complex orchestration logic with loops, conditionals, and error handling.
 
 The framework is bundled with this skill under:
