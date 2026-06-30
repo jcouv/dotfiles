@@ -11,7 +11,7 @@ Here are some of the requirements for the basic code review experience:
   - we need clear workflow and ownership for comments: "active" comments are for the PR owner to address, "resolved" comments are back in the reviewer's camp, and the reviewer is responsible for marking their comments as "active" again (if wasn't satisfactorally adderssed) or "closed"
   - a reviewer should be able to go back and see all of their comments (compact/centralized list of comments with sorting, filtering and searching)
 
-CodeFlow handled these very well, but this experience needs to be adjusted in two main ways to better support agentic development:
+But this experience needs to be adjusted in two main ways to better support agentic development:
 1. we need to review code locally before it's in a PR and have a feedback loop with the agent that's making the change
 2. AI should help us in the review process:
    - by walking the reviewer through a change ([linear walkthrough](https://github.com/jcouv/dotfiles/tree/main/copilot/skills/linear-walkthrough))
