@@ -21,6 +21,6 @@ This canvas/extension for GitHub Copilot App is an proof-of-concept for integrat
 
 ## Screenshots
 
-![Code review canvas](https://raw.githubusercontent.com/jcouv/dotfiles/main/.github/extensions/code-review-canvas/code-review-canvas-1.png)
+![Code review canvas](code-review-canvas-1.png)
 
-![Code review canvas](https://raw.githubusercontent.com/jcouv/dotfiles/main/.github/extensions/code-review-canvas/code-review-canvas-2.png)
+![Code review canvas](code-review-canvas-2.png)

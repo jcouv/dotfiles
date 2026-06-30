@@ -1,1 +1,12 @@
 * text eol=lf
+
+# Binary files must not be normalized (CRLF/text conversion corrupts them)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
