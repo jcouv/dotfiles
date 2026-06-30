@@ -18,3 +18,9 @@ CodeFlow handled these very well, but this experience needs to be adjusted in tw
   - by providing code review feedback of its own
 
 This canvas/extension for GitHub Copilot App is an proof-of-concept for integrating best-in-class code review tooling with latest agentic support.  
+
+## Screenshots
+
+![Code review canvas](code-review-canvas-1.png)
+
+![Code review canvas](code-review-canvas-2.png)
