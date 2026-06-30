@@ -1,0 +1,11 @@
+import { AsyncLocalStorage } from "node:async_hooks";
+export const servers = new Map();
+export const selections = new Map();
+export const openInputs = new Map();
+export const workingDirectories = new Map();
+export const eventClients = new Map();
+export const workingDirectoryStorage = new AsyncLocalStorage();
+export const fullFileDiffContext = "999999";
+export const stablePortBase = 49152;
+export const stablePortCount = 12000;
+export const serverId = `${process.pid}-${Date.now()}`;
