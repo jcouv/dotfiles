@@ -1,0 +1,8 @@
+333fred.net-compiler-developer-sdk
+alefragnani.bookmarks
+esbenp.prettier-vscode
+mishkinf.goto-next-previous-member
+ms-dotnettools.csharp
+ms-dotnettools.csdevkit
+ms-dotnettools.vscodeintellicode-csharp
+vscodevim.vim

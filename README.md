@@ -1,5 +1,27 @@
 Notes on my [VsVim configuration](https://github.com/jcouv/dotfiles/wiki/Notes-on-VsVim-keybindings)
 
+## VS Code
+
+VS Code settings, keybindings, and extension IDs live under `vscode\`.
+
+To install them into VS Code Insiders:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\vscode\install.ps1
+```
+
+To install them into stable VS Code instead:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\vscode\install.ps1 -Edition Stable
+```
+
+To refresh the extension manifest from the currently installed Insiders extensions:
+
+```powershell
+code-insiders --list-extensions | Sort-Object > .\vscode\extensions.txt
+```
+
 ## Copilot skills
 
 Personal Copilot skills live under `copilot\skills\`.
