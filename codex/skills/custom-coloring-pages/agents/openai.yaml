@@ -1,0 +1,4 @@
+interface:
+  display_name: "Custom Coloring Pages"
+  short_description: "Create themed printable coloring pages"
+  default_prompt: "Use this skill to plan and create custom themed coloring pages."
